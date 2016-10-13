@@ -57,19 +57,30 @@
 	- Borland C++: http://www.mediafire.com/download.php?p1f1q3yr6f1w27e
 	- Turbo C++ DosBox (để code họa trên Win 7 - thank for kithuatlaptrinh.tk): http://www.mediafire.com/download.php?z31o6que726a2kk
 - Hướng dẫn cài đặt: (VD Turbo C++ 3.0)
+	
 	- Bung nén Turbo C++ 3.0
+	
 	- *Bước 1:* Bấm về Intall.exe để cài đặt. Nhấn Enter
+	
 	<img src ="http://i.imgur.com/Wza2U34.png">
+	
 	- *Bước 2:*  Ghi tên ổ đĩa chứa phần mềm Turbo C++ 3.0 mà bạn vừa bung nén (VD: C, D, E,... bam ky tu tuong ung). Bấm ENTER
+	
 	<img src ="http://i.imgur.com/sBEqFTy.png">
+	
 	- *Bước 3:* Nó hiện lên dường dẫn, kệ nó, hãy bỏ qua. Bấm Enter
+	
 	<img src ="http://i.imgur.com/GnNstAR.png">
+	
 	- *Bước 4:* Bấm F9 cài đặt nhanh(hoặc bấm nút lên xuống để chọn lựa, chọn Start Intallation là cài đặt). Bấm Enter
+	
 	<img src ="http://i.imgur.com/YMBThlT.png">
+	
 - Quá trình cài đặt diễn ra nhanh chóng, bấm nút bất kỳ trên bàn phím để mở Read me, Nếu không đọc thì tắt nó đi bằng cách bấm Esc
-- **Bây giờ bạn đã có thể bắt đầu lập trình với Turbo C++**
+
+- Bây giờ bạn đã có thể bắt đầu lập trình với Turbo C++
+
 > **Lưu ý : Có 1 thư mục "TC" được tạo ngay ổ đĩa chứa phần mềm turbo c++ tốt nhất bạn nên copy vào ổ chứa hệ điều hành để có thể chạy được các thư viện hàm của C++**
->
 
 <img src="http://i.imgur.com/udt9cgh.png">
 
@@ -78,8 +89,11 @@
 #####*2.1.2 Phân tích ưu, nhược điểm*
 
 - Ưu điểm:
+
 	- Miễn phí (do hãng Borland không còn hỗ trợ và phát triển tiếp), không cần cài đặt, môi trường tích hợp thuận tiện, dung lượng nhỏ (khoảng 4,3 MB), biên dịch và chạy chương trình nhanh, có thể chạy trên mọi thế hệ máy tính có hệ điều hành DOS.
+	
 - Nhược điểm:
+
 	- Không cập nhật, vì thế chỉ có thể sử dụng cho những người mới học lập trình, viết các chương trình chạy trên DOS hay chương trình chạy trên hệ thống nhúng, mô phỏng một số thuật toán đồ họa trên DOS. Các nhược điểm khác của Turbo C++ 3.0: không hỗ trợ các tính năng mới của C/C++ (như kiểu dữ liệu bool, namespace, thư viện STL, các phương thức chuyển đổi kiểu dữ liệu ...), không thể biên dịch chương trình chạy trên nền Windows, không hỗ trợ các công nghệ mới như Intellisense (nhắc người dùng các từ khóa, hàm và kiểu dữ liệu). Bên cạnh đó, thao tác soạn thảo của Turbo C++ 3.0 cũng không tiện lợi vì đòi hỏi sử dụng các tổ hợp phím khá phức tạp. Vì các lý do trên, theo nhận xét của cá nhân tôi, chúng ta không nên tiếp tục sử dụng phần mềm này trừ khi dành cho các mục đích đặc biệt.
 
 <a name ="cfree"> </a>
@@ -96,25 +110,38 @@
 - Hướng dẫn cài đặt:
 	- *Bước 1:* Ấn đúp chuột vào bản cài đặt. Một cửa sổ nhỏ hiện lên -> Chọn English
 	
-  <img src ="http://i.imgur.com/dwRppCu.png">
+	<img src ="http://i.imgur.com/dwRppCu.png">
   
 	- *Bước 2:* Sau đó chọn Next
   
 	<img src ="http://i.imgur.com/kLl3wre.png">
   
 	- *Bước 3:* Bạn chọn I accept the agreement -> Next
+	
 	<img src ="http://i.imgur.com/lPO4qaD.png">
+	
 	- *Bước 4:* Bạn chọn đường dẫn (Nên để mặc định) -> Next
+	
 	<img src ="http://i.imgur.com/Sqz8pzM.png">
+	
 	- *Bước 5:* Tiếp theo bạn tao thư mục: Mặc định là C-Free 5 (Nên để mặc định) -> Next
+	
 	<img src ="http://i.imgur.com/rW5LbC7.png">
+	
 	- *Bước 6:* Bạn chọn Create a desktop icon -> Next
+	
 	<img src ="http://i.imgur.com/kbgN1kH.png">
+	
 	- *Bước 7:* Tiếp theo bạn chọn next để tiếp tục cài đặt C free 5
+	
 	<img src ="http://i.imgur.com/WLETeXS.png">
+	
 	- *Bước 8:* Quá trình cài đặt hoàn tất -> Finish
+	
 	<img src ="http://i.imgur.com/Dv72BEB.png">
+	
 - Giao điện C-Free:
+
 	<img src = "http://i.imgur.com/VbMlSPB.png">
 
 <a name = "analyzeCfree"> </a>
@@ -133,10 +160,14 @@
 - Link tải về : [Download](http://sourceforge.net/projects/codeblocks/files/Binaries/10.05/Windows/codeblocks-10.05mingw-setup.exe/download)
 - Hướng dẫn cài đặt:
 	- Chúng ta chỉ cần chọn “Next” và chờ đợi cho tới khi nó chạy xong thì thôi. Các hình ảnh dưới đây minh họa các bước cài đặt CB.
-	<img src ="http://i.imgur.com/iZEbSdW.png">
-	<img src ="http://i.imgur.com/WTlUsAS.png">
-	<img src ="http://i.imgur.com/PCi5AyD.png">
-	<img src ="http://i.imgur.com/wy0Cmv9.png">
+	
+<img src ="http://i.imgur.com/iZEbSdW.png">
+	
+<img src ="http://i.imgur.com/WTlUsAS.png">
+	
+<img src ="http://i.imgur.com/PCi5AyD.png">
+	
+<img src ="http://i.imgur.com/wy0Cmv9.png">
 
 <a name ="analyzeCodeblock"> </a>
 
@@ -161,16 +192,26 @@
 - Link tải về: [Download](http://prdownloads.sourceforge.net/dev-cpp/devcpp-4.9.9.2_setup.exe)
 - Hướng dẫn cài đặt:
 	- Chúng ta cũng chỉ cần Next thôi:
-	<img src ="http://i.imgur.com/q46XkXw.png">
-	<img src ="http://i.imgur.com/vs64APv.png">
-	<img src ="http://i.imgur.com/KUnE4qZ.png">
-	<img src ="http://i.imgur.com/FQbA1Sl.png">
-	<img src ="http://i.imgur.com/1SKbQuW.png">
-	<img src ="http://i.imgur.com/QwVTkbj.png">
-	<img src ="http://i.imgur.com/kPaHW94.png">
-	<img src ="http://i.imgur.com/T44oMGR.png">
-	<img src ="http://i.imgur.com/FGlCoO7.png">
-	<img src ="http://i.imgur.com/obfEqwr.png">
+	
+<img src ="http://i.imgur.com/q46XkXw.png">
+	
+<img src ="http://i.imgur.com/vs64APv.png">
+	
+<img src ="http://i.imgur.com/KUnE4qZ.png">
+	
+<img src ="http://i.imgur.com/FQbA1Sl.png">
+	
+<img src ="http://i.imgur.com/1SKbQuW.png">
+	
+<img src ="http://i.imgur.com/QwVTkbj.png">
+	
+<img src ="http://i.imgur.com/kPaHW94.png">
+	
+<img src ="http://i.imgur.com/T44oMGR.png">
+	
+<img src ="http://i.imgur.com/FGlCoO7.png">
+	
+<img src ="http://i.imgur.com/obfEqwr.png">
 
 <a name="analyzeDevC"> </a>
 
@@ -210,6 +251,7 @@ Chuẩn bị:
 <img src="http://i.imgur.com/TJdSXsp.png">
 
 - Tại đây, các bạn có thể click và phần Visual Studio Community để tiến hành tải bản cài đặt.
+
 > Hoặc xem thêm thông tin chi tiết bằng cách click vào phần All downloads
 
 <img src="http://i.imgur.com/lb1qJzi.png">
