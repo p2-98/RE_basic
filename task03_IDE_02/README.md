@@ -110,7 +110,7 @@ Chuẩn bị:
 - Thông báo như vậy là quá trình cài đặt đã thành công
 - Nhấn LAUNCH để khởi chạy Visual Studio Community 2015.
 
-** Các lỗi có thể phát sinh trong quá trình cài đặt:
+** Các lỗi có thể phát sinh trong quá trình cài đặt:**
 
 - Trong quá trình cài đặt có thể xảy ra các lỗi không mong muốn. Các bạn có thể tham khảo tại [trang support lỗi trong quá trình cài VS 2015 của Microsoft](https://blog.daynhauhoc.com/cai-dat-visual-studio-2015-de-lap-trinh-c-tren-windows/).
 
