@@ -57,55 +57,55 @@ Chuẩn bị:
 
 - Sau khi các bạn đã chọn tải bản cài đặt. Một trang mới sẽ được load
 
-<img src="https://daynhauhoc.s3-ap-southeast-1.amazonaws.com/optimized/2X/f/ff112093cfd6d866243ab625661e37775fe00aec_1_690x325.png">
+<img src="http://i.imgur.com/1rYZt6z.png">
 
 > Tại đây nếu trình duyệt của bạn vẫn chưa thực hiện tải bản cài đặt thì bạn có thể click vào phần click here to retry để trình duyệt load lại việc tải xuống.
 
 - Khi file cài đặt đã sẵn sàng tải xuống. Các bạn chọn vị trí lưu file cài đặt và nhấn Save
 
-<img src="https://daynhauhoc.s3-ap-southeast-1.amazonaws.com/original/2X/4/46a36b3529a9d987893afcd3603e2218fcd9fa0d.png">
+<img src="http://i.imgur.com/91cqsgl.png">
 
 - Việc tải xuống rất nhanh, mất khoảng tầm 2-3s.
 
-<img src="https://daynhauhoc.s3-ap-southeast-1.amazonaws.com/original/2X/0/037e13dbac38b647d1888f820e7d8d07ee577012.png">
+<img src="http://i.imgur.com/FObSaka.png">
 
 - Nhấp vào file cài đặt vs_community_ENU.exe
 
 - Sẽ hiện một phần thông báo download các items. Nhưng quá trình load cũng diễn ra rất nhanh
 
-<img src="https://daynhauhoc.s3-ap-southeast-1.amazonaws.com/original/2X/f/f53627a575f59c624ea213ed47a2c64670dfb473.png">
+<img src="http://i.imgur.com/T3CoDMt.png">
 
 - Các phần sẽ hiện sau khi load xong file cài đặt
 
-<img src="https://daynhauhoc.s3-ap-southeast-1.amazonaws.com/original/2X/5/582c99958cdd0d7a16ef7bc98e455ec9c0f5e5f1.png">
+<img src="http://i.imgur.com/BXMUfrz.png">
 
 - Sau đó
 
-<img src="https://daynhauhoc.s3-ap-southeast-1.amazonaws.com/optimized/2X/1/1835ca159a269abd0d9db420c3c5aa9c058cc1eb_1_357x500.png">
+<img src="http://i.imgur.com/me2zrpD.png">
 
 - Tiếp theo
 
-<img src="https://daynhauhoc.s3-ap-southeast-1.amazonaws.com/optimized/2X/8/8be70508cfc3a9f3170209595532d7121699ee15_1_454x500.png">
+<img src="http://i.imgur.com/sLs305b.png">
 
 - Tại đây tùy chỉnh vị trí vị trí cài đặt Visual Studio.
 - Tùy chọn *kiểu cài đặt**
 > Lưu ý : Nên Chọn kiểu Custom
 - Nhấp Install để cài đặt
 
-<img src="https://daynhauhoc.s3-ap-southeast-1.amazonaws.com/optimized/2X/d/d856d6a2c9ae930a74e45fb0d5f753ddc221e9c5_1_434x500.png">
+<img src="http://i.imgur.com/5ZJRnJ6.png">
 
 - Tích các ô tùy chọn muốn cài đặt.
 > Lưu ý : Nếu chọn càng nhiều thời gian cài đặt càng lâu.
 > Chỉ chọn các cài đặt cần thiết
 - Sau đó nhấp Next để quá trình cài đặt bắt đầu.
 
-<img src="https://daynhauhoc.s3-ap-southeast-1.amazonaws.com/optimized/2X/3/36519553da4b9c24b2de998cbe4c23dc5e71aad5_1_436x500.png">
+<img src="http://i.imgur.com/A61BRU6.png">
 
 - Quá trình cài đặt tiếp theo hoàn toàn tự động
 > Lưu ý : Vì quá trình cài đặt có thể diễn ra trong thời gian dài. nên bạn có thể rời khỏi khỏi máy tính và làm những công việc khác. 
 > Duy trì ổn định nguồn điện của máy và kết nối mạng trong quá trình cài đặt. Để tránh phát sinh lỗi.
 
-<img src="https://daynhauhoc.s3-ap-southeast-1.amazonaws.com/original/2X/2/21da51dddf747ff3d9c48177a92cee73140472cb.png">
+<img src="http://i.imgur.com/mx9N5Q2.png">
 
 - Thông báo như vậy là quá trình cài đặt đã thành công
 - Nhấn LAUNCH để khởi chạy Visual Studio Community 2015.
@@ -120,11 +120,11 @@ Chuẩn bị:
 
 - Trong giao diện của VS chọn File -> New -> Project (Phím tắt Ctrl + Shift + N)
 
-<img src="http://daynhauhoc.s3-ap-southeast-1.amazonaws.com/optimized/2X/2/2e13452ca9b1430620e1d4cb539d148eae6880cb_1_517x500.png">
+<img src="http://i.imgur.com/nfycmW3.png">
 
 - Sẽ có một cửa sổ New Project xuất hiện
 
-<img src="http://daynhauhoc.s3-ap-southeast-1.amazonaws.com/optimized/2X/f/f6029d4c501d7562336bd3ae07aa23948970d840_1_690x421.png">
+<img src="http://i.imgur.com/CUTcbag.png">
 
 - Tìm tới phần Visual C++ -> Chọn General -> Empty Project.
 
@@ -140,7 +140,7 @@ Chuẩn bị:
 
 **Sau khi bạn đã tạo một project mới**
 
-<img src="http://daynhauhoc.s3-ap-southeast-1.amazonaws.com/optimized/2X/1/1740172cf1b8dc3bc1ce15259cf8e8ec1c1c5140_1_690x328.png">
+<img src="http://i.imgur.com/fPbEiSg.png">
 
 **Có 2 phần các bạn cần để ý là phần :**
 
@@ -153,11 +153,11 @@ Chuẩn bị:
 
 - Click chuột phải vào Source File -> Add -> New Item (Ctr+Shift+A)
 
-<img src="http://daynhauhoc.s3-ap-southeast-1.amazonaws.com/optimized/2X/f/f85e8081d997dffa3c1e1965745794ef3849973d_1_690x440.png">
+<img src="http://i.imgur.com/nKZjav1.png">
 
 - Một cửa sổ mới sẽ được tạo
 
-<img src="http://daynhauhoc.s3-ap-southeast-1.amazonaws.com/optimized/2X/7/766816b023b0bd5007d9343567f062ede59362c2_1_690x420.png">
+<img src="http://i.imgur.com/mBOlnpp.png">
 
 - Chọn C++ File(.cpp) Chưa cần để ý tới phần Header File(.h) vội nha ! Đặt tên cho File mới (.cpp)
 
