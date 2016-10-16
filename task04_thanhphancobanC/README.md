@@ -453,15 +453,6 @@ Tuy nhiên:
 | `|` | OR |
 | ! | NOT |
 
-Bảng chân trị cho các toán tử Logic.
-
-| p | q | `p&&q` | `p||q` | `!p` |
-|---|---|--------|--------|------|
-| 0 | 0 | 0 | 0 | 1 |
-| 0 | 1 | 0 | 1 | 1 |
-| 1 | 0 | 0 | 1 | 0 |
-| 1 | 1 | 1 | 1 | 0 |
-
 Các toán tử quan hệ và Logic đều có độ ưu tiên thấp hơn các toán tử số học. Do đó một biểu thức như: 10 > 1+ 12 sẽ được xem là 10 > (1 + 12) và kết quả là sai (0).
 
 Ta có thể kết hợp vài toán tử lại với nhau thành biểu thức như sau:
