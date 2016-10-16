@@ -737,11 +737,17 @@ Ví dụ:
 Ví dụ:
 
 > int tong(int x, int y) /*Hàm tính tổng 2 số nguyên*/
+>
 > {
+>
 >    return (x+y);
+>
 > }
+>
 > float tong(float x, float y) /*Hàm tính tổng 2 số thực*/
+>
 > {
+>
 >    return (x+y);
 > }
 
@@ -764,23 +770,39 @@ Ví dụ:
 Ví dụ 1:
 
 > int main()
+>
 > {
+>
 >    printf("Day la chuong trinh chinh");
+>
 >    getch();
+>
 >    return 0;
+>
 > }
 
 Ví dụ 2:
 
 > int main()
+>
 > {
+>
 >    int a=5, b=6,c;
+>
 >    float x=3.5, y=4.5,z;
+>
 >    printf("Day la chuong trinh chinh");
+>
 >    c=tong(a,b);
+>
 >    printf("\n Tong cua %d va %d la %d",a,b,c);
+>
 >    z=tong(x,y);
+>
 >    printf("\n Tong cua %f và %f là %f", x,y,z);
+>
 >    getch();
+>
 >    return 0;
+>
 > }
