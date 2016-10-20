@@ -15,9 +15,9 @@ int main()
     printf("%d", max);
     return 0;
 }
-Tìm giá trị lớn nhất trong mảng:
+/*Tìm giá trị lớn nhất trong mảng:
 Input
 3
 1 2 3
 output
-3
+3*/
