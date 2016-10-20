@@ -16,9 +16,9 @@ int main()
     return 0;
 }
 
-Tìm giá trị nhỏ nhất trong mảng:
+/*Tìm giá trị nhỏ nhất trong mảng:
 input
 3
 3 6 1
 output
-1
+1*/
