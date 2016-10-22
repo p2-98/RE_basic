@@ -183,7 +183,7 @@ int main(){
      
     return 0;
 }
-```C
+```
 
 VD2: Sử dụng vòng for in để đảo ngược mảng trong đó các biểu thức của vòng for là một dãy biểu thức con phân cách nhau bởi dấu phẩy.
 
