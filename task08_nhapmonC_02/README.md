@@ -19,6 +19,7 @@
 - [2. Vòng lặp For](#for)
 - [3. Vòng lặp While](#whiledo)
 - [4. Vòng lặp Do - while](#dowhile)
+- [* Mở rộng](#morong)
 - [5. Tiền xử lý #define](#define)
 
 ----
@@ -182,7 +183,7 @@ int main(){
      
     return 0;
 }
-```
+```C
 
 VD2: Sử dụng vòng for in để đảo ngược mảng trong đó các biểu thức của vòng for là một dãy biểu thức con phân cách nhau bởi dấu phẩy.
 
@@ -329,6 +330,38 @@ int main(){
     return 0;
 }
 ```
+<a name="morong"> </a>
+
+###Sự khác nhau cơ bản của For - While - Do While:
+
+**For và While**
+
+- For: Áp dụng cho vòng lặp với số lần thực hiện là nhất định (đã định sẫn)
+
+- Vd: Nhập mảng số nguyên có 10 phần tử
+
+```C
+for (int i = 0; i < 10; i++)
+	{
+	scanf("%d", &a[i]);
+	}
+```
+
+- While: Lặp với số lần không xác định
+
+- Vd: In số đảo ngược của 1 số tự nhiên bất kỳ
+ 
+```C
+while (n)
+	{
+	tmp = n % 10;
+	printf("%d", tmp);
+	n /= 10
+	}
+```
+
+=> Ta không thể dùng for cho vd số 2 được vì dữ liệu là 1 số nguyên bất kỳ, không biết nó có bao nhiêu chữ số
+
 **Sự khác nhau giữa While và Do - while:**
 
 - while : kiểm tra dk lặp trước khi làm
@@ -339,6 +372,86 @@ int main(){
 
 - 1. xin trước cho phép rồi kiss(while)// cơ hội 50/50
 - 2. kiss sau đó mới xin phép (do while)//hoàn thành được ước nguyện, nhưng hoàn toàn có thể để lại "di chứng"
+
+###Sử dụng nhiều vòng lặp chồng lên nhau:
+
+- Vấn đề đặt ra ở đây là khi nào thì ta nên sử dụng chồng các vòng lặp nhau? Ta xét 1 ví dụ đơn giản như sau:
+	
+- Nhập vào một ma trận vuông cấp 2
+
+Ta sẽ có được 2 cách làm như sau: 
+- Cách 1: Tiếp cận một cách thô sơ nhất như sau
+
+```C
+j = 0;
+for (int i = 0; i < 2, i++)
+	scanf("%d", &a[j][i]);
+j = 1;
+for (int i = 0; i < 2, i++)
+	scanf("%d", &a[j][i]);
+```
+
+- Vậy với n = 6, 7 hoặc 8, v.v thì bạn phải dùng vô số vòng lặp for, chương trình vừa dài vừa khó đọc và nhận xét lỗi, bây giờ chúng ta sẽ tiếp cận với cách làm thứ 2:
+
+```C
+for (int i = 0; i < n, i++)
+	for (int j = 0; j < n, j++)
+		{
+			scanf("%d", &a[i][j]);
+		}
+```
+	
+Phân tích:
+	
+- Ban đầu i = 0, j sẽ bắt đầu chạy từ 0 tới < n vậy là ta đã nhập được hàng thứ 1 trong ma trận tương ướng với a[0][0]; a[0][1];
+- Tiếp đến i = 1, sẽ sẽ bắt đầu chạy từ 0 tới < n vậy là ta đã nhập được hàng thứ 2 trong ma trận a[1][0], a[1][1];
+
+=> Từ đó ta thấy được cách 2 sẽ ngắn gọn hơn rất nhiều và dễ để chúng ta xem xét được chương trình
+
+- Ta sẽ xét thêm 1 ví nữa về sự chồng vòng lặp vào nhau:
+
+- Viết số đảo ngược của tất cả các chữ số trong mảng gồm 3 phần tử
+
+Ta cũng sẽ có được 2 cách làm như sau:
+
+- Cách 1: Tiếp cận thô sơ:
+
+```C
+while (a[0])
+	{
+		tmp = a[0] % 10;
+		b[0] = b[0] * 10 + tmp;
+		a[0] /= 10;
+	}
+while (a[1])
+	{
+		tmp = a[1] % 10;
+		b[1] = b[1] * 10 + tmp;
+		a[1] /= 10;
+	}
+while (a[2])
+	{
+		tmp = a[2] % 10;
+		b[2] = b[2] * 10 + tmp;
+		a[2] /= 10;
+	}
+```
+
+- Cách 2 : Vậy nếu không phải là 3 mà là n nào đó ta sẽ làm thế nào ? Vì vậy ta sẽ có cách tiếp cận thứ 2 như sau:
+
+```C
+for (int i = 0, i < n, i++)
+	{
+		while (a[i])
+			{
+				tmp = a[i] % 10;
+				b[i] = b[i] * 10 + tmp;
+				a[i] = a[i] / 10
+			}
+	}
+```
+
+- Như vậy, ta đã có được 1 chương trình tổng quát hơn có thể chạy tới n số mà không phải code 1 cách dài dòng, sự chồng vòng lặp lên nhau sẽ hỗ trợ cho ta rất nhiều trong mảng xử lý hàng loạt công việc xảy ra 1 cách lần lượt, trong lúc làm việc này, thực hiện song song 1 việc kia.
 
 <a name="define"> </a>
 
