@@ -17,6 +17,8 @@
 
 - [2. Biến trong C](#bien)
 - [3. Cách hoạt động của hàm](#hoatdong)
+- [4. Kiểu dữ liệu thông dụng trong C](#kdl)
+- [5. Tràn số trong C](#transo)
 
 ----
 
@@ -223,3 +225,41 @@ Khi gặp một lời gọi hàm thì nó sẽ bắt đầu được thực hi�
 –   Khi gặp câu lệnh return hoặc dấu } cuối cùng của thân hàm thì máy sẽ xoá các tham số hình thức, biến cục bộ và ra khỏi hàm.
 
 Nếu trở về từ một câu lệnh return có chứa biểu thức thì giá trị của biểu thức được gán cho hàm. Giá trị của hàm sẽ được sử dụng trong các biểu thức chứa nó.
+
+- Tài liệu tham khảo: [Cách đặt tên hàm biến một cách hiệu quả](http://www.slideshare.net/hoangnguyencong/phong-cch-lp-trnh-ng-bnh-phng) 
+
+<a name="kdl"> </a>
+
+###4. Kiểu dữ liệu thông dụng trong C:
+
+| Loại dữ liệu | Tên kiểu |	Số ô nhớ | Miền giá trị |
+|--------------|----------|----------|--------------|
+| Kí tự | char | 1 byte | － 128 .. 127 |
+|| unsigned char | 1 byte | 0 .. 255 |
+|Số nguyên | int | 2 byte | － 32768 .. 32767 |
+|| unsigned int | 2 byte | 0 .. 65535 |
+|| short | 2 byte | － 32768 .. 32767 |
+|| long | 4 byte | － 215 .. 215 – 1 |
+| Số thực |	float |	4 byte | ± 10 -37 . . ± 10 +38 |
+|| double |	8 byte | ± 10 -307 . . ± 10 +308 |
+
+<a name="transo"> </a>
+
+###5. Tràn số trong C:
+
+- Tràn số xảy ra khi mà giá trị của kết quả biểu thức nằm ngoài khoảng biểu diễn của kiểu dữ liệu. Khi có tràn số, thì trong hầu hết các trường hợp, không có gì đảm bảo cho kết quả thu được. Tuy nhiên, với kiểu dữ liệu unsigned, kết quả lại được đảm bảo ngay cả khi có tràn số (một cách máy móc, C không gọi là có tràn số với kiểu unsigned).
+
+- Nếu đúng ra mà nói thì cả hai biểu thức a - b + 108.0 và a - b + 108 đều có tràn số:
+
+1. a - b + 108.0: biểu thức con a - b sẽ được thực hiện với kiểu unsigned int, và sẽ ra kết quả là UINT_MAX (thay vì là -1). Sau đó giá trị này được chuyển thành kiểu double để cộng với 108.0.
+
+2. a - b + 108: chú ý là kiểu 108 sẽ là kiểu int, nhưng sau đó sẽ chuyển thành kiểu unsigned int để cộng với UINT_MAX (vẫn kiểu unsigned int). Ở đây sẽ xảy ra tràn số một lần nữa và sẽ cho ra kết quả 107. Kết quả này sau đó mới chuyển thành kiểu double để lưu vào y. 
+
+3. Chú ý là kết quả biểu thức a - (b - 108.0) sẽ rất khác với a - b + 108.0, mặc dù về mặt toán học hai biểu thức sẽ phải cho kết quả giống nhau: biểu thức đầu sẽ cho ra 107.0 do không có tràn số xảy ra (cả hai phép trừ đều thực hiện trên kiểu double).
+
+4. Một chú ý nữa là việc chuyển kiểu (arithmetic conversion) chưa phải là toàn bộ mọi thứ khi tính toán biểu thức trong C. Với những kiểu như char, short có rank thấp hơn kiểu int thì nó sẽ được tự động chuyển thành kiểu int (hoặc unsigned int, tùy theo kiểu nào đủ để giữ giá trị) trước khi tính toán. Quá trình này gọi là integer/integral promotion. Lấy một ví dụ tương đương như ở trên: 
+
+unsigned char c = 200, d = 201;
+double x = c - d + 108.0;
+
+Nếu không có integer promotion, thì x sẽ có giá trị là UCHAR_MAX + 108, nhưng thực tế x sẽ lại mang giá trị 107. Nhưng thực tế, c và d được chuyển thành kiểu int, và do đó c - d sẽ mang giá trị -1 (không có tràn số), và sau đó sẽ được cộng với 108.0. 
