@@ -1,0 +1,287 @@
+### Tìm hiểu về con trỏ trong C
+
+> Tài liệu tham khảo: [Con Trỏ](http://www.nguyenvanquan7826.com/2014/12/17/lap-trinh-c-bai-9-con-tro-trong-c/)
+>
+> Thực hiện bởi : Phạm Phú Quí
+> 
+> Cập nhật lần cuối : 28.10.2016
+
+----
+
+###Mục Lục
+
+- [1. Biến con trỏ](#biencontro)
+
+	- [1.1 Khai báo biến con trỏ](#khaibao)
+	- [1.2 Quy định về vùng trỏ tới của con trỏ](#quydinh)
+	- [1.3 Các truy xuất](#truyxuat)
+	- [1.4 Một số phép toán trên biến con trỏ](#pheptoan)
+
+- [2. Cấp phát và thu hồi vùng nhớ](#capphatvathuhoi)
+
+	- [2.1 Cấp phát](#capphat)
+	- [2.2 Thu hồi vùng nhớ](#thuhoi)
+
+- [3. Hàm có đối là con trỏ](#ham)
+
+----
+
+<a name="biencontro"> </a>
+
+###1. Biến con trỏ:
+
+- Các biến chúng ta đã biết và sửdụng trước đây đều là biến có kích thước và kiểu dữ liệu xác định. Người ta gọi các biến kiểu này là biến tĩnh. Khi khai báo biến tĩnh, một lượng ô nhớ cho các biến này sẽ được cấp phát mà không cần biết trong quá trình thực thi chương trình có sử dụng hết lượng ô nhớ này hay không. Mặt khác, các biến tĩnh dạng này sẽ tồn tại trong suốt thời gian thực thi chương trình dù có những biến mà chương trình chỉ sử dụng 1 lần rồi bỏ.
+- Một số hạn chế có thể gặp phải khi sử dụng các biến tĩnh:
+	
+	- Cấp phát ô nhớ dư, gây ra lãng phí ô nhớ.
+	- Cấp phát ô nhớ thiếu, chương trình thực thi bị lỗi.
+
+- Để tránh những hạn chế trên, ngôn ngữ C cung cấp cho ta một loại biến đặc biệt gọi là biến động với các đặc điểm sau:
+
+	- Chỉ phát sinh trong quá trình thực hiện chương trình chứ không phát sinh lúc bắt đầu chương trình.
+	- Khi chạy chương trình, kích thước của biến, vùng nhớ và địa chỉ vùng nhớ được cấp phát cho biến có thể thay đổi.
+	- Sau khi sử dụng xong có thể giải phóng để tiết kiệm chỗ trong bộ nhớ. Tuy nhiên các biến động không có địa chỉ nhất định nên ta không thể truy cập đến chúng được. Vì thế, ngôn ngữ C lại cung cấp cho ta một loại biến đặc biệt nữa để khắc phục tình trạng này, đó là biến con trỏ (pointer) với các đặc điểm:
+	- Biến con trỏ không chứa dữ liệu mà chỉ chứa địa chỉ của dữ liệu hay chứa địa chỉ của ô nhớ chứa dữ liệu.
+	- Kích thước của biến con trỏ không phụ thuộc vào kiểu dữ liệu, luôn có kích thước cố định là 2 byte.
+
+- Mỗi biến khi được khai báo đều được cấp phát cho 1 vùng nhớ nhất định ở những nơi (địa chỉ) khác nhau.
+- Biến con trỏ là biến dùng để lưu trữ địa chỉ của các biến đó.
+
+**VD mở đầu**
+
+```C
+#include <stdio.h>
+ 
+int main() {
+    /* khai bao bien x va bien con tro px */
+    int x, *px; 
+    px = &x;
+    /* &x : tra ve dia chi cua bien x
+     * px = &x : gan dia chi cua bien x cho px hay px tro den x
+     */
+     
+    x = 42;
+     
+    printf("Vi tri cua bien x la %p \n", &x);
+    printf("Noi dung cua bien x la %d \n", x);
+    printf("Vi tri cua bien x la %p \n", px);
+    printf("Noi dung cua bien x la %d \n", *px);
+     
+    *px = 7826;
+    printf("\n -------- \n\n");
+     
+    printf("Noi dung cua bien x la %d \n", x);
+    printf("Noi dung cua bien x la %d \n", *px);
+     
+    return 0;
+}
+```
+
+- Kết quả:
+
+Vi tri cua bien x la 0xbff327e4
+Noi dung cua bien x la 42
+Vi tri cua bien x la 0xbff327e4
+Noi dung cua bien x la 42
+
+——–
+
+Noi dung cua bien x la 7826
+Noi dung cua bien x la 7826
+Qua ví dụ mở đầu này ta có thể rút ra một số điểm sau:
+
+<a name="khaibao"> </a>
+
+####a. Khai báo biến con trỏ
+
+- Với mỗi kiểu dữ liệu ta có tương ứng một biến con trỏ có kiểu đó.
+
+`Kiểu * Tên biến con trỏ;`
+
+- Trong VD trên ta khai báo 1 biến con trỏ px thuộc kiểu int.
+
+<a name="quydinh"> </a>
+
+####b. Quy định vùng trỏ tới của con trỏ
+
+Ta dùng toán tử & để lấy địa chỉ của 1 biến và sau đó gán địa chỉ đó cho biến con trỏ.
+
+`Tên con trỏ = &biến;`
+
+<a name="truyxuat"> </a>
+
+####c. Cách truy xuất
+
+Với con trỏ px bên trên ta có 2 phép tuy xuất là:
+
+px : Lấy địa chỉ mà nó lưu giữ (trỏ tới)
+*px : Lấy giá trị trong vùng nhớ mà nó trỏ tới.
+Trong VD trên ta có thể thấy sau phép gán px = &x ; thì việc ta viết:
+
+px sẽ tương đương với &x
+*px sẽ tương đương với x. và ta có thể sử dụng *px trong các phép toán, biểu thức.
+
+<a name="pheptoan"> </a>
+
+####d. Một số phép toán trên biến con trỏ
+
+```C
+#include <stdio.h>
+ 
+int main() {
+    /* khai bao bien x va 2 bien con tro px, qx */
+    int x, *px, *qx; 
+    px = &x;
+     
+    printf("Nhap gia tri cho vung nho px tro toi: ");
+    scanf("%d", px); 
+    /* px la con tro nen khong viet scanf("%d", &px);  */
+     
+    qx = px; /* gan gia tri cua px cho qx, qx cun tro toi x*/
+     
+    printf("Vi tri cua bien x la %p \n", &x);
+    printf("Vi tri cua bien x la %p \n", px);
+    printf("Vi tri cua bien x la %p \n", qx);
+    printf("Noi dung cua bien x la %d \n", x);
+    printf("Noi dung cua bien x la %d \n", *px);
+    printf("Noi dung cua bien x la %d \n", *qx);
+     
+    // tang gia tri cua o nho len, <=> x = x + 7826
+    *px += 7826; 
+    printf("Noi dung cua bien x la %d \n", x);
+     
+    px++; 
+    /* cong them mot don vi cho px
+     *  => px tro toi vung nho tiep theo
+     */
+     
+    printf("Vi tri px tro toi la %p \n", px);
+     
+    return 0;
+}
+```
+
+Kết quả:
+
+Nhap gia tri cho vung nho px tro toi: 42
+Vi tri cua bien x la 0xbfba58a0
+Vi tri cua bien x la 0xbfba58a0
+Vi tri cua bien x la 0xbfba58a0
+Noi dung cua bien x la 42
+Noi dung cua bien x la 42
+Noi dung cua bien x la 42
+Noi dung cua bien x la 7868
+Vi tri px tro toi la 0xbfba58a4
+
+- Trong vd trên ta thấy có một số phép toán trên con trỏ hay gặp sau: (ngoài ra còn nhiều phép toán khác).
+
+- 2 biến con trỏ cùng kiểu có thể được gán cho nhau hoặc thực hiện các phép toán cộng cho một số nguyên, trừ 2 con trỏ cho nhau. Ở VD trên ta thực hiện các phép toán:
+- Gán: qx = px; Khi này qx nhận giá trị của px hiện có là địa chỉ của biến x, tức là qx và px cùng trỏ đến x. ngoài ra ta có thể gán như sau: qx = px + 2; với qx, px là các biến con trỏ cùng kiểu. Phép trừ 2 con trỏ cùng kiểu sẽ trả về 1 giá trị nguyên (int). Đây chính là khoảng cách (số phần tử) giữa 2 con trỏ đó
+- Tăng: Các phép tăng giảm, cộng trừ được thực hiện trên biến con trỏ tương tự như với các biến số học. Điểm khác biệt duy nhất là nó tăng giảm, cộng trừ theo đơn byte mà kiểu của nó có.
+
+- VD. Trong VD trên ta có phép tăng: px++; Khi này giả sử px đang trỏ đến địa chỉ: 0xbfba58a0 thì sau phép tăng nó có giá trị là (trỏ đến vị trí) 0xbfba58a4 (tăng lên 4) vì px là con trỏ kiểu int mà mỗi biến kiểu int chiếm 4 byte trong bộ nhớ.
+Ngoài ra chúng ta để ý còn phép thay đổi giá trị của biến x bằng phép toán *px += 3; Ở phép toán này thực chất là ta đã thay đổi giá trị ở ô nhớ (địa chỉ) mà px trỏ tới, từ đó dẫn đến giá trị của biến x cũng thay đổi theo.
+
+**Các bạn chú ý:**
+
+- Tùy theo trình dịch mà dung lượng của các kiểu là khác nhau. (trong trình dịch này thì kiểu int chiếm 4 byte nhưng trong trình dịch khác thì nó lại chiếm 2 byte). Để biết dung lượng từng kiểu bạn dùng toán tử sizeof() mà trong bài 2 đã đề cập.
+Mỗi biến con trỏ, dù là con trỏ thuộc kiểu nào (int, float, double,…) cũng chỉ chiếm 2 byte bộ nhớ để lưu trữ đĩa chỉ của các biến.
+
+<a name="capphatvathuhoi"> </a>
+
+2. Cấp phát và thu hồi vùng nhớ
+
+<a name="capphat"> </a>
+
+####a. Cấp phát:
+
+Trước khi vào phần này ta làm ví dụ nho nhỏ.
+
+```C
+#include <stdio.h>
+ 
+int main() {
+    int *px;
+    *px = 42;
+    printf("Vi tri con tro px la %p \n", px);
+    printf("Gia tri con tro px tro toi la %d \n", *px);
+    return 0;
+}
+```
+
+- Khi biên dịch thì sẽ không co lỗi (có cảnh báo), khi chạy sẽ không thể chạy được mà chương trình sẽ thoát ra luôn.
+- Nguyên nhân là khi khai báo biến con trỏ px thì máy mới chỉ cung cấp 2 byte để lưu địa chỉ của biến con trỏ mà chưa cấp phát vùng nhớ để con trỏ px lưu trữ dữ liệu. (tương tự như hợp tác xã cung cấp 2 Kg thóc cho bạn để làm giống nhưng lại không cung cấp cho bạn ruộng đất để bạn reo mạ vậy ).
+
+- **Lưu ý:** Có một số trình dịch sẽ không báo lỗi mà vẫn chạy bình thường nhưng tốt nhất là ta nên cấp phát trước khi sử dụng. Lỗi này sẽ xuất hiện rõ nhất khi bạn sử dụng con trỏ với mảng mà lát nữa ta sẽ đề cập.
+
+- Để cấp phát vùng nhớ cho con trỏ ta dùng các hàm sau trong thư viện stdlib.h.
+
+**malloc : tên con trỏ = (kiểu con trỏ *) malloc (sizeof(kiểu con trỏ));**
+
+- Cái không hay của malloc là các phần tử mới được tạo ra không được khởi gán, *mang giá trị bất định!*
+
+**calloc : tên con trỏ = (kiểu con trỏ *) malloc (n, sizeof(kiểu con trỏ));**
+
+- Cái hay của calloc còn là ở chỗ các phần tử mới tạo ra sẽ được *set to zeros*.
+
+- Trong đó sizeof(kiểu con trỏ) là kích thước của kiểu; n là số lần của sizeof(kiểu con trỏ) được cấp.
+
+```C
+#include <stdio.h>
+#include <stdlib.h>
+ 
+int main() {
+    int *px, *qx;
+    px = (int *) malloc(sizeof(int));
+    qx = (int *) calloc(1, sizeof(int));
+     
+    printf("Vi tri con tro px la %p \n", px);
+    printf("Gia tri con tro px tro toi la %d \n", *px);
+     
+    printf("Vi tri con tro qx la %p \n", qx);
+    printf("Gia tri con tro qx tro toi la %d \n", *qx);
+    return 0;
+}
+```
+
+- Ở đây các bạn chú ý: sự khác nhau duy nhất giữa malloc và calloc mà các bạn hiểu đơn giản là với malloc thì khi cấp phát máy sẽ cấp phát cho px 1 ô bất kỳ mà không cần biết ô đó có dữ liệu là gì hay không có dữ liệu (do đó *px có giá trị như trên) còn calloc cũng vậy nhưng khác 1 điểm là sau khi cấp phát thì máy sẽ tự động gán luôn giá trị 0 cho ô nhớ mà biến qx trỏ tới, tức qx có giá trị mặc định là 0.
+- Khi cấp phát cho biến con trỏ 1 số lượng ô nhớ nào đó mà trong quá trình làm việc ta thiếu và cần cấp phát thêm thì ta sử dụng lệnh realloc:
+
+`tên con trỏ = (kiểu con trỏ *) realloc (tên con trỏ, số lượng cần cấp phát * sizeof(kiểu con trỏ));`
+
+- Trong đó: số lượng cần cấp phát = cũ + mới.
+
+VD: Ban đầu ta cấp phát cho con trỏ px là 10 ô nhớ. Sau đó muốn cấp phát thêm cho nó 5 ô nhớ nữa thì số lượng cấp phát = 15.
+
+<a name="thuhoi"> </a>
+
+####b. Thu hồi và kiểm tra vùng nhớ còn lại
+
+Để thu hổi bộ nhớ đã cấp phát ta dùng hàm free(tên con trỏ);
+
+<a name="ham"> </a>
+
+###3. Hàm có đối là con trỏ
+
+- Như trong bài Hàm chúng ta đã biết cách truyền các tham số a,b trong hàm HoanVi là cách truyền bằng tham trị chứ không phải truyền bằng địa chỉ (hay tham biến) nên mặc dù trong hàm thì giá trị các biến đã được thay đổi nhưng sau khi hàm thực hiện xong thì các giá trị vẫn chưa thể thay đổi được. Và ta sẽ phải sửa lại bằng cách truyền tham số hình thức là con trỏ a và con trỏ b để khi thực hiện hoán đổi có thể hoán đổi tại địa chỉ của các ô nhớ đó. Khi đó ta mới có được kết quả mong muốn.
+
+```C
+#include <stdio.h>
+ 
+void hoanVi(int *a, int *b) {
+     int temp = *a;
+     *a = *b;
+     *b = temp;
+}
+ 
+int main() {
+    int a = 42, b = 7826;
+    printf("Truoc khi goi ham hoan vi: a = %d, b = %d \n", a, b);
+     
+    hoanVi(&a, &b);
+     
+    printf("Sau khi goi ham hoan vi: a = %d, b = %d \n", a, b);
+     
+    return 0;
+}
+```
