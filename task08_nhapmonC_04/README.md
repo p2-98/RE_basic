@@ -4,7 +4,7 @@
 >
 > Thực hiện bởi : Phạm Phú Quí
 > 
-> Cập nhật lần cuối : 28.10.2016
+> Cập nhật lần cuối : 29.10.2016
 
 ----
 
@@ -23,6 +23,7 @@
 	- [2.2 Thu hồi vùng nhớ](#thuhoi)
 
 - [3. Hàm có đối là con trỏ](#ham)
+- [4. Cách sử dụng con trỏ trong một function](#trofunction)
 
 ----
 
@@ -285,3 +286,95 @@ int main() {
     return 0;
 }
 ```
+
+<a name="trofunction"> </a>
+
+###4. Cách sử dụng con trỏ trong một function
+
+- Điều khá thú vị ở con trỏ là chúng ta có thể sử dụng chúng trong các function để có thể thay đổi trực tiếp giá trị của biến số trong bộ nhớ chứ không phải một bản sao.
+
+- Vậy nó hoạt động như thế nào? Có rất nhiều cách thức để sử dụng. Đây là ví dụ đầu tiên:
+```C
+void triplePointer(int *pointerSoHang);
+int main (int argc, char *argv[ ])
+{
+int soHang = 5;
+triplePointer(&soHang); // Ta gui dia chi cua soHang vao function
+printf ("%d", soHang); /* Ta hien thi bien so soHang. Va function da truc tiep thay doi gia tri
+cua bien so vi no biet dia chi cua bien so nay */
+return 0;
+}
+void triplePointer(int *pointerSoHang)
+{
+*pointerSoHang *= 3; // Ta x3 gia tri cua so hang duoc dua vao
+}
+```
+
+Console
+15
+
+- Function triplePointer nhận vào parameter giá trị type int * (đó là một con trỏ chỉ vào một biến số type int).
+
+- Và đây là những gì diễn ra theo thứ tự, bắt đầu bởi function main:
+
+- 1. Một biến số soHang được tạo ra trong main. Khởi tạo với giá trị 5.
+- 2. Ta gọi function triplePointer. Ta gửi vào parameter địa chỉ của biến số.
+- 3. Function triplePointer nhận địa chỉ là giá trị của pointerSoHang. Và trong funtion triplePointer, ta có một con trỏ pointerSoHang chứa địa chỉ của biến số soHang
+- 4. lúc này, ta có một con trỏ chỉ lên biến số soHang, ta đã có thể thay đổi trực tiếp giá trị của biến số soHang trong bộ nhớ! Chỉ cần dùng *pointerSoHang để điều chỉnh giá trị của biến số soHang! Ở ví dụ trên, người ta chỉ đơn giản thực hiện: nhân 3 lần giá trị của biến số soHang.
+- 5. kết thúc bằng return trong function main, lúc này soHang đã có giá trị 15 vì function triplePointer đã trực tiếp thay đổi giá trị của nó.
+
+- Tất nhiên, tôi có thể thực hiện return để trả về giá trị như cách chúng ta đã học trong bài học về function. Nhưng điều thú vị ở đây là, bằng cách sử dụng con trỏ, chúng ta có thể thay đổi giá trị của nhiều biến số trong bộ nhớ (có nghĩa là "chúng ta có thể trả về nhiều giá trị"). Không còn giới hạn một giá trị duy nhất được trả về nữa !
+
+*Vậy return còn giá trị sử dụng gì khi người ta đã có thể dùng con trỏ để thay đổi giá trị ?*
+
+- Điều này phụ thuộc vào bạn và chương trình bạn viết. Chúng ta cần hiểu là cách dùng return để trả về giá trị là một cách viết khá đẹp và được sử dụng thường xuyên trong C.
+- Và thường xuyên nhất, người ta dùng return để thông báo lỗi của chương trình: ví dụ, function trả về 1 (true) nếu tất cả diễn ra bình thường, và 0 (false) nếu có lỗi trong chương trình.
+- Một cách khác để sử dụng con trỏ trong function
+- Trong những code source mà chúng ta vừa thấy, không có con trỏ trong function main. Duy nhất chỉ biến số soHang.
+- Con trỏ duy nhất được sử dụng nằm trong function triplePointer (có type int *)
+- Bạn cần biết rằng có cách viết khác cho đoạn code vừa rồi bằng cách thêm vào con trỏ trong function main:
+
+```C
+void triplePointer(int *pointerSoHang);
+int main (int argc, char *argv[ ])
+{
+int soHang = 5;
+int *pointer = &soHang; // con tro nhan dia chi cua bien so soHang
+triplePointer (pointer); // Ta dua con tro (dia chi cua soHang) vao function
+printf ("%d", *pointer); // Ta hien thi gia tri cua soHang voi *pointer
+return 0;
+}
+void triplePointer(int *pointerSoHang)
+{
+*pointerSoHang *= 3; // Ta x3 gia tri cua soHang
+}
+```
+
+- Hãy so sánh đoạn code source này với đoạn code source trước đó. Có một số thay đổi nhưng chúng sẽ cho ta cùng một kết quả:
+
+> Console
+>
+> 15
+
+- Điều cần xét đến là cách đưa địa chỉ của biến số soHang vào function, cách sử dụng địa chỉ của biến số soHang. Điều khác biệt xảy ra ở đây là cách tạo con trỏ trong function main.
+- VD trong printf, tôi muốn hiển thị giá trị của biến số soHang bằng cách viết *pointer. Bạn cần biết rằng tôi vẫn thể viết soHang: kết quả sẽ giống nhau vì*pointer và soHang đều có chung một giá trị trong bộ nhớ
+- Trong chương trình "Lớn hơn hay nhỏ hơn", chúng ta đã sử dụng con trỏ bất chấp việc biết nó là gì, trong việc sử dụng function scanf.
+- Thật ra, function này có tác dụng đọc những thông tin mà người dùng nhập vào bàn phím và gửi lại kết quả.
+- Để scanf có thể thay đổi trực tiếp giá trị của một biến số bằng cách nhập từ bàn phím, ta cần địa chỉ của biến số đó:
+
+```C
+int soHang = 0;
+scanf ("%d", &soHang);
+```
+
+- function làm việc với con trỏ của biến số soHang và có thể thay đổi trực tiếp giá trị của soHang.
+- Và như chúng ta biết, chúng ta có thể làm như sau:
+
+```C
+int soHang = 0;
+int *pointer = &soHang;
+scanf ("%d", pointer);
+```
+
+- Chú ý là ta không đặt kí tự & trước pointer trong function scanf Tại đây, pointer bản thân nó đã là địa chỉ của biến số soHang, không cần thiết phải thêm & vào nữa !
+- Nếu bạn làm điều đó, bạn sẽ đưa cho scanf địa chỉ của pointer: nhưng thứ chúng ta cần là địa chỉ của soHang.
