@@ -24,6 +24,10 @@
 
 - [3. Hàm có đối là con trỏ](#ham)
 - [4. Cách sử dụng con trỏ trong một function](#trofunction)
+- [5. Con trỏ kiểu void](#void)
+- [6. Con trỏ và mảng và con trỏ xâu](#array&string)
+- [7. Mảng các con trỏ](#controarry)
+- [8. Con trỏ tới con trỏ](#controtoicontro)
 
 ----
 
@@ -378,3 +382,145 @@ scanf ("%d", pointer);
 
 - Chú ý là ta không đặt kí tự & trước pointer trong function scanf Tại đây, pointer bản thân nó đã là địa chỉ của biến số soHang, không cần thiết phải thêm & vào nữa !
 - Nếu bạn làm điều đó, bạn sẽ đưa cho scanf địa chỉ của pointer: nhưng thứ chúng ta cần là địa chỉ của soHang.
+
+<a name="void"> </a>
+
+###5. Con trỏ kiểu Void:
+
+- Là con trỏ không định kiểu (void *).Nó có thể trỏ tới bất kì một loại biến nào.
+• Thực chất một con trỏ void chỉ chứa một địa chỉ bộ nhớ mà không biết rằng tại địa chỉ đó có đối tượng kiểu dữ liệu gì. => không thể truy cập nội dung của một đối tượng thông qua con trỏ void.
+• Để truy cập được đối tượng thì trước hết phải ép kiểu biến trỏ void thành biến trỏ có định kiểu của kiểu đối tượng
+
+```C
+float x; int y;
+void *p; // khai báo con trỏ void
+p = &x; // p chứa địa chỉ số thực x
+*p = 2.5; // báo lỗi vì p là con trỏ void
+/* cần phải ép kiểu con trỏ void trước khi truy cập đối tượng qua con trỏ */
+*((float*)p) = 2.5; // x = 2.5
+p = &y; // p chứa địa chỉ số nguyên y
+*((int*)p) = 2; // y = 2
+(float) *p=2.5;
+*p= (float *) 2.5;
+*(float)p =2.5;
+(float *) p =2.5;
+(float *) *p=2.5;
+*((float *) p )=2.5;
+```
+
+<a name="array&string"> </a>
+
+###6. Con trỏ và mảng và con trỏ xâu:
+
+**Con trỏ và mảng**
+
+- Giả sử ta có : int a[30]; thì & a[0] là địa chỉ phần tử đầu tiên của mảng đó, đồng thời là địa chỉ của mảng.
+• Trong C, tên của mảng chính là 1 hằng địa chỉ = địa chỉ của phần tử đầu tiên của mảng
+
+– a = &a[0];
+– a+i = &a[i];
+
+• Tuy vậy cần chú ý rằng a là 1 hằng => không thể dùng nó trong câu lệnh gán hay toán tử tăng, giảm như a++;
+• Xét con trỏ: int *pa;
+pa = & a[0];
+=> pa trỏ vào phần tử thứ nhất của mảng và :
+
+• pa +1 sẽ trỏ vào phần tử thứ 2 của mảng
+• *(pa+i) sẽ là nội dung của a[i]
+
+**Con trỏ xâu:**
+
+• Ta có : char tinhthanh[30] =“Da Lat”;
+• Tương đương :
+
+```C
+char *tinhthanh;
+tinhthanh=“Da lat”;
+```
+
+• Hoặc : char *tinhthanh =“Da lat”;
+• Ngoài ra các thao tác trên xâu cũng tương tự như trên mảng
+*(tinhthanh+3) = “l”
+• Chú ý : với xâu thường thì không thể gán trực như dòng thứ 3.
+
+
+<a name="controarry"></a>
+
+###7. Mảng các con trỏ 
+
+**Chú ý:** cần phân biệt mảng con trỏ và mảng nhiều chiều. Mảng nhiều chiều là mảng thực sự được khai báo và có đủ vùng nhớ dành sẵn cho các phần tử. Mảng con trỏ chỉ dành không gian nhớ cho các biến trỏ (chứa địa chỉ). Khi khởi tạo hay gán giá trị: cần thêm bộ nhớ cho các phần tử sử dụng => tốn nhiều hơn
+
+• Một ưu điểm khác của mảng trỏ là ta có thể hoán chuyển các đối tượng (mảng con, cấu trúc..) được trỏ bởi con trỏ này bằng cách hoán chuyển các con trỏ
+• Ưu điểm tiếp theo là việc truyền tham số trong hàm
+• Ví dụ: Vào danh sách lớp theo họ và tên, sau đó sắp xếp để in ra theo thứ tự ABC.
+
+```C
+#include <stdio.h>
+#include <string.h>
+#define MAXHS 50
+#define MAXLEN 30
+int main () {
+int i, j, count = 0; char ds[MAXHS][MAXLEN];
+char *ptr[MAXHS], *tmp;
+while ( count < MAXHS) {
+printf(“ Vao hoc sinh thu : %d “,count+1);
+gets(ds[count]);
+if (strlen(ds[count] == 0) break;
+ptr[count] = ds +count;
+++count;
+}
+for ( i=0;i<count-1;i++)
+for ( j =i+1;j < count; j++)
+if (strcmp(ptr[i],ptr[j])>0) {
+tmp=ptr[i]; ptr[i] = ptr[j]; ptr[j] = tmp;
+}
+for (i=0;i<count; i++)
+printf(“\n %d : %s”, i+1,ptr[i]);
+}
+```
+
+<a name="controtoicontro"> </a>
+
+###8. Con trỏ tới con trỏ:
+
+- Bản thân con trỏ cũng là 1 biến, vì vậy nó cũng có địa chỉ và có thể dùng 1 con trỏ khác để trỏ tới địa chỉ đó.
+
+`<Kiểu DL> **<Tên biến trỏ>;`
+
+• Ví dụ : 
+
+```C
+int x = 12;
+int *p1 = &x;
+int **p2 = &p1;
+```
+
+• Có thể mô tả 1 mảng 2 chiều qua con trỏ của con trỏ theo công thức :
+
+`M[i][k] = *(*(M+i)+k)`
+
+• Với
+– M+i là địa chỉ của phần tử thứ i của mảng
+– *(M+i) cho nội dung phần tử trên
+– *(M+i)+k là địa chỉ phần tử [i][k]
+
+• Ví dụ : in ra 1 ma trận vuông và công mỗi phần tử của ma trận với 10
+
+```C
+#include <stdio.h>
+#define hang 3
+#define cot 3
+int main() {
+int mt[hang][cot] = {{7,8,9},{10,13,15},{2,7,8}};
+int i,j;
+for (i=o;i<hang;i++) {
+for (j=0;j<cot;j++) printf(“ %d ”,mt[i][j]);
+printf(“\n”);
+}
+for (i=0; i<hang;i++) {
+for (j=0;j<cot;j++) {
+*(*(mt+i)+j)=*(*(mt+i)+j) +10;
+printf(“ %d “, *(*(mt+i)+j); }
+printf(“\n”); }
+}
+```
