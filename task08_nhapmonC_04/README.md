@@ -415,22 +415,27 @@ p = &y; // p chứa địa chỉ số nguyên y
 **Con trỏ và mảng**
 
 - Giả sử ta có : int a[30]; thì & a[0] là địa chỉ phần tử đầu tiên của mảng đó, đồng thời là địa chỉ của mảng.
+
 • Trong C, tên của mảng chính là 1 hằng địa chỉ = địa chỉ của phần tử đầu tiên của mảng
 
 – a = &a[0];
+
 – a+i = &a[i];
 
 • Tuy vậy cần chú ý rằng a là 1 hằng => không thể dùng nó trong câu lệnh gán hay toán tử tăng, giảm như a++;
+
 • Xét con trỏ: int *pa;
 pa = & a[0];
 => pa trỏ vào phần tử thứ nhất của mảng và :
 
 • pa +1 sẽ trỏ vào phần tử thứ 2 của mảng
+
 • *(pa+i) sẽ là nội dung của a[i]
 
 **Con trỏ xâu:**
 
 • Ta có : char tinhthanh[30] =“Da Lat”;
+
 • Tương đương :
 
 ```C
