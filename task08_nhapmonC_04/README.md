@@ -41,12 +41,12 @@ Hôm nay 1 người (1 con trỏ) xin cấp phát (malloc, new) 1 vùng đất, 
 	
 	- Có thể trên mảnh đất này đang trống rỗng (toàn null) nhưng cũng có thể trên đó đầy cỏ rác,hoa màu hoặc nhà cửa do người trước đó sử dụng vẫn còn . (điều này đối với anh ta mà nói nó hoàn toàn là ngẫu nhiên, ko ai có thể khẳng định được cả)
 
-**>>>>> khi ta xin cấp phát xong thì vùng nhớ đó hoàn toàn có giá trị ngẫu nhiên**
+**=> khi ta xin cấp phát xong thì vùng nhớ đó hoàn toàn có giá trị ngẫu nhiên**
 
 
 + Nếu như khi anh ta xin cấp phát mà có đút lót để ra thêm điều kiện hoặc trước đó anh ta có thuê thêm 1 người quét dọn xây sửa thì anh sẽ có được 1 mảnh đất có sẵn cái anh ta muốn
 
-**>>>> khi ta cấp phát đi cùng với ép buộc sẽ được vùng nhớ có giá trị như ta mong muốn**
+**=> khi ta cấp phát đi cùng với ép buộc sẽ được vùng nhớ có giá trị như ta mong muốn**
 
 ví dụ 
 
@@ -58,7 +58,7 @@ static int x[1000];
 static int y[10]={1,2,3,4,5,6};
 ```
 
-**<<<<<<<< toàn bộ điều này là đáp án tại sao khi cấp phát bộ nhớ lại có giá trị ngẫu nhiên**
+**Toàn bộ điều này là đáp án tại sao khi cấp phát bộ nhớ lại có giá trị ngẫu nhiên**
 
 **3. Giải phóng bộ nhớ như thế nào**
 
@@ -92,7 +92,7 @@ delete []a;
 
 - 2 câu lệnh này ko có làm thay đổi giá trị của a và ba và b vẫn trỏ vào mảnh đất đấy. ok ? Và càng ko can thiệp vào vùng nhớ mà a ,b trỏ đến, cái duy nhất mà nó làm là xác nhận vùng nhớ đó đã được trả lại, đang rảnh rỗi, có thể cho thuê tiếp.
 
-*<<< điều này giải thích cho cách hiểu sai lầm của 1 số bạn mới học đối với việc cấp phát và giải phóng*
+*=> điều này giải thích cho cách hiểu sai lầm của 1 số bạn mới học đối với việc cấp phát và giải phóng*
 
 **4. Memory leak**
 
