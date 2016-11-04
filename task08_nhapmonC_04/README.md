@@ -21,7 +21,11 @@
 	- [7.1 Hằng con trỏ](#hangcontro)
 	- [7.2 Mảng](#array)
 	- [7.3 Con trỏ hằng](#pointconst)
+	- [7.4 Xâu ký tự](#xaukytu)
+	- [7.5 Cấp phát động](#capphatdong)
+	- [7.6 Mảng 2 chiều](#mang2chieu)
 
+- [8. Com trỏ với hàm, con trỏ hàm](#hamcontro)
 ----
 
 <a name ="khaiquatbonho"> </a>
@@ -334,23 +338,23 @@ scanf("%d",&a)// toán tử & 1 ngôi, là toán tử lấy địa chỉ của 1
 
 ####d. Một số trường hợp 
 
-- **1. Hiểu lầm về cách cho p trỏ vào a**
+- *1. Hiểu lầm về cách cho p trỏ vào a*
 
 <img src="http://i.imgur.com/InZnny1.jpg">
 
-- **2. Cùng trỏ vào 1 biến**
+- *2. Cùng trỏ vào 1 biến*
 
 <img src="http://i.imgur.com/H2hCR05.jpg">
 
-- **3. Con trỏ đa cấp**
+- *3. Con trỏ đa cấp*
 
 <img src="http://i.imgur.com/7AdI301.jpg">
 
-- **4. Con trỏ đến ô nhớ đã biết**
+- *4. Con trỏ đến ô nhớ đã biết*
 
 <img src="http://i.imgur.com/D10jRbW.jpg">
 
-- **5. Con trỏ kiểu void**
+- *5. Con trỏ kiểu void*
 
 - Con trỏ void là 1 con trỏ đặc biệt, thích trỏ đi đâu thì trỏ
 
@@ -782,5 +786,608 @@ void main()
 
     ham(a,n); // khi sử dụng hàm này tôi hiểu là, à, nó ko thay đổi mảng a của tôi đâu
     //yên tâm xài, nếu có lỗi gì đó thì ko phải sinh ra từ đây
+}
+```
+
+<a name="xaukytu"> </a>
+
+####IV. Thế còn xâu kí tự thì sao ?
+
+- Xâu kí tự là trường hợp đặc biệt của mảng 1 chiều khi mà cách thành phần của mảng là 1byte
+- Xâu kí tự kết thúc bằng NULL. NULL là 1 kí tự đặc biệt có mã là 0, 
+- Có 3 cách viết NULL trong C như sau : NULL , '\0' , 0
+
+*A. Sai lầm thường gặp khi làm việc với xâu kí tự*
+
+- Đối với xâu kí tự thì các bạn phải nhớ được những trường hợp sau 
+
+- 1. Chưa có bộ nhớ đã sử dụng như đúng rồi => Sai
+
+```C
+    char *xau;
+    gets(xau); // vẫn biên dịch được
+    //nhưng khi chạy sẽ sinh ra lỗi run-time
+    // ở 1 số trình biên dịch cùi bắp ngày xưa thì có thể ko bị lỗi đâu
+    //  nhưng sai thì vẫn là sai, code này sai thuộc loại chưa cấp phát
+```
+
+- 2. Thay đổi giá trị của một hằng => Sai
+
+```C
+    char *xau="langman-congdongcviet";
+    xau[6]='A';// vẫn biên dịch được
+    //nhưng khi chạy sẽ sinh ra lỗi run-time
+    // lỗi này là lỗi cố tình thay đổi giá trị của 1 hằng
+```
+
+- Nguyên nhân sâu xa của vấn đề như sau : 
+- Khi khai báo char *xau="langman-congdongcviet"; thì bản chất là 
+	
+	- Trong vùng nhớ data của chương trình sẽ có 1 hằng chuỗi "langman-congdongcviet" . <<<< là hằng chuỗi, đã là hằng thì ko thể bị thay đổi
+	- Cho con trỏ xau trỏ đến đầu của vùng nhớ đó. 
+	- Câu lệnh tiếp theo xau[6]='A'; cố tình thay đổi giá trị của hằng , rõ ràng là sinh ra lỗi rồi
+
+- 3. Cố tình thay đổi giá trị của hằng con trỏ => sai 
+
+```C
+    char xau[100];
+    xau="bùi tấn quang"; // không biên dịch được
+    // vì phép toán trên có nghĩa là khai báo 1 chuỗi "bùi tấn quang" trong vùng nhớ code
+    //   rồi sau đó cho hằng con trỏ xâu trỏ vào đó
+    //  rất tiếc xau là hằng con trỏ nên ko thể trỏ đi đâu khác được 
+   // ngoài vị trí đã được khởi tạo trong câu lệnh khai báo
+```
+
+- Chú ý char xau[100]="bùi tấn quang"; hoặc char xau[100]={0}; thì hoàn toàn hợp lệ
+
+4. Dùng phép toán so sánh để so sánh nội dung 2 xâu => Sai 
+
+```C
+void main()
+{
+    char xau[100]="quangxeng";
+    if (xau=="quangxeng") ... // code này ko sai về ngữ pháp, ko sinh ra lỗi runtime
+    //nhưng mang lại kết quả ko như người dùng mong muốn
+       // vì theo mục b. ở trên ta có
+    //Phép so sánh ngang bằng dùng để kiểm tra 2 con trỏ có trỏ vào cùng 1 vùng nhớ hay không,
+//hoặc kiểm tra 1 con trỏ có phải là đang trỏ vào NULL hay không
+//(trong trường hợp cấp phát động, mở file, mở resource,........)
+      // chứ ko phải là phép so sánh nội dung của xâu
+//để so sáng nội dung của xâu ta phải dùng những hàm strcmp (string compare) hoặc stricmp
+// hoặc những hàm bạn tự định nghĩa
+}
+```
+- *Phụ lục*
+
+<img src="http://i.imgur.com/6zleq3f.jpg">
+
+- 1 Style duyệt xâu mới:
+
+- Nhập vào dạng "họ đệm tên", viết ra màn hình "Tên Đệm Họ":
+
+```C
+#include <stdio.h>
+#include <conio.h>
+
+void main()
+{
+    char xau[100],*p=xau,*q,*i;
+    printf("Nhap : "),scanf("%[a-z ]",xau); // nhap vao "ho dem ten"
+    
+    while(*p!=' ') p++;
+    q=xau+strlen(xau)-1;
+    while(*q!=' ') q--;
+    
+    //viet hoa
+    *xau=toupper(*xau);
+    p[1]=toupper(1[p]);
+    q[1]=toupper(1[q]);
+
+    //viet
+    printf("Xuat :%s",q); //ten
+    for(i=p;i<=q;i++) printf("%c",*i); // dem
+    for(i=xau;i<p;i++) printf("%c",*i); // ho
+    
+    getch();
+}
+```
+
+<a name="capphatdong"> </a>
+
+####V. Thế còn cái từ cấp phát động thì sao?
+
+- *1. cấp phát động như thế nào*
+- **a. C**
+
+- `contro = (ép kiểu) malloc(...)`
+
+- Trong C chúng ta cấp phát động chủ yếu sử dụng các hàm trong alloc.h
+- các bạn có thể tham khảo các hàm [ở đây](http://forums.congdongcviet.com/showpost.php?p=30657)
+
+- Chú ý là : 
+
+	- malloc trả về 1 địa chỉ đến 1 vùng nhớ và coi vùng nhớ này là void *, nên trong câu lệnh malloc luôn đi kèm với việc ép kiểu
+	- Cấp phát là luôn phải đi kèm với giải phóng, ở đâu cũng thế, malloc là phải free, ok ? Code mà để thoát chương trình rồi chưa giải phóng cho dù là có hệ thống có tự giải phóng đi nữa vẫn bị coi là bad!!!!
+	- Trong java chỉ cần cho reference = null là nó giải phóng nhưng trong C thì bắt buộc phải có thao tác giải phóng free()
+
+- **b. C++**
+
+- Trong C++ chúng ta dùng new và delete để cấp phát động 
+- `new` và `delete` về cú pháp tham khảo trong sách
+
+*Sự khác nhau giữa malloc và new?*
+
+- new và malloc khác nhau cực cực kì nhiều đó các pạn à
+- Sơ bộ như sau, chưa phân tích kĩ
+	
+	- malloc là hàm, cấp phát trả về kiểu void *, malloc thì ko gọi hàm tạo
+	- free ko gọi hàm hủy
+	- malloc trả về NULL nếu thất bại
+
+- new là toán tử, new gọi hàm tạo, new có thể được đa năng hóa (nạp chồng), new ném ra exception nếu thất bại. Toán tử new và toán tử new[] ko có khả năng realloc
+
+<a name="mang2chieu"> </a>
+
+####VI. Mảng 2 chiều, bản chất như thế nào, khác gì mảng một chiều ? 
+
+<img src="http://i.imgur.com/ysBCUXm.jpg">
+
+<img src="http://i.imgur.com/hNdLbaj.jpg">
+
+<img src="http://i.imgur.com/4O3KDA6.jpg">
+
+<a name="hamcontro">
+
+###8.Con trỏ với hàm, con trỏ hàm
+
+*I. Hàm cũng có địa chỉ:*
+
+- Khi 1 chương trình(1 pe file) chạy (tiến trình) thì các hàm nằm bên chương trình đó được được load lên không gian nhớ ảo, VA space, chúng nằm trong vùng nhớ code.
+- Các bạn có thể tham khảo hình dưới đây , hình ảnh khi debug 1 ứng dụng với ollydbg và debug 1 ứng dụng bằng IDE VS2010 :
+
+<img src="http://i.imgur.com/oKD7N2c.jpg">
+
+<img src="http://i.imgur.com/24LrlIf.jpg">
+
+*II. Con trỏ hàm*
+
+- Con trỏ hàm là 1 điều thú vị trong C/C++. bản chất của con trỏ hàm cũng là 1 con trỏ có định kiểu.
+- ta có thể sử dụng con trỏ hàm để gọi hàm (invoke ) khi đã biết địa chỉ của hàm
+
+**a. gọi nội ứng dụng**
+
+- demo 1 ví dụ
+
+```C
+#include <stdio.h>
+#include <conio.h>
+int min(int a,int b)
+{
+    if (a>b) return a;
+    return b;
+}
+void main()
+{
+    int (*p)(int,int);
+    p=min;
+    printf("min cua 4 va 5 la %d",p(4,5));
+    getch();
+}
+```
+
+- Chú ý : khi khai báo ta phải dùng toán tử () với ý nghĩa là * này thuộc về p, là 1 con trỏ hàm. int (*p)(int,int);
+
+**b. gọi từ ứng dụng khác (bản chất thì vẫn là nội nhưng ở 1 hình thái khác, remote + nội)**
+
+- Bạn có thể ý thấy auto game võ lâm ko ? Làm sao khi ta ấn Ctrl+Z nó sẽ mở hòm đồ ra ?
+- Nguyên tắc của nó như sau : nó sử dụng kĩ thuật cài hook để cài 1 thread vào trong game võ lâm.
+- Thread này khi người dùng ấn nút Ctrl+Z nó sẽ gọi hàm mở hòm đồ có sẵn trong game võ lâm.
+
+- Giả sử a có hàm dạng void hamMoHomDo(int a); tại địa chỉ 0x873AB chẳng hạn thì a sẽ làm thế này
+
+```C
+void (*p)(int);
+p=(void (*)(int)) 0x873AB;
+p(3); //gọi hàm với tham số là 3
+```
+
+*III. Hằng con trỏ hàm*
+
+- Khái niệm hằng con trỏ hàm cũng gần gần giống như khái niệm hằng con trỏ với mảng 1 chiều, khi bạn khai báo 1 hàm, thì tên của hàm chính là 1 hằng con trỏ hàm, con trỏ này trỏ cố đình vào vùng nhớ của hàm. Vâng, đó là lý do vì sao ở code bên trên, tôi có thể có những dòng lệnh này
+
+```C
+    (int)p==int(main);
+    p==(int*)main;
+    (int(*)())p==main;
+    p==(void*)main;
+```  
+
+- Chúng ta thấy đó, chúng ta khai báo ra 1 hàm main. vậy rõ ràng ta có 1 hằng con trỏ main, là 1 hằng thì ta hoàn toàn có thể sử dụng để so sánh rồi
+
+*IV. Ứng dụng của con trỏ hàm*
+
+- Con trỏ hàm được ứng dụng trong nhiều trường hợp khác nhau khá rộng rãi. Sau đây mình xin tiến cử vài ví dụ điển hình
+	
+	- Trường hợp đơn giản tất cả chúng ta đều sử dụng ko ít lần rồi, nhưng vẫn ko hiểu ko biết là mình dùng, đó là cout<<endl;
+
+- *endl, hex, oct được định nghĩa như nào ?*
+- endl nó được định nghĩa như này ?
+
+```C
+ostream& endl ( ostream& os )
+{
+       os.push('\n');
+       return os;
+}
+```
+
+- Vậy thì câu lệnh cout<<endl;
+- Không hiểu thằng endl được truyền tham số vào như nào?
+- Câu hỏi khá hay và khá ảo, bạn ơi vấn đề là thằng toán tử << có 1 hàm overload như này
+- Tôi demo lại cho dễ hiểu nha
+
+```C
+friend ostream& operator<<(ostream &os, ostream& (*p)(ostream&) )
+{
+       return p(os);
+}
+```
+
+- Sử dụng trong các hàm mẫu, lớp mẫu , có tính tùy chọn cao
+
+- Bạn đã bao giờ nghe nói về hàm qsort trong namespace std chưa, tại sao khi sử dụng nó ta lại phải truyền vào 1 tên hàm , hay nói chính xác là 1 hằng con trỏ hàm?
+- Mình xin demo 1 cái đơn giản
+
+```C
+#include <iostream>
+using namespace std;
+ 
+#include <stdio.h>
+#include <conio.h>
+void xapxep(void *a,int sizeOfElement,int n,int (*hamsosanh)(void*,void*))
+{
+    int i,j;
+    void *temp=new char[sizeOfElement];
+    for(i=0;i<n-1;i++)
+        for(j=i+1;j<n;j++)
+            if (hamsosanh((char*)a+i*sizeOfElement,(char*)a+j*sizeOfElement)>0)
+            {
+                memcpy(temp,(char*)a+i*sizeOfElement,sizeOfElement);
+                memcpy((char*)a+i*sizeOfElement,(char*)a+j*sizeOfElement,sizeOfElement);
+                memcpy((char*)a+j*sizeOfElement,temp,sizeOfElement);
+            }
+    delete[] temp;
+}
+ 
+ 
+ 
+int hamsosanhungdung1(void *a,void *b)
+{
+    return (*(double*)a)>(*(double*)b);
+}
+ 
+int hamsosanhungdung2(int *a,int *b)
+{
+    return (*a)>(*b);
+}
+void main()
+{
+    double a[100]={1.,2.,3.,4.,6.,5.};
+    int n=6;
+   
+    xapxep(a,sizeof(double),n,hamsosanhungdung1);
+ 
+    for(int i=0;i<n;i++)
+        cout<<a[i]<<" ";
+ 
+    cout<<endl;
+    int b[100]={1,2,6,3,5,4};
+    int m=6;
+    xapxep(b,sizeof(int),m,(int(*)(void*,void*))hamsosanhungdung2);
+ 
+        for(int i=0;i<n;i++)
+        cout<<b[i]<<" ";
+ 
+    getch();
+}
+```
+
+*V. Con trỏ với hàm (quan trọng)*
+
+**1. Overview lại về hàm trong C**
+
+<img src="http://i.imgur.com/OGO7Rsr.jpg">
+
+**2. Sai lầm trong suy nghĩ**
+
+- Có nhiều thật nhiều người nói rằng trong C, ta có thể sử dụng con trỏ trong tham số của hàm như là 1 tham biến, qua hàm ta có thể thay đổi được giá trị của tham số.
+- Tôi xin khẳng định lại, điều này thật là 1 hiểu lầm, sai lầm trong suy nghĩ, 1 sự hiểu biết nông cạn, 1 câu phát biểu kiểu ù ù cạc cạc!!!
+
+- Nguyên nhân
+	
+	- Hàm trong C ko hề có tham biến, hàm trong C đều hoạt động theo nguyên tắc sau :
+
+- Khi gọi hàm, 1 bản sao của tham số được tạo ra (cấp phát vùng nhớ mới, copy giá trị sang. quá trình này theo giáo trình của đại học FPT gọi là shadow copy, là 1 yếu tố cần quan tầm, 1 C/C++ Developer đừng bao giờ quên điều này), và hàm sẽ làm việc với bản sao này (trong C++ nó sẽ dùng hàm tạo sao chép để tiến hành quá trình shadow copy này).
+
+- Vậy khi làm việc với con trỏ thì hàm làm thế nào?
+
+	- Vâng, hàm vẫn cứ làm theo nguyên tắc 1 và 1 bản sao của con trỏ được tạo ra, và hàm làm việc với bản sao hàm, và trước khi gọi hàm con trỏ trỏ vào đâu thì nó vẫn được trỏ vào đấy chứng minh :
+
+```C
+#include <stdio.h>
+#include <conio.h>
+ 
+int ham(int *a)
+{
+    *a=2;
+    a++;
+}
+void main()
+{
+    int *a;
+    printf("Truoc : %x",a); //trước và sau khi gọi hàm
+    ham(a);                    //con trỏ a trỏ vào đâu
+    printf("Sau %x",a);     // thì nó vẫn trỏ vào đó
+    getch();
+}
+```
+
+- Vậy tại sao lại có sự thay đổi và tại sao lại sử dụng con trỏ trong hàm? Con trỏ ko thay đổi thì cái gì thay đổi được ?
+	
+	- Vâng, các bạn chú ý nhé, giá trị nằm trong vùng nhớ trỏ đến thay đổi. Vâng đúng thế đấy bạn à, do biến của ta nằm trong vùng nhớ được trỏ đến nên nó được thay đổi
+
+```C
+#include <stdio.h>
+#include <conio.h>
+ 
+int ham(int *a)
+{
+    *a=2; // làm việc với địa chỉ nhận được
+}
+void main()
+{
+    int n;
+    ham(&n);// truyền địa chỉ của n vào đây
+    // do đó sau hàm này n =2
+    getch();
+}
+```
+
+**3. Sai lầm trong hành động**
+
+- Một trong những sai lầm cơ bản nhưng lại hay gặp đó là ví dụ sau. 
+- Sai lầm vì trong hàm chúng ta cấp phát bộ nhớ rồi cho bản sao đang làm việc trỏ đến. ra khỏi hàm rồi thì x của ta vẫn chưa có trỏ vào bộ nhớ nào cả
+
+```C
+#include <stdio.h>
+#include <conio.h>
+ 
+void nhap(int *a,int n)
+{
+    //a=new int[n]; //sai lầm
+    a=(int*)malloc(n * sizeof(int)); //sai lầm
+    for(int i=0;i<n;i++)
+        cin>>a[i];
+}
+void main()
+{
+    int *x;
+    int n=6;
+    nhap(x,n);
+    //xuat
+    delete[] x; // sản sinh ra lỗi run-time , tung là 1 exception, do x chưa trỏ vào đâu mà đòi giải phóng
+}
+```
+
+*VI. Vậy tôi phải làm thế nào để mà thay đổi giá trị của 1 con trỏ qua 1 hàm*
+
+- Vâng, hôm nay có người bạn hỏi mình như vậy, hì hì, lại nhớ ra bài này mình chưa trả lời, vậy nên tôi đề xuất ra đây 2 cách để có thể thay đổi giá trị của 1 con trỏ qua 1 hàm 
+- Cách 1 : dùng tham chiếu trong C++
+
+```C
+void ham(int *&a)
+{
+    a=new int[100];
+}
+void ham(int **&a)
+{
+    a=new int*[100];
+}
+```
+
+- Xin chú ý là * đứng trước &
+
+- Cách 2: up level của * dùng con trỏ cấp cao hơn con trỏ hiện tại
+- Cách 2 này mình chỉ demo thôi, bạn cần phải đọc chi tiếp ở chap con trỏ đa cấp
+
+```C
+#include <stdio.h>
+#include <conio.h>
+ 
+void ham(int **a)
+{
+    *a=(int*)malloc(100*sizeof(int));
+    //a[0]=(int*)malloc(100*sizeof(int));
+    // 2 cach nay nhu nay
+}
+ 
+void main()
+{
+    int *a;
+    ham(&a);
+ 
+    free(a);
+}
+```
+
+*VII. Nâng cao về con trỏ hàm,mảng con trỏ hàm và kĩ năng phân tích vấn đề*
+- Mời các bạn đọc 3 bài viết sau
+- Giải thích ý nghĩa của dòng lệnh khai báo int(*) : http://forums.congdongcviet.com/showthread.php?t=49779
+- Kĩ năng phân tích vấn đề : http://forums.congdongcviet.com/showthread.php?p=117404
+- So sánh (*ptr)[10] và *ptr[10] trong C! : http://forums.congdongcviet.com/showthread.php?t=34085
+
+####9. Con trỏ đa cấp
+
+*I. Con trỏ đa cấp là gì ?*
+
+- Mình cũng ko rõ định nghĩa của nó , nhưng ta có thể tạm hiểu đó là những con trỏ có dạng 2 hoặc nhiều `*`
+
+ví dụ:
+
+```C
+int **a; // cấp 2
+char ***b; //cấp 3
+int *******************a; //cấp ??
+```
+
+- Phép toán trên con trỏ cấp n (n>1 và con trỏ cấp 2 thuần túy như trong ví dụ vừa khai báo trên) tương tự như với con trỏ cấp 1 tương ứng
+
+```C
+#include <stdio.h>
+#include <conio.h>
+ 
+ 
+void main()
+{
+    int **a=NULL;
+    printf("%x\n",a); //0x0
+    a++;
+    printf("%x",a);//0x4
+    getch();
+}
+```
+
+*II. Con trỏ đa cấp dùng để làm gì ?*
+
+- Con trỏ đa cấp dùng để làm gì và tại sao tôi lại phải quan tâm?
+	
+	- Con trỏ đa cấp thường được dùng trong trường hợp cần thay đổi giá trị của 1 con trỏ cấp thấp hơn khi ra khỏi hàm.
+	- Tthật ra thường thì rất ít khi mình và bạn cần đá xoáy vào vấn về này. Tại vì theo như các framework, và như 1 OS core linux mình đã từng làm việc, người ta thường hay dùng con trỏ void với sự linh hoạt rất cao
+	- Con trỏ cấp 2 còn được dùng như là "con trỏ" trỏ tới một "con trỏ", có thể dùng để xử lý 1 matrix 2 chiều 
+	- Con trỏ cấp 3 còn được dùng như là con trỏ trỏ tới một "con trỏ", mà con trỏ này đang trỏ tiếp tới 1 con trỏ khác có thể dùng như matrix 3 chiều
+	- ...v.v
+
+*III. Vài ví dụ hay gặp*
+
+- Trường hợp 1 hay gặp : Xử lý con trỏ mảng các chuỗi:
+
+```C
+#include <stdio.h>
+#include <conio.h>
+#include <malloc.h>
+void main(void)
+{
+    char**  lines;
+    int     numberline=10;
+    int     linelen=200;
+   
+    //cấp phát
+    //malloc **
+    lines=(char**)calloc(1,sizeof(char*)*numberline);
+ 
+    for (int i=0;i<numberline;i++)
+    {
+        //malloc *
+        lines[i]=(char*)calloc(1,linelen);
+ 
+ 
+        //gán giá trị để demo thôi
+        lines[i][0]='A'+i;
+    }
+ 
+    //xem giá trị gán mẫu
+    for (int i=0;i<numberline;i++)
+    {
+        printf("%s\n",lines[i]);
+    }
+ 
+    //giải phóng
+    //free *
+    for (int i=0;i<numberline;i++) free(lines[i]);
+    //free **
+    free(lines);
+ 
+    getch();
+}
+```
+
+- Trường hợp 2 hay gặp : Xử lý con trỏ mảng các chuỗi cấp phát bằng hàm
+
+```C
+#include <stdio.h>
+#include <conio.h>
+#include <malloc.h>
+void HamCapPhat(char*** lines,int numberline,int linesize)
+{
+    //malloc **
+    (*lines)=(char**)calloc(1,sizeof(char*)*numberline);
+   
+    for (int i=0;i<numberline;i++)
+    {
+        //malloc *
+        (*lines)[i]=(char*)calloc(1,linesize);
+ 
+ 
+        //gán giá trị để demo thôi
+        (*lines)[i][0]='A'+i;
+    }
+}
+void HamGiaiPhong(char** lines,int numberline)
+{
+    //free *
+    for (int i=0;i<numberline;i++) free(lines[i]);
+    //free **
+    free(lines);
+}
+void main(void)
+{
+    char**  lines;
+    int     numberline=10;
+    int     linelen=200;
+    //cấp phát bằng hàm
+    HamCapPhat(&lines,numberline,linelen);
+ 
+    //xem giá trị gán bằng hàm
+    for (int i=0;i<numberline;i++)
+    {
+        printf("%s\n",lines[i]);
+    }
+ 
+    //giải phóng bằng hàm
+    HamGiaiPhong(lines,numberline);
+ 
+    getch();
+}
+```
+
+- Trường hợp 3 hay gặp : Xử lý con trỏ int ** (float **, double **, ????? ** tương tự nhé)
+
+```C
+#include <stdio.h>
+#include <conio.h>
+#include <malloc.h>
+void main(void)
+{
+    int**   array;
+    int     sodong=10;
+    int     socot=200;
+   
+    //cấp phát bằng hàm
+    //malloc **
+    array=(int**)calloc(1,sizeof(int*)*sodong);
+ 
+    for (int i=0;i<sodong;i++)
+    {
+        //malloc *
+        array[i]=(int*)calloc(1,socot);
+    }
+ 
+    //giải phóng
+    //free *
+    for (int i=0;i<sodong;i++) free(array[i]);
+    //free **
+    free(array);
+ 
+    getch();
 }
 ```
