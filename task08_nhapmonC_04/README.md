@@ -24,8 +24,9 @@
 	- [7.4 Xâu ký tự](#xaukytu)
 	- [7.5 Cấp phát động](#capphatdong)
 	- [7.6 Mảng 2 chiều](#mang2chieu)
+	
+- [8. Con trỏ với hàm, con trỏ hàm](#hamcontro)
 
-- [8. Com trỏ với hàm, con trỏ hàm](#hamcontro)
 ----
 
 <a name ="khaiquatbonho"> </a>
