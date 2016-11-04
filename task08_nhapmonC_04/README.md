@@ -697,7 +697,7 @@ void HamCuaToi(void)
 
 **Biết điều này để làm gì ?**
 
-- 1. Nhập mảng
+- *1. Nhập mảng*
 
 ```C
 #include <stdio.h>
@@ -726,7 +726,7 @@ void main()
 }
 ```
 
-2. Bài toán vui
+- *2. Bài toán vui*
 
 ```C
 #include <stdio.h>
@@ -802,7 +802,7 @@ void main()
 
 - Đối với xâu kí tự thì các bạn phải nhớ được những trường hợp sau 
 
-- 1. Chưa có bộ nhớ đã sử dụng như đúng rồi => Sai
+- *1. Chưa có bộ nhớ đã sử dụng như đúng rồi => Sai*
 
 ```C
     char *xau;
@@ -812,7 +812,7 @@ void main()
     //  nhưng sai thì vẫn là sai, code này sai thuộc loại chưa cấp phát
 ```
 
-- 2. Thay đổi giá trị của một hằng => Sai
+- *2. Thay đổi giá trị của một hằng => Sai*
 
 ```C
     char *xau="langman-congdongcviet";
@@ -828,7 +828,7 @@ void main()
 	- Cho con trỏ xau trỏ đến đầu của vùng nhớ đó. 
 	- Câu lệnh tiếp theo xau[6]='A'; cố tình thay đổi giá trị của hằng , rõ ràng là sinh ra lỗi rồi
 
-- 3. Cố tình thay đổi giá trị của hằng con trỏ => sai 
+- *3. Cố tình thay đổi giá trị của hằng con trỏ => sai*
 
 ```C
     char xau[100];
@@ -841,7 +841,7 @@ void main()
 
 - Chú ý char xau[100]="bùi tấn quang"; hoặc char xau[100]={0}; thì hoàn toàn hợp lệ
 
-4. Dùng phép toán so sánh để so sánh nội dung 2 xâu => Sai 
+- *4. Dùng phép toán so sánh để so sánh nội dung 2 xâu => Sai*
 
 ```C
 void main()
