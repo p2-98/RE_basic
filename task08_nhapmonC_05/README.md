@@ -209,6 +209,7 @@ struct nhan_cong
 	struct ngay ngay_sinhl
 	struct ngay ngay_vao_co_quan;
 } nguoi_a, nguoi_b;
+```
 
 - Nhận xét 2.3 : Khi vừa định nghĩa kiểu (cấu trúc) vừa khai báo cấu trúc như trong ví dụ 2.3 và 2.4 ta có thể không cần đến tên kiểu cấu trúc. Nói cách khác các cấu trúc có thể được khai báo theo mẫu sau.
 
