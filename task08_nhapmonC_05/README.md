@@ -15,6 +15,15 @@
 
 	- [2.1 Kiểu cấu trúc](#kieucautruc)
 	- [2.2 Khai báo theo một kiểu cấu trúc đã định nghĩa](#khaibaovadinhnghia)
+	- [2.3 Truy nhập đến các thành phần của cấu trúc](#truycap)
+	- [2.4 Thành phần kiểu FIELD (Nhóm BIT)](#field)
+	- [2.5 Mảng cấu trúc](#mangcautruc)
+	- [2.6 Khởi đầu cho một cấu trúc](#initstruct)
+	- [2.7 Phép gán cấu trúc](#phepgancautruc)
+	- [2.8 Con trỏ cấu trúc và địa chỉ cấu trúc](#controcautruc)
+	- [2.9 Hàm trên các cấu trúc](#hamtrencautruc)
+
+- [3. Cấp phát bộ nhớ động](#capphatbonho)
 
 ----
 
@@ -54,10 +63,10 @@
 		- Câu lệnh thứ hai có các chức a và b.
 		- Câu lệnh thứ ba các các chức a và c.
 		- Câu lệnh thứ tư chỉ có chức a.
-
+3
 - Biến kiểu enum: Biến kiểu enum thực chất là biến nguyên, nó được cấp phát 2 byte bộ nhớ và nó có thể nhận một giá trị nguyên bất kỳ. Mục đích chính của enum là tạo ra các macro, các kiểu và biến gợi nhớ. Ví dụ để làm việc với các ngày trong tuần ta có thể dùng kiểu week_day và biến day như sau:
 
-	- `enum week_day {SUNDAY, MONDAY, TUESDAY, WEDSDAY, THURSDAY, FRIDAY, SATURDAY} day;`
+	- `enum week_day {SUNDAY, MONDAY, TUESDAY, WEDSDAY, THURSDAY, FRIDAY, SATURDAY} day;
 
 - Ví dụ: Chương trình sau minh hoạc các lệnh có thể dùng với các kiểu, các macro và các biến tạo bởi enum.
 	
@@ -124,7 +133,7 @@ struct ngay
 		struct ngay ngay_sinh;
 		struct ngay ngay_vao_co quan;
 	};
-  ```
+```
 
 - Thiết kết một kiểu cấu trúc có tên là nhan_cong gồm năm thành phần. Hai thành phần đầu là các mảng ten và dia_chi (kiểu char). Thành phần thứ ba là mọt biến kiểu double (biến bac_luong). Hai thành phần còn lại là các cấu trúc ngay_sinh à ngay_vao_co_quan, cả hai cấu trúc xây dựng theo kiểu cấu trúc ngay định nghĩa trong ví dụ 1.1
 - **Chú ý 1.1:** Có thể dùng toán tử typedef để định nghĩa các kiểu cấu trúc ngay và nhan_cong ở trên như sau:
@@ -164,13 +173,13 @@ typedef struct
 
 - *Ví dụ 2.2* : Khai báo
 
-	- `struct nhan_cong, nguoi_a, nguoi_b;`
+	- `struct nhan_cong, nguoi_a, nguoi_b;
 
 - Sẽ cho ta hai cáu trúc với tên là nguoi_a và nguoi_b. Cả hai đều được xây dựng theo kieu nhan_cong
 
 - Một cách tổng quát, việc khai báo cấu trúc được thực hiện theo mẫu:
 
-- `struct tên_kiểu_cấu_trúc danh_sách_tên_cấu_trúc;`
+- `struct tên_kiểu_cấu_trúc danh_sách_tên_cấu_trúc;
 - Sau đây là một vài điều cần lưu ý:
 
 	- *Nhận xét 2.1:* Các biến cấu trúc được khai báo theo mẫu trên sẽ được cấp phát bộ nhớ một cách đầy đủ cho tất cả các thành phàn của nó.
@@ -239,3 +248,474 @@ struct
 
 - `ngay ngay_di, ngay_den;`
 
+<a name ="truycap"> </a>
+
+###2.3 Truy nhập đến các thành phần của cấu trúc
+
+- Chúng ta đã khá quen biết việc sử dụng các biến, các phần sử tử mảng và tên mảng trong các câu lênh. Ta cũng đã biết các phần cơ của một cấu trúc là biến và mảng, nên một lẽ tự nhiên và cũng là một quy tắc cần ghi nhớ là việc xử lý một cấu trúc bao giờ cũng phải được thực hiện thông qua các thành phần cơ bản của nó. Để truy nhập tới một thành phần cơ bản (biến hoặc mảng) của một cấu trúc ta sử dụng một trong cách viết sau:
+
+- **Mẫu 3.1**
+
+	- `tên_cấu_trúc.tên_thành_phần`
+	- `tên_cấu_trúc.tên_cấu_trúc.tên_thành_phần`
+	- `tên_cấu_trúc.tên cấu trúc.tên_cấu_trúc.tên_thành_phần`
+	- ...
+
+- Các viết thứ nhất của mẫu 3.1 được sử dụng khi biến haowjc mảng là thnahf phần trực tiếp của một cấu trúc. Ví dụ biến ngay_thu, bién nam và mảng ten_thang là các thành phần trực tiếp của cấu trúc ngay_di (xem ví dụ 2.3). Mảng ten, mảng di_chi và biến bac_luong là các thành phần trực tiếp của cấu trúc  nguoi_b (xem ví dụ 2.4). Các cách viết còn lại của mẫu 3.1 được sử dụng khi biến hoặc mảng là thành phần trực tiếp của một cauá tryúc mà bản thân cấu trúc này lại là thành phần của một cấu trúc lớn hơn.
+
+- *Ví dụ 3.1* Ta xét vài phép toán trên các thành phần của cấu trúc nguoi_a và nguoi_b (xem ví dụ 2.4).
+- **Câu lệnh**
+
+	-`printf("%s",nguoi_a.ten);`
+
+- sẽ đưa tên của nguoi_a lên màn hình.
+- Khi thực hiện câu lệnh:
+
+	- s = nguoi_a.bac_luong + nguoi_b.bac_luong;
+
+- Thì biến s sẽ nhận được tổng bậc lương của nguoi_a và nguoi_b;
+- Câu lệnh
+
+	-`printf("%d",nguoi_a.ngay_sinh.nam);`
+
+- sẽ cho lên màn hình năm sinh của nguoi_a.
+- Câu lệnh:
+
+	-`printf("%d",nguoi_b.ngay_vao_co_quan.nam);`
+
+- sẽ cho lên màn hình năm vào cơ qua của nguoi_b.
+- **Chú ý 3.1** Có thể sử dụng phép toán lấy địa chỉ đối với thành phần cấu trúc để nhập số liệu trực tiếp vào thành phần cấu trúc. Ví dụ có thể viết:
+
+	-`scanf("%d",&nguoi_b.ngay_vao_co_quan.nam);`
+
+- Nhưng đối với các thnahf phần không nguyê, việc làm trên có thể dẫn đến treo máy. Ví vậy trước tiên nên nhập số liệu vào một biến trung gian, sau đó mới gán cho thành phần cấu trúc. Cách làm như sau:
+
+```C
+int x;
+scanf("%d",&x);
+nguoi_b.ngay_vao_co_quan.nam = x;
+```
+- **Chú ý 3.2** Để tránh dài dòng khi làm việc với các thành phần cấu trúc ta có thẻ dùng lệnh `#define`. Ví dụ câu lệnh scanf trong chú ý trên có thể viết theo cách sau:
+
+```C
+#define p nguoi_b.ngay_vao_co_quan
+...
+scanf("%d", &p.nam);
+```
+
+<a name="field"> </a>
+
+###2.4 Thành phần kiểu FIELD (Nhóm BIT)
+
+- Các thành phần nguyên (unsigned hoặc signed) với miền giá trị nhỏ (như tuổi biến thiên từ 1 đến 100) có thể khai báo kiểu nhóm bit theo mẫu sau:
+
+```C
+struct date
+{
+	int a:8;
+	int b:6;
+	int c:8;
+	int d:2;
+} x;
+```
+
+- Khi đó sizeof(struct date) = 3 (3 byte). Khi dùng kiểu field cần lưu ý các điểm sau:
+
+- 1. Kiểu của field phải là int (unsigned haowjc signed).
+- 2. Dộ dài của mỗi field không quá 16 bit.
+- 3. Khi muốn bỏ qua một số bit thì ta bỏ trống tên trường.
+- **Ví dụ** Khi viết
+
+```C
+int:8;
+int:x;
+```
+
+- Tức là bỏ qua 8 bit thấp, x chiếm 8 bit cao của một word.
+- 4. Không cho phép lấy địa chỉ thành phần kiểu field.
+- 5. Không thể xây dựng các mảng kiểu field.
+- 6. Không thể trả về từ hàm bằng một thành phần kiểu field.
+
+- Chẳng hạn không cho phép viết:
+	
+	- `return x.d`;
+
+- mà phải dùng thủ thật sau:
+
+	- `int t = x.d;`
+	- `return t;`
+
+- Ứng dụng của nhóm bit: Nhóm bit thường được ứng dụng để:
+
+	- Tiết kiệm bộ nhớ.
+	- Dùng trong union để lấy ra các bit của một từ.
+
+- Ví dụ:
+
+```C
+union{
+	struct{
+		unsigned a1;
+		unsigned a2;
+	} s;
+	struct{
+		unsigned n1:1;
+		unsigned:15;
+		unsigned n2:1;
+		unsigned:7;
+		unsigned n3:8;
+	} f;
+} u;
+```
+- Khi đó:
+
+	- u.f.n1 là bit 0 ủa u.s.a1;
+	- u.f.n2 là bit 0 của u.s.a2;
+	- u.f.n3 là byte cao của u.s.a2;
+
+<a name="mangcautruc"> </a>
+
+###2.5 Mảng cấu trúc:
+
+- Khi sử dụng một kiểu giá trị (kiểu int chẳng hạn) ta có thể khai báo các biến và các mảng kiểu int. Ví dụ khai báo:
+- `int a,b,c[10];` cho ta hai biến nguyên a, b và mảng nguyên c.
+- Hoàn toàn tương tự như vậy: Có thể sử dụng một kiểu cấu trúc đã mô tả để khai báo các cấu trúc và các mảng cấu trúc.
+
+- **Ví dụ 5.1** : Giả sử kiểu cấu trúc nhan_cong đã định nghĩa trong 2.2, khi đó khai báo
+- `struct nha_cong nguoi_a, nguoi_b, to_1[10], to_2[20];
+- Sẽ cho:
+
+	- Hai biến mảng cấu trúc nguoi_a và nguoi_b;
+	- Hai mảng cấu trúc to_1 và to_2;
+
+- Mảng to_1 có 10 phần tử và mảng to_2 có 20 phần tử. Mỗi phần tử của chúng là một cấu trúc kiểu nhan_cong.
+- **Ví dụ 5.2** : Đoạn chương trình sau sẽ tính tổng lương của 10 nguoi ở to_1.
+
+```C
+double s=0;
+for (i=0; i<10;++i)
+	s+= to_1[i].bac_luong;
+```
+
+- **Ghi chú** : Không cho phép sử dụng phép toán lấy địa chỉ đối với các thành phần của mảng cấu trúc. Chảng hạn không cho phép viết:
+- `&to_1[i].bac_luong` (nếu kiểu của bac_luong là nguyen thì được);
+
+<a name="initstruct"> </a>
+
+###2.6 Khởi đầu cho một cấu trúc
+
+-  Có thể khởi đầu cho cấu trúc ngoài, cấu trúc tĩnh, mảng cấu trúc ngoài và mảng cấu trúc tĩnh bằng cách viết vào sau khai báo của chúng một danh sách các giá trị cho các thành phần.
+
+- **Ví dụ 6.1** Đoạn chương trình
+
+```C
+struct date{
+	int day; int month;
+	int year;
+	int yearday;
+	char *month_name;
+};
+
+struct date dd = {4,7,1990,120,"December"};
+```
+
+- Xác định một cấu trúc (theo kiểu date) có tên là dd và khởi đầu cho các thành phần cảu nó. Như vậy: Nội dụng của dd.day là 4, của dd.month là 7, của dd.year là 1990, của dd.yearday là 120 và của dd.month_name là "December"
+- Chú ý nếu month_name được khai báo kiểu ký tự như:
+- `char moth_name[20];` thì các khởi đầu trên vẫn đúng.
+- **Ví dụ 6.2** Đoạn chương trình
+
+```C
+struct month
+{
+	int number;
+	char* name;
+} year[12] = {
+		{1,"january"},
+		{2,"february"},
+		...
+		{12,"december"}
+};
+```
+
+- Xác định và khởi đầu một mảng cấu trúc có tên là year bao gồm 12 phần tử. Vì mỗi phần tử của mảng lại là một cấu trúc (kiểu month) nên để khởi đầu cho mảng year, một cách hợp lý hơn cả là sử dụng 12 bộ khởi đầu cho 12 cấu trúc tương ứng.
+- Chẳng hạn: `{1,"january"}` là bộ khởi đầu cho phần tử thứ nhất của mảng year.
+- Cũng như đối với các mảng khác, khi khởi đầu một mảng cấu trúc ngoài (hoặc tĩnh) ta không cần chỉ ra kích cỡ của nó. Lúc đó kích cỡ của các mảng được khởi đầu sẽ được xác định một cách chính xác (khi dịch chương trình) thông qua số các bộ khởi đầu. Như vậy, đoạn chương trình trong ví dụ 6.2 có thể viết một cách khác như sau:
+
+```C
+struct month
+{
+	int number;
+	char* name;
+} year[] = {
+		{1,"january"},
+		{2,"febuary"},
+		...
+		{12,"december"}
+	};
+```
+
+- Để xác định số phần tử của year ta có thể dùng toán tử sizeof theo cách sau:
+- `int n = sizeof(year)/sizeof(struct month);`
+- Nhận xét cuối cùng ở mục này là: Những gì đã nói về việc khởi đầu một mảng thông thường vẫn còn đúng đối với mảng cấu trúc, đó là:
+
+	- Chỉ cho phép khởi đầu các cấu trúc và mảng cấu trúc ngoài (tĩnh). Chúng sẽ nhận giá trị 0 nếu không được khởi đầu.
+	- Nếu kích thước của mảng cấu trúc cần khởi đầu đã được khai báo là n thì số bộ khởi đầu (m) cần không vượt quá n. Mỗi bộ khởi đầu cho giá trị của một phần tử mảng cấu trúc. Khi m < n thì chỉ có m phần tử đầu của mảng được khởi đầu, (n - m) phần tử còn lại nhận giá trị 0.
+	- Việc khửoi đầu được thực hiện một lần khi dịch chương trình:
+
+- Ví dụ khi dịch đoạn chương trình
+
+```C
+struct
+	{
+		float a;
+		int b;
+		char* c;
+	}
+d[10] = {
+			{7.1,5,"alpha"},
+			{-10.6,8,"beta"}	
+		};
+```
+
+- Chỉ hai phần tử đầu mảng cấu trúc d được khởi đầu. Trong ví dụ này n = 10 và m = 2;
+
+<a name="phepgancautruc"> </a>
+
+###2.7 Phép gán cấu trúc:
+
+- Có thể thục hiện phép gán trên ác biến và phần tử mảng cấu trúc cùng kiểu như sau:
+
+	- 1. Gán hai biết (cấu trúc) cho nhau.
+	- 2. Gán biến cho phần tử mảng (cấu trúc).
+	- 3. Gán phần tử mảng cho biến.
+	- 4. Gán hai phần tử mảng cho nhau.
+
+- Mỗi phép gán nói trên tương đương với một dãy phép gán các thành phần tương ứng.
+- Đoạn chương trình sau minh hoạ cách dùng phép gán cấu trúc để sắp xếp n thí sinh theo thứ tự giảm của tổng diểm.
+
+```C
+struct thi_sinh
+{
+	char ht[25]; /*họ tên*/
+	float td; /*tổng điểm*/
+} tg, ts[1000];
+int i, j, n;
+for (i = 1; i <= n - 1; ++i)
+for (j = i + 1; j <= n; ++j)
+	if (ts[i].td < ts[j].td)
+	{
+		tg = ts[i];
+		ts[i] = ts[j];
+		ts[j] = tg;
+	}
+```
+
+<a name="controcautruc"> </a>
+
+###2.8 Con trỏ cấu trúc và địa chỉ cấu trúc
+
+####2.8.1 Con trỏ và địa chỉ:
+
+- Xét các kiểu cấu trúc ngay va nhan_cong;
+
+```C
+struct ngay
+{
+	int ngay_thu;
+	char ten_thang[10];
+	int nam;
+};
+struct nhan_cong
+{
+	char ten[15];
+	char dia_chi[20];
+	double bac_luong;
+	struct ngay ngay_sinh;
+	struct ngay ngay_vao_co_quan;
+};
+```
+
+- Khi đó con trỏ cấu trúc kiểu nhan_cong có tể được khai báo cùng với biến và mảng (cấu trúc) như sau:
+- `struct nhan_cong *p, *p1, *p2, nc2, ds[100];`
+- Trong khai trên thì:
+
+	- p, p1 và p2 là con trỏ cấu trúc.
+	- nc1 và nc 2 là biến cấu trúc.
+	- ds là mảng cấu trúc.
+
+- Con trỏ cấu trúc dùng để lưu trữ địa chỉ của biến cấu trúc và mảng cấu trúc, vì vậy các phép gán sau đây là hợp lệ:
+
+	- p1 = &nc1; /*Gửi địa chỉ nc1 và p1 */
+	- p2 = &ds[2]; /*Gửi địa chỉ ds[2] vào p2 */
+	- p = ds; /*Gửi địa chỉ ds[0] vào p */
+
+####2.8.2 Truy nhập thông qua con trỏ: Có thể truy nhập đến các phàn thông qua con trỏ theo một trong hai cách sau:
+
+- *Cách 1:*
+	
+	-`tên_con_trỏ -> tên_thành_phần`;
+
+- *Cách 2:*
+
+	-`(tên_con_trỏ).tên_thành_phần`;
+
+- Chẳng hạn, sau khi thự hiện các phép gán địa chỉ trong 8.1 thì các cách viết sau là tương đương:
+
+	- nc1.ngay_sinh.nam và p1->ngay_sinh.nam
+	- ds[2].ngay_sinh.ten_thang và (p2*).ngay_sinh.ten_thang;
+
+- Chẳng hạn, sau khi thực hiẹn các phép gán địa chỉ trong 8.1 thì các cách viết sau là tương đương:
+
+	- nc1.ngay_sinh.nam và p1-> ngay_sinh.nam
+	- ds[2].ngay_sinh.ten_thang và (p2*).ngay_sinh.ten_thang;
+
+####2.8.3 Dùng phép gán thông qua con trỏ.
+
+- Giả thiết đã có các lệnh:
+
+```C
+p1=&nc1; /*Gửi địa chỉ nc1 vào p1 */
+p2 = &ds[2]; /*Gửi địa chỉ ds[2] vào p2 */
+```
+
+- Khi đó trong các phép gán cấu trúc:
+
+	- Có thể dùng *p1 thay cho nc1;
+	- Có thể dùng *p2 thay cho ds[2];
+
+- Như vậy cách viết: `ds[4] = nc1; ds[2] = nc2;`
+- Tương đương với: `ds[4] = *p1; *p2 = nc2;
+
+####2.8.4 Phép cộng địa chỉ:
+
+- Sau phép gán:
+
+```C
+p = ds;
+p2 = &ds[2];
+```
+- Thì p trỏ tới ds[0] và p2 trỏ tới ds[2]. Ta có thể dùng các phép cộng, trừ địa chỉ để làm cho p và p2 trỏ tới thành phần bất kỳ nào khác. Ví dụ sau các câu lệnh:
+
+- `p = p + 10; p2 = p2 - 2;` thì p trỏ tới ds[10] còn p2 trỏ tới ds[0].
+
+<a name="hamtrencautruc"> </a>
+
+###2.9 Hàm trên các cấu trúc:
+
+- Đối của hàm có thể là:
+
+	- Biến cấu trúc: Khi đó tham số thực tương ứng là một giá trị cấu trúc.
+	- Con trỏ cấu trúc: Khi đó tham số thực tương ứng là địa chỉ của biến cấu trúc.
+	- Mảng cấu trúc hình thức hoặc con trỏ cấu trúc: Khi đó tham số thực tương ứng là tên mảng cấu trúc.
+
+- Hàm có thể trả về giá trị:
+
+	- Giá trị cấu trúc.
+	- COn trỏ cấu trúc.
+
+- Vd:
+
+	- VD 9.1 : Xét kiểu cấu trúc person gồm 3 thành phần
+
+		+ ht(họ tên) kiểu mảng char
+		+ ns (năm sinh) kiểu struct date
+		+ bl (bậc lương) kiểu float
+
+- Ta dựa vào 6 hàm thao trên kiểu person.
+- Hàm: `person *ptim(char *ht, person h[], int n);`
+- => Có tác dụng tìm trong danh sách n nhân viên lưu trong mảng h, người có tên cho trong ht. Hàm trả về con trỏ tới người tìm được haowjc trả về NULL nếu không tìm thấy
+- Hàm : `person tim(char *ht, person h[], int n);` => Cũng có tác dụng tìm kiếm như hàm trên, nhưng nó trả về một cấu trúc chứa thông tin người tìm được. Các thông tin này sẽ bằng không nếu không tìm thấy.
+- Hàm: `void hv(person *p1, person *p2);` => dùng để hoán vị hai cấu trúc.
+- Hàm: `void sapxep(person *p, int n);` => Có tác dụng sắp xếp n phần tử cấu trúc chứ trong p theo thứ tự tăng của năm sinh. Trong hàm sapxep có dùng tới hv.
+- Hàm: `void vao(person *p);` => Dùng để nhập dữ liệu cho một đối tượng kiểu person. Một chú ý quan trọng là: Nếu trong hàm vao ta dùng câu lệnh `scanf("%f%*c",&h.bl);` để nhập trực tiếp vào thành phần h.bl thì bị treo máy.
+- Hàm: `void in(person p);` => dùng để in một cấu trúc.
+- Cách thức làm việc chương trình như sau: Đầu tiên là phần nhập số liệu, rồi đến sắp xếp, sau đó sẽ in danh sách nhân viên đã sắp xếp. Cuối cùng đến các mục tìm kiếm theo hàm ptim hàm tim.
+
+<a name="capphatbonho"> </a>
+
+###3. Cấp phát bộ nhớ động:
+
+- Giả sử ta cần quản lý các viện. Mỗi viện có nhiều phòng và mỗi phòng có nhiều nhân viên. Khi thiết kế chương trình chúng ta chưa biết có bao nhiêu viện, chưa biết mỗi viện có bao nhiêu phòng và cũng chưa biết mỗi phòng có bao nhiêu nhân viên. Nếu sử dụng mảng (cấp phát bộ nhớ tĩnh), thì ta phải sử dụng số viện tối đa. Mỗi viện phải xem như có cùng một số phòng và mỗi phòng phải xem như có số nhân viên bằng nhau. Như vậy sẽ có rất nhiều vùng nhớ được cấp phát mà không bao giờ dùng đến. Chương trình dưới đây minh hoạ phương pháp cấp phát bộ nhớ động. Số viện sẽ đúng bằng số viện cần quản lý. Mỗi viện sẽ được cấp phát mọt vùng nhớ vừa đủ để chứa số phòng thực sự của nó và mỗi phòng cũng có một vùng nhớ ứng với số nhân viên hiện có của nó.
+- Nhân viên được mô tả bằng cấu trúc person có 2 thành phần là ht(họ tên), và ns (năm sinh). Phòng được mô tả bởi cấu trúc ppp có 3 thành phần là tenphong (tên phòng), sonhanvien(số nhân viên trong phòng) và nhanvien (con trỏ kiểu person trỏ tới vùng nhớ chứa thông tin các nhân viên trong phòng). Viện được mô tả bằng cấu trúc vvv gồm 3 thành phần là tenvien (tên viện), sophong (số phòng của viện) và phong(con trỏ kiểu ppp trỏ tới vùng nhớ chứa thông tin của các phòng trong viện)
+
+- Chương trình gồm hai phần:
+
+	- Phần đầu gồm các thao tác nhập iệu và cấp phát bộ nhớ đặt xen kẽ nhau. Nhập kiệu để biến cần cấp phát bao nhiêu. Cấp phát để có vùng nhớ chứa thông tin nhập vào sau đó.
+	- Phần tiếp theo đơn giản chỉ là in ra màn hinh các thông tin vừa nhập vào.
+
+- Dưới đây là chương trình:
+
+```C
+#include "stdio.h"
+#include "conio.h"
+#include "alloc.h"
+typedef struct
+	{
+		char ht[25]; /*ho ten*/
+		int ns; /*nam sinh*/
+	} person;
+typedef struct
+	{
+		char tenphong[30];
+		int sonhanvien;
+		person *nhanvien;
+	} ppp;
+typedef struct
+	{
+		char tenvien[30];
+		int sophong
+		ppp *phong;
+	} vvv;
+vvv *vien;
+int sovien;
+main()
+	{
+		int i, j, k, ngay, thang, nam, sophong, sonhanvien, ns;
+		/*Vao so lieu va cap phat bo nho, so vien*/
+		clrscr();
+		printf("\nSo vien: ");
+		scanf("%d%*c",&sovien);
+		vien = (vvv*) malloc ((sovien + 1) * sizeof(vvv));
+		/* Vao so lieu tung vien */
+		for (i = 1; i <= sovien; ++i)
+		{
+			printf("\nTen vien thu %d: ",i);
+			gets(vien[i].tenvien);
+			printf("\nSo phong cua vien %s: ", vien[i].tenvien);
+			scanf("%d%*c",&sophong);
+			vien[i].sophong = sophong;
+			vien[i].phong = (ppp*) malloc ((sophong + 1) * sizeof(ppp))
+			for (j = 1; j <= sophong; ++j)
+				{
+					printf("\n Ten phong %d cua vien %s: ", j, vien[i].tenvien);
+					gets(vien[i].phong[j].tenphong);
+					printf("\n So nhan vien cua phong %s vien %s: ", vien[i].phong[j].tenphong, vien[i].tenvien);
+					scanf("%d%*c",&sonhanvien);
+					vien[i].phong[j].sonhanvien = sonhanvien;
+					printf("\n Vien %s Phong %s", vien[i].tenvien, vien[i].phong[j].tenphong);
+					for (k = 1; k <= sonhanvien; ++k)
+						{
+							printf("\n Ho ten nhan vien %d: ", k);
+							gets(vien[i].phong[j].nhanvien[k].ht);
+							printf("\nNam sinh nhan vien %d: ", k);
+							scanf("%d%*c",&ns); vien[i].phong[j].nhanvien[k].ns = ns;
+						}
+				}
+		}
+/*Dua ra man hinh */
+clrscr();
+for (i = 1; i <= sovien; ++i)
+{
+	printf("\n Vien %s co %d phong: ",vien[i].tenvien, vien[i].sophong);
+	for (j = 1; j <= vien[i].sophong; ++j)
+		{
+			printf("\nPhong %s vien %s co %d nhan vien: ", vien[i].phong[j].tenphong, vien[i].tenvien, vien[i].phong[j].sonhanvien);
+			for (k = 1; k <= vien[i].phong[j].sonhanvien; ++k)
+				{
+					printf("\nHo ten %s sinh nam %d", vien[i].phong[j].nhanvien[k].ht, vien[i].phong[j].nhanvien[k].ns);
+				}
+		}
+}
+getch();
+}
+```
