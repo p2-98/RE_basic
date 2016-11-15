@@ -24,6 +24,7 @@
 	- [2.9 Hàm trên các cấu trúc](#hamtrencautruc)
 
 - [3. Cấp phát bộ nhớ động](#capphatbonho)
+- [4. Cấu trúc tự trỏ và danh sách liên kết](#dslk)
 
 ----
 
@@ -717,5 +718,322 @@ for (i = 1; i <= sovien; ++i)
 		}
 }
 getch();
+}
+```
+<a name ="dslk"> </a>
+
+###4. Cấu trúc tự trỏ và danh sách liên kết
+
+- Cấu trúc có ít nhất một thành viên là con trỏ kiểu cấu trúc đang định nghĩa gọi là cấu trúc tự trỏ. Dưới đây trình bầy 3 cách định nghĩa cấu trúc tự trỏ person
+- *Cách 1:*
+
+```C
+typedef struct pp
+{
+	char ht[25]; /*ho ten*/
+	char qq[20]; /*que quan*/
+	int tuoi;
+	struct pp *tiep;
+} person;
+```
+
+- *Cách 2:*
+
+```C
+typedef struct pp person;
+struct pp
+{
+	char ht[25];
+	char qq[20];
+	int tuoi;
+	person *tiep;
+};
+```
+
+- *Cách 3:*
+
+```C
+struct pp
+{
+	char ht[25];
+	char qq[20];
+	int tuoi;
+	struct pp *tiep;
+};
+typedef pp person;
+```
+
+- Cách trúc tự trỏ được dùng để xây dựng danh sach liên kết (móc nối), đó là một nhóm các cấu trúc có tính chất sau:
+
+	- Biết địa chỉ cấu trúc đầu đang được lưu trữ trong một con trỏ nào đó (giả sử pdau).
+	- Trong mỗi cấu trúc (trừ cấu trúc cuối) chứa đại chỉ của cấu trúc tiếp theo của danh sách.
+	- Cấu trúc cuối chứa hằng NULL.
+
+- Danh sách có 3 tính chất trên gọi là danh sách móc nối theo chiều thuận. Với danh sách này, ta có thể lần lượt truy nhập từ cấu trúc đầu tới cấu trúc cuối theo chiều từ trên xuống dưới.
+- Tương tự, danh sách liên kết theo chiều ngược cũng có 3 tính chất trên nhưng theo chiều ngược lại:
+
+	- Biết địa chỉ cấu trúc cuối.
+	- Trong mỗi cấu trúc (trừ cấu trúc đầu) chứa địa chỉ của cấu trúc trước.
+	-  Cấu trúc đầu chứa hằng Null
+
+- Với danh sách này, ta có thể lần lượt truy nhập từ cấu trúc cuối tới cấu trúc đầu theo chiều từ dưới lên trên.
+- Ngoài ra có thể xây dựng các danh sách mà mỗi phần tử chứa hai địa chỉ: Địa chỉ cấu trúc trước và địa chỉ cấu trúc sau. Với loại danh sách này, ta có thể truy nhập từ trên xuống dưới theo chiều thuận haowjc từ dưới lên trên theo chiều ngược.
+- Dưới đây là 2 chương trình minh hoạ cách dùng danh sách móc nói.
+- Chương trình 1 gồm các phần:
+	
+	- Nhập một số người và chứa vào bộ nhớ dưới dạng danh sách móc nối thuận (lập danh sách mới).
+	- In danh sách móc nói ra màn hình
+	- Tìm kiếm trên danh sách móc nối
+	- Xoá một người khỏi danh sách
+	- Bổ sung vào cuối danh sách
+	- Chèn một người vào giữa danh sách
+
+- Trước khi xem chương trình, hãy tìm hiểu các thủ thuật làm việc trên danh sách mốc nối
+
+	- Để tạo danh sách mới cần thực hiện các khâu sau:
+
+		- Cấp phát bộ nhớ cho một cấu trúc.
+		- Nhập một người vào vùng nhớ vừa cấp
+		- Gán địa chỉ người sau cho thành phần con trỏ của người trước.
+
+	- Để duyệt qua tất cả các phần tử của một danh sách ta thường dùng con trỏ p chứa địa chỉ cấu trúc đang xét.
+
+		- Đầu tiên cho p = dau
+		- Để chuyển đến người tiếp theo ta dùng phép gán: `p = p -> tiep;`
+		- Dấu hiệu để biết đang xét người cuối là: `p -> tiep == Null``
+
+	- Để loại một người khỏi danh sách cần:
+
+		- Lưu trữ địa chỉ người cần loại vào một con trỏ (dùng để giải phóng bộ nhớ của người cần loại)
+		- Sửa đề người trước đó có địa chỉ của người đứng sau mà ta định loại
+		- Giải phóng bộ nhớ của người cần loại
+
+	- Để bổ sung (hoặc chèn) cần
+
+		- Cấp phát bộ nhớ và nhập bổ sung
+		- Sửa thành phần con trỏ trong các cấu trúc có iên quan để đảm bảo mỗi người chứa địa chỉ người tiếp theo.
+
+- Chương trình dưới đây sẽ minh hoạ các kỹ thuật nói trên. Ngoài ra chúng ta còn thấy phương pháp cấp phát bộ nhớ và các cách truy nhập tới thành phần cấu trúc thông qua con trỏ.
+
+```C
+#include <stdio.h>
+#include <alloc.h>
+#include <conio.h>
+#include <string.h>
+typedef struct pp
+	{
+		char ht[25] /*ho ten*/
+		char qq[20] /*que quan*/
+		int tuoi;
+		struct pp *tiep;
+	} person;
+int main()
+{
+	int t;
+	char ht[25].qq[20];
+	person *pdau, *p, *pl;
+	clrscr();
+	/*
+	Vao mot so nguoi va luu tru trong bo nho duoi dang mot danh sach lien ket */
+	pdau = NULL;
+	while (1)
+		{
+			printf("\nHo ten (bam enter ket thuoc vao so lieu): ");
+			gets(ht);
+			if (ht[0] == 0)
+				break;
+			if (pdau == NULL)
+				{
+					pdau = (person*) malloc(sizeof(person));
+					p = pdau;
+				}
+			else
+				{
+					p -> tiep = (person*)malloc(sizeof(person));
+					p = p -> tiep;
+				}
+			strcpy(p -> ht, ht);
+			printf("\nQue quan: ");
+			gets(p -> qq);
+			printf("\nTuoi: ");
+			scanf("%d%*c", &t);
+			p -> tuoi = t;
+			p -> tiep = NULL;
+		}
+	/*Dua danh sach lien ket ra man hinh biet con tro pdau tro toi dau danh sach*/
+	p = pdau;
+	while (p  != NULL)
+		{
+			printf("\nHo ten %-25s Que %-30s Tuoi %d, (*p).ht, (*p).qq, (*p).tuoi");
+			p = p -> tiep;
+		}
+	/*Tim kiem theo que quan*/
+	while (1)
+		{
+			printf("\nQue (bam enter ket thuc tim kiem): ");
+			gets(qq);
+			if (qq[0] == 0) break;
+			/*duyet tu dau danh sach va in ra man hinh nhung nguoi tim duoc */
+			p = pdau;
+			while (p != NULL)
+				{
+					if (strcmp(p -> qq, qq) == 0)
+						printf("\nHo ten %-25s Que %-30s Tuoi %d",(*p).ht, (*p).qq, (*p).tuoi);
+					p = p -> tiep;
+				}
+		}
+	printf("\nLoai phan tu dau danh sach");
+	if (pdau != NuLL)
+		{
+			p = pdau;
+			pdau = p -> tiep; /*pdau tro toi nguoi thu hai */
+			free(p); /*giai phong vung nho cua nguoi dau */
+		}
+	printf("\nBo sung mot nguoi vao cuoi danh sach ");
+	if (pdau == NULL) /*Danh sach rong*/
+		{
+			pdau = (person*)malloc(sizeof(person));
+			p = pdau;
+		}
+	else
+		{
+			/*tim dai chi cuoi va dat vao p */
+			p = pdau;
+			while (p -> tiep != NULL)
+				p = p -> tiep;
+				/* cap phat vung nho va nhap bo sung */
+			p -> tiep = (person*)malloc(sizeof(person));
+			p = p -> tiep;
+		}
+	/*Nhap bo sung*/
+	printf("\nHo ten: "); gets(p -> ht);
+	printf("\nQue quan: "); gets(p -> qq);
+	printff("\nTuoi: ");
+	scanf("%d%*c", &t);
+	p -> tuoi = t;
+	p -> tiep = NULL;
+	printf("\nChen them vao truoc nguoi thu hai")
+	/*Chen them mot nguoi vao truoc nguoi thu hai gia thiet co it nhat hai nguoi, truoc tien cap phat vung nho cho p de chua nguoi bo sung */
+	p = (person*)malloc(sizeof(person));
+	printf("\nHo ten: "); gets(p -> ht);
+	printf("\nQue quan: "); gets(p -> qq);
+	printf("\nTuoi: "); scanf("%d%*c", &t); p -> tuoi = t;
+	/* ket noi */
+	p1 = pdau -> tiep; /*p1 chua dia chi nguoi thu 2 */
+	pdau -> tiep = p; /*sua de nguoi dau chua dia chi nguoi moi bo sung */
+	p -> tiep  = p1; /*nguoi moi bo sung chua dia chi nguoi thu 2 trong danh sach cu*/
+	/*Dua danh sach moi ra man hinh biet con tro pdau tro toi dau danh sach */
+	p = pdau;
+	while (p != NULL)
+		{
+			if (strcmp(p -> qq, qq) == 0)
+				printf("\nHo ten %-25s Que %-30s Tuoi %d",(*p).ht, (*p).qq, (*p).tuoi);
+			p = p -> tiep;
+		}
+}
+```
+
+- Chương trình 2 cũng nhập một số người và tạo thành một danh sách liên kết, nhưng phức tạp hơn chương trình 1 ở chỗ: Người vừa nhập được chèn vào vị trí thích hợp để danh sách được sắp theo chiều tăng của tuổi. Như vậy ta có quy trình để vừa nhập liệu vừa sắp xếp một cách đồng thời. Chương trình dùng hai hàm. Hàm `void vao_sl(char *ht, person **p);` dùng đẻ gán ht (họ tên) và p -> ht, gán NuLL cho p -> tiep và nhập quê quán gán cho p -> qq, nhập tuổi gán cho p -> tuoi. Hàm: `void bo_sung(person *pdau, person ng, person **pchen, int *vt);` dùng để xác định xem cấu trúc người cần chèn vào đâu. Nếu vt = 0 thì ng cần chèn vào đầu danh sách. Còn nếu vt = 1 thì ng cần chèn vào ngay sau phần tử được pchen trỏ tới.
+- Chương trình 2 chẳng những minh hạo các thủ thuật làm việc trên danh sách móc nói mà còn cho nhữung ví dụ hay về việc dùng hàm có đuối con trỏ
+
+```C
+#include <stdio.h>
+#include <alloc.h>
+#include <conio.h>
+#include <string.h>
+typedef struct
+	{
+		char ht[25];
+		char qq[20];
+		int tuoi;
+		struct pp *tiep;
+	} person;
+void bo_sung(person *pdau, person ng.person **pchen, int *vt);
+/* y nghia ham bo_sung:
+biet:
++pdau tro toi dau danh sach (gia thiet pdau != NULL);
++ ng la cau truc chua nguoi va nhap
+Ham cho biet:
++ Neu vt = 0 chen vao dau danh sach
++ Neu vt = 1 chen vao sau cau truc do pchen tro toi */
+void vao_sl(char *ht, person **p);
+/* Ham vao_sl dung de:
++ Cap phat vung nho cho p
++ Gan ht vao p -> ht;
++ Vao cac so lieu khac nhu que quan va tuoi */
+void bo_sung(person *pdau, person ng.person **pchen, int *vt);
+{
+	person *p = pdau, *p1;
+	if(nguoi.tuoi < p -> tuoi)
+		{
+			*vt = 0;
+			return;
+		}
+	else
+		{
+			while (1)
+				{
+					p1 = p -> tiep;
+					if ((p1 = NULL) || (p1 != NULL && ng.tuoi < p1 -> tuoi))
+					{
+						*pchen = p;
+						*vt = 1;
+						return;
+					}
+				p = p1;
+				}
+		}
+}
+void vao_sl(char *ht, person **p)
+{
+	int t;
+	person **p;
+	pp = (person*)malloc(sizeof(person));
+	strcpy(pp -> ht, ht);
+	printf("\n Que quan: "); gets(pp -> qq);
+	printf("\n Tuoi: "); scanf("%d%*c",&t);
+	pp -> tuoi = t;
+	p -> tiep = NuLL;
+	*p = pp;
+}
+int main()
+{
+	int vt;
+	char ht[25];
+	person *pdau, *p, *ptg, *pchen;
+	clrscr();
+		/*Vao mot so nguoi va luu tru trong bo nho duoi dang mot danh sach lien ket */
+	pdau = NuLL;
+	while (1)
+		{
+			printf("\nHo ten (bam enter ket thuc vao so lieu): ");
+			gets(ht);
+			if (ht[0] == 0) break;
+			if (pdau == NuLL) vao_sl(ht, &pdau);
+			else
+				{
+					vao_sl(ht, &ptg);
+					bo_sung(pdau, *ptg, &pchen, &vt);
+					if (vt == 0) /*chen vao dau danh sach*/
+						{
+							ptg -> tiep = pdau; pdau = ptg;
+						}
+					else
+						{
+							/*chen vao sau pchen*/
+							ptg -> tiep = pchen -> tiep;
+							pchen -> tiep = ptg;
+						}
+				}
+		}
+	/*Dua danh sach lien ket ra man hinh biet con tro pdau tro toi dau danh sach */
+	p = pdau;
+	while (p != NuLL)
+		{
+			if (strcmp(p -> qq, qq) == 0)
+				printf("\nHo ten %-25s Que %-30s Tuoi %d",(*p).ht, (*p).qq, (*p).tuoi);
+			p = p -> tiep;
+		}
+	getch();
 }
 ```
