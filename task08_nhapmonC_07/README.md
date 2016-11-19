@@ -12,7 +12,7 @@
 
 - [1. Thuật toán quay lui](#quaylui)
 
-- [1.1 Liệt kê các dãy nhị phân có độ dài n](#nhiphan)
+	- [1.1 Liệt kê các dãy nhị phân có độ dài n](#nhiphan)
 
 ---
 
@@ -51,7 +51,7 @@ int Attempt (i)
 
 - Thuật toán quay lui sẽ bắt đầu bằng lời gọi Attempt (1)
 
-<a name="nhinphan"> </a>
+<a name="nhiphan"> </a>
 
 ###1.1 Liệt kê các dãy nhị phân độ dài N
 
