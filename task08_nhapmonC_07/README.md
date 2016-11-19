@@ -6,85 +6,92 @@
 >
 > Cập nhật lần cuối : 18.10.2016
 
------
+----
 
 ###Mục lục:
 
-- [1. Quy Hoạch Động](#qhd)
+- [1. Thuật toán quay lui](#quaylui)
 
------
+- [1.1 Liệt kê các dãy nhị phân có độ dài n](#nhiphan)
 
-<a name ="qhd"> </a>
+---
 
-###1. Quy hoạch động:
+<a name="quaylui"> </a>
 
-- Trong ngành khoa học máy tính, quy hoạch động là một phương pháp giảm thời gian chạy của các thuật toán thể hiện các tính chất của các bài toán con gối nhau (overlapping subproblem) và cấu trúc con tối ưu (optimal substructure).
+###1. Thuật toán quay lui:
 
-- Nhà toán học Richard Bellman đã phát minh phương pháp quy hoạch động vào năm 1953. Ngành này đã được thành lập như là một chủ đề về kỹ nghệ và phân tích hệ thống đã được tổ chức IEEE thừa nhận.
+- Thuật toán quay lui dùng để giải bài toán liệt kê các cấu hình. Mỗi cấu hình được xây dựng bằng cách xây dựng từng phần tử, mỗi phần tử được chọn bằng cách thử tất cả các khả năng. Giả sử cấu hình cần liệt kê có dạng x[1..n], khi đó thuật toán quay lui được thực hiện qua các bước:
 
-- Cấu trúc con tối ưu có nghĩa là các lời giải tối ưu cho các bài toán con có thể được sử dụng để tìm các lời giải tối ưu cho bài toán toàn cục. Ví dụ, đường đi ngắn nhất tới một đỉnh trong một đồ thị có thể được tìm thấy bằng cách: trước hết tính đường đi ngắn nhất tới đích từ tất cả các đỉnh kề nó, rồi dùng kết quả này để chọn đường đi toàn cục tốt nhất, như trong hình 1. Nói chung, ta có thể giải một bài toán với cấu trúc con tối ưu bằng một quy trình ba bước:
+	- 1) Xét tất cả các giá trị x[1] có thể nhận, thử cho x[1] nhận lần lượt các giá trị đó. Với mỗi giá trị thử gán cho x[1] ta sẽ:
+	- 2) Xét tất cả các giá trị x[2] có thể nhận, lại thử cho x[2] nhận lần lượt các giá trị đó. Với mỗi giá trị thử gán cho x[2] lại xét tiếp các khả năng chọn x[3]... cứ tiếp tục như vậy đến bước:
+	...
+	- n) Xét tất cả các giá trị x[n] có thể nhận, thử cho x[n] nhận lần lượt các giá trị đó, thông báo cấu hình tìm được (x[1], x[2],..., x[n]).
 
-	- Chia bài toán thành các bài toán con nhỏ hơn.
-	- Giải các bài toán này một cách tối ưu bằng cách sử dụng đệ quy quy trình ba bước này.
-	- Sử dụng các kết quả tối ưu đó để xây dựng một lời giải tối ưu cho bài toán ban đầu.
+- Trên phương diện quy nập, có thể nói rằng thuật toán quay lui liệt kê các cấu hình n phần tử dạng x[1..n] bằng cách thử cho x[1] nhận lần lượt các giá trị có thể. Với mỗi giá trị thử gán cho x[1] bài toàn trở thành liệt kê cấu hình n - 1 phần thử x[2..n].
 
-- Các bài toán con được giải bằng cách chia chúng thành các bài toán nhỏ hơn, và cứ tiếp tục như thế, cho đến khi ta đến được trường hợp đơn giản dễ tìm lời giải.
-- Nói rằng một bài toán có các bài toán con trùng nhau có nghĩa là mỗi bài toán con đó được sử dụng để giải nhiều bài toán lớn hơn khác nhau. Ví dụ, trong dãy Fibonacci, F3 = F1 + F2 và F4 = F2 + F3 — khi tính mỗi số đều phải tính F2. Vì tính F5 cần đến cả F3 và F4, một cách tính F5 một cách ngây thơ có thể sẽ phải tính F2 hai lần hoặc nhiều hơn. Điều này áp dụng mỗi khi có mặt các bài toán con gối nhau: một cách tiếp cận ngây thơ có thể tốn thời gian tính toán lại lời giải tối ưu cho các bài toán con mà nó đã giải.
-- Để tránh việc đó, ta lưu trữ lời giải của các bài toán con đã giải. Do vậy, nếu sau này ta cần giải lại chính bài toán đó, ta có thể lấy và sử dụng kết quả đã được tính toán. Hướng tiếp cận này được gọi là lưu trữ (trong tiếng Anh được gọi là memoization, không phải memorization, dù từ này cũng hợp nghĩa). Nếu ta chắc chắn rằng một lời giải nào đó không còn cần thiết nữa, ta có thể xóa nó đi để tiết kiệm không gian bộ nhớ. Trong một số trường hợp, ta còn có thể tính lời giải cho các bài toán con mà ta biết trước rằng sẽ cần đến.
-- Tóm lại, quy hoạch động sử dụng:
-
-	- Các bài toán con gối nhau
-	- Cấu trúc con tối ưu
-	- Memoization
-
-- Quy hoạch động thường dùng một trong hai cách tiếp cận:
-
-	- top-down (Từ trên xuống): Bài toán được chia thành các bài toán con, các bài toán con này được giải và lời giải được ghi nhớ để phòng trường hợp cần dùng lại chúng. Đây là đệ quy và lưu trữ được kết hợp với nhau.
-	- bottom-up (Từ dưới lên): Tất cả các bài toán con có thể cần đến đều được giải trước, sau đó được dùng để xây dựng lời giải cho các bài toán lớn hơn. Cách tiếp cận này hơi tốt hơn về không gian bộ nhớ dùng cho ngăn xếp và số lời gọi hàm. Tuy nhiên, đôi khi việc xác định tất cả các bài toán con cần thiết cho việc giải quyết bài toán cho trước không được trực giác lắm.
-
-- Một số ngôn ngữ lập trình hàm, nổi tiếng nhất là Haskell, có thể tự động lưu trữ kết quả của một lời gọi hàm với một tập đối số (argument) cụ thể, để tăng tốc cách đánh giá call-by-name (cơ chế này được gọi là call-by-need). Việc này chỉ có thể đối với các hàm không có hiệu ứng phụ, tính chất này luôn luôn đúng trong ngôn ngữ Haskell nhưng ít khi đúng trong các ngôn ngữ lập trình mệnh lệnh, chẳng hạn Pascal, C, C++, Java...
-
-- Ví dụ
-- Dãy Fibonacci
-- Một cài đặt đơn giản của một hàm tính phần tử thứ n của dãy Fibonacci, trực tiếp dựa theo định nghĩa toán học. Cài đặt này thực hiện rất nhiều tính toán thừa.:
-
+- **Mô hình của thuật toán quay lui có thể mô tả như sau:**
+- {Thủ tục này thử cho x[i] nhận lần lượt các giá trị mà nó có thể chấp nhận}
 ```C
-function fib(n)
-    if n = 0 or n = 1
-	    return n
-    else
-        return fib(n − 1) + fib(n − 2)
+int Attempt (i)
+{
+	for {mọi giá trị V có thể gán cho x[i]}
+	{
+		{thử cho x[i] = V};
+		if {x[i] là phần thử cuối cùng trong cấu hình}
+			{Thông báo cấu hình tìm được}
+		else
+			{
+				{Ghi nhận việc cho x[1] nhận giá trị V (nếu cầu)};
+				Attemp(i + 1); {Gọi đệ quy đề chọn tiếp x[i + 1]}
+				{Nếu cần, bỏ ghi nhận việc thử x[i] := V để thử giá trị khác};
+			};
+	}
+}
 ```
 
-- Lưu ý rằng nếu ta gọi, chẳng hạn, fib(5), ta sẽ tạo ra một cây các lời gọi hàm, trong đó các hàm của cùng một giá trị được gọi nhiều lần:
+- Thuật toán quay lui sẽ bắt đầu bằng lời gọi Attempt (1)
 
-	- fib(5)
-	- fib(4) + fib(3)
-	- (fib(3) + fib(2)) + (fib(2) + fib(1))
-	- ((fib(2) + fib(1)) + (fib(1) + fib(0))) + ((fib(1) + fib(0)) + fib(1))
-	- (((fib(1) + fib(0)) + fib(1)) + (fib(1) + fib(0))) + ((fib(1) + fib(0)) + fib(1))
+<a name="nhinphan"> </a>
 
-- Cụ thể, fib(2) được tính hai lần. Trong các ví dụ lớn hơn, sẽ có nhiều giá trị của fib, hay các bài toán con được tính lại, dẫn đến một thuật toán có thời gian lũy thừa.
+###1.1 Liệt kê các dãy nhị phân độ dài N
 
-- Bây giờ, giả sử ta có một đối tượng ánh xạ đơn giản, nó ánh xạ mỗi giá trị của fib đã được tính tới kết quả của giá trị đó. Ta sửa đổi hàm trên như sau để sử dụng và cập nhật ánh xạ trên. Hàm thu được chỉ đòi hỏi thời gian chạy O(n) thay vì thời gian chạy lũy thừa:
+- Biểu diễn dãy nhị phân độ dài N dưới dạng x[1..n]. Ta sẽ liệt kê các dãy này bằng cách thử dùng gái trị {0, 1} gán cho x[i]. Với mỗi giá trị thử gán cho x[i] lại thử các giá trị có thể gán cho x[i + 1]. Chương trình liệt kê bằng thuật toán quay lui có thể viết:
 
 ```C
-var m:= map(0 → 1, 1 → 1)
-function fib(n)
-    if n not in keys(m)
-        m[n]:= fib(n − 1) + fib(n − 2)
-    return m[n]
+#include <stdio.h>
+#include <stdlib.h>
+
+int x[50] = {0}, n;
+FILE *fo = NULL;
+void PrintRes()
+{
+	for (int i = 1; i <= n; i++)
+		fprintf(fo,"%d", x[i]);
+	fprintf(fo,"\n");
+}
+void Backtrack(int i)
+{
+	for (int j = 0; j <= 1; j++)
+		{
+			x[i] = j;
+			if (i == n)
+				PrintRes();
+			else
+				Backtrack(i + 1);
+		}
+}
+void Enter()
+{
+	FILE *fi = NULL;
+	fi = fopen("BSTR.inp","r");
+	fo = fopen("BSTR.out","w");
+	fscanf(fi,"%d", &n);
+	Backtrack(1);
+	fclose(fi);
+	fclose(fo);
+}
+int main()
+{
+	Enter();
+}
 ```
-
-- Đây là cách tiếp cận từ trên xuống, do trước hết ta chia bài toán thành các bài toán nhỏ hơn, rồi giải chúng và lưu trữ các kết quả. Trong trường hợp này, ta cũng có thể giảm từ chỗ hàm sử dụng không gian tuyến tính (O(n)) xuống chỉ còn sử dụng không gian hằng bằng cách sử dụng cách tiếp cận từ dưới lên. Cách này tính các giá trị nhỏ hơn của fib trước, rồi từ đó xây dựng các giá trị lớn hơn:
-
-```C
-function fib(n)
-    var previousFib:= 1, currentFib:= 1
-    repeat n − 1 times
-        var newFib:= previousFib + currentFib
-        previousFib:= currentFib
-        currentFib:= newFib
-    return currentFib
-```
-
