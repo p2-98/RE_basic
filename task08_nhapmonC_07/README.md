@@ -6,16 +6,18 @@
 >
 > Cập nhật lần cuối : 26.11.2016
 
----
-###Mục lục"
+-----
+
+###Mục lục:
 
 - [1. Thuật toán quay lui](#quaylui)
-	
-	- [1.1 Liệt kê các dãy nhị phân có độ dài n](#nhiphan)
-	- [1.2 Liệt kê các tập con K phần tử](#tapconKphantu)
-	- [1.3 Liệt kê các chỉnh hợp không lặp chập k](#chinhhopkhonglap)
 
----
+	- [1.1 Liệt kê các dãy nhị phân có độ dài n](#nhiphan);
+	- [1.2 Liệt kê các tập con K phần tử](#tapconKphantu);
+	- [1.3 Liệt kê các chỉnh hợp không lặp chập k](#chinhhopkhonglap)
+	- [1.4 Bài toán phân tích số](#phantichso)
+
+----
 
 <a name="quaylui"> </a>
 
@@ -52,7 +54,7 @@ int Backtrack (i)
 
 - Thuật toán quay lui sẽ bắt đầu bằng lời gọi Backtrack (1)
 
-<a name="nhiphan"> </a>
+<a name="nhinphan"> </a>
 
 ###1.1 Liệt kê các dãy nhị phân độ dài N
 
@@ -181,4 +183,97 @@ int main()
 || 3 1 |
 || 3 2 |
 
-- 
+```C
+#include <stdio.h>
+#include <stdlib.h>
+#include <memory.h>
+
+int x[100], n, k, c[100];
+FILE *fo = NULL;
+
+void PrintRes()
+{
+	for (int i = 1; i <= k; i++)
+		fprintf(fo,"%d ", x[i]);
+	fprintf(fo,"\n");
+}
+void Backtrack(int i)
+{
+	for (int j = 1; j <= n; j++)
+		{
+			if (c[j] == 0)
+			{
+				x[i] = j;
+				if (i == k)
+					PrintRes();
+				else
+				{	
+					c[j] = 1;
+					Backtrack(i + 1);
+					c[j] = 0;
+				}
+			}
+		}
+}
+void Enter()
+{
+	FILE *fi = NULL;
+	fi = fopen("ARRANGE.inp","r");
+	fo = fopen("ARRANGE.out","w");
+	fscanf(fi,"%d %d", &n, &k);
+	Backtrack(1);
+	fclose(fi);
+	fclose(fo);
+}
+int main()
+{
+	memset(c, 0, sizeof(c));
+	Enter();
+ }
+```
+
+ - **Nhận xét** : Khi k = n thì đây là chương trình liệt kê hoán vị.
+
+<a name="phantichso"> </a>
+
+###1.4 Bài toán phân tích số:
+
+- **Bài toán**:
+
+- Cho một số nguyên dương n <= 30, hãy tìm tất cả các cách phân tích số n thành tổng của các số nguyên dương, các cách phân tích là hoán vị của nhau chỉ tính là 1 cách.
+
+- **Cách làm**:
+
+- Ta sẽ lưu nghiệm trong mảng x, ngoài ra có một mảng t. Mảng t xây dựng nhu sau: t[i] sẽ là tổng các phần tử trong mảng x từ x[1] đến x[i]: t[i] = x[1] + x[2] + ... + x[i].
+- Khi liệt kê các dãy x có tổng các phần tử đúng bằng n, để tránh sự trùng lặp ta sẽ đưa thêm ràng buộc x[i - 1] <= x[i]
+- Vì số phần tử thực sự của mảng x là không cố định nên thủ tục PrintResult dùng để in ra 1 cách phân tích phải cso thêm tham số cho biết sẽ in ra bao nhiêu phần tử.
+- Thủ tục đệ quy Backtrack(i) sẽ thử các giá trị có thể nhận của x[i] (x[i] >= x[i - 1])
+- Khi nào thì in kết quả và khi nào thì gọi đệ quy tìm tiếp?
+- Lưu ý rằng t[i - 1] là tổng của tất cả các phần tử từ x[1] đến x[i - 1] do đó
+
+	- Khi t[i] = n tức là (x[i] = n - t[i - 1]) thì in kết quả
+	- Khi tìm tiếp, x[i + 1] sẽ phải lớn hơn hoặc bằng x[i]. Mặt khác t[i + 1] là tổng của các số từ x[1] tới x[i + 1] không được vượt quá n. Vậy ta có t[i + 1] <= n <=> t[i - 1] + x[i] + x[i + 1] <= n <=> x[i] + x[i + 1] <= n - t[i - 1] tức là x[i] <= (n - t[i - 1])/2: Ví dụ đơn giản khi n = 10 thì ta chọn x[1] = 6, 7, 8, 9 là việc làm vô nghĩa vì như vậy cũng khi ra nghiệm mà cũng không chọn tiếp x[2] được nữa.
+
+- *Một cách dễ hiểu: Ta gọi đẻ quy tìm tiếp khi gái trị x[i] được chọn còn cho phép chọn thêm một phần tử khác lớn hơn hoặc bằng nó mà không làm tổng vượt quá n. Còn ta in kết quả chỉ khi x[i] mang giá trị đúng bằng số thiếu hụt của tổng i - 1 ohần tử đầu so với n.*
+- Vậy thủ tục Backtrack(i) thử các giá trị cho x[i] có thể viết như sau: (để tổng quá cho i = 1, ta đặt x[0] = 1 và t[0] = 0).
+
+	- Xét các giá trị của x[i] từ x[i - 1] đến (n - t[i - 1]) / 2, cập nhật t[i] = t[i - 1] + x[i] và gọi đệ quy tiếp
+	- Cuối cùng xét giá trị x[i] = n - t[i - 1] và in kết quả từ x[1] đến x[i].
+
+- **Input :** File văn bản ANALYSE.inp chứa số nguyên dương n <= 100
+- **Output :** File văn bản ANALYSE.out ghu các cách phân tích số n.
+
+|ANALYSE.inp|ANALYSE.out|
+|-----------|-----------|
+| 6 | 6 = 1 + 1 + 1 + 1 + 1 + 1 |
+|  | 6 = 1 + 1 + 1 + 1 + 2 |
+|  | 6 = 1 + 1 + 1 +3 |
+|  | 6 = 1 + 1 + 2 + 2 |
+|  | 6 = 1 + 1 + 4 |
+|  | 6 = 1 + 2 + 3 |
+|  | 6 = 1 + 5 |
+|  | 6 = 2 + 2 + 2 |
+|  | 6 = 2 + 4 |
+|  | 6 = 3 + 3 |
+|  | 6 = 6 |
+
