@@ -52,7 +52,7 @@ int Backtrack (i)
 
 - Thuật toán quay lui sẽ bắt đầu bằng lời gọi Backtrack (1)
 
-<a name="nhinphan"> </a>
+<a name="nhiphan"> </a>
 
 ###1.1 Liệt kê các dãy nhị phân độ dài N
 
