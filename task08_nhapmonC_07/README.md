@@ -4,15 +4,16 @@
 >
 > Thực hiện bởi: Phạm Phú Quí
 >
-> Cập nhật lần cuối : 18.10.2016
+> Cập nhật lần cuối : 26.11.2016
 
-----
-
-###Mục lục:
+---
+###Mục lục"
 
 - [1. Thuật toán quay lui](#quaylui)
-
+	
 	- [1.1 Liệt kê các dãy nhị phân có độ dài n](#nhiphan)
+	- [1.2 Liệt kê các tập con K phần tử](#tapconKphantu)
+	- [1.3 Liệt kê các chỉnh hợp không lặp chập k](#chinhhopkhonglap)
 
 ---
 
@@ -32,7 +33,7 @@
 - **Mô hình của thuật toán quay lui có thể mô tả như sau:**
 - {Thủ tục này thử cho x[i] nhận lần lượt các giá trị mà nó có thể chấp nhận}
 ```C
-int Attempt (i)
+int Backtrack (i)
 {
 	for {mọi giá trị V có thể gán cho x[i]}
 	{
@@ -42,16 +43,16 @@ int Attempt (i)
 		else
 			{
 				{Ghi nhận việc cho x[1] nhận giá trị V (nếu cầu)};
-				Attemp(i + 1); {Gọi đệ quy đề chọn tiếp x[i + 1]}
+				Backtrack(i + 1); {Gọi đệ quy đề chọn tiếp x[i + 1]}
 				{Nếu cần, bỏ ghi nhận việc thử x[i] := V để thử giá trị khác};
 			};
 	}
 }
 ```
 
-- Thuật toán quay lui sẽ bắt đầu bằng lời gọi Attempt (1)
+- Thuật toán quay lui sẽ bắt đầu bằng lời gọi Backtrack (1)
 
-<a name="nhiphan"> </a>
+<a name="nhinphan"> </a>
 
 ###1.1 Liệt kê các dãy nhị phân độ dài N
 
@@ -95,3 +96,89 @@ int main()
 	Enter();
 }
 ```
+
+- Ví dụ: Khi n = 3, cây tìm kiếm quay lui như sau:
+
+<img src="http://i.imgur.com/cxWERZX.jpg">
+
+<a name="tapconKphantu"> </a>
+
+###1.2 Liệt kê các tập con K phần tử:
+
+- Để lệt kê các tập con k phần tử của tập S = {1, 2, 3, ..., n} ta có thể đưa về liệt kê các cấu hình x[1..n], ở đay x[i] thuộc S và x[1] < x[2] < ... < x[k]. Ta có nhận xét:
+- x[k] <= n;
+- x[k - 1] <= x[k] - 1 <= n - 1
+- ...
+- x[i] <= n - k + i
+- ....
+- x[1] <= n - k + 1.
+- Từ đó suy ra x[i - 1] + 1 <= n - k + i (1 <= i <= k) ở đây ta có giả thiết có thêm một số x[0] = 0 khi xét i = 1.
+- Như vậy ta sẽ xét dấu tất cả các cách chọn x[1] từ 1 (= x[0] + 1) đến n - k + 1, với mỗi giá trị đó, xét tiếp tất cả các cách chọn x[2] từ x[1] + 1 đến n - k + 2, ... cứ như vậy khi chọn được đến x[k] thì ta có một cấu hình cần liệt kê. Chương trình liệt kê bằng thuật toán quay lui như sau:
+
+```C
+#include <stdio.h>
+#include <stdlib.h>
+
+int x[50] = {0}, n, k;
+FILE *fo = NULL;
+void PrintRes()
+{
+	for (int i = 1; i <= k; i++)
+		fprintf(fo,"%d ", x[i]);
+	fprintf(fo,"\n");
+}
+void Backtrack(int i)
+{
+	for (int j = x[i - 1] + 1; j <= n - k + i; j++)
+		{
+			x[i] = j;
+			if (i == k)
+				PrintRes();
+			else
+				Backtrack(i + 1);
+		}
+}
+void Enter()
+{
+	FILE *fi = NULL;
+	fi = fopen("SUBSET.inp","r");
+	fo = fopen("SUBSET.out","w");
+	fscanf(fi,"%d %d", &n, &k);
+	x[0] = 0;
+	Backtrack(1);
+	fclose(fi);
+	fclose(fo);
+}
+int main()
+{
+	Enter();
+}
+```
+
+- Nếu để ý chương trình trên và chương trình liệt kê dãy nhị phân độ dài n, ta thấy về cơ bản chung chỉ khác nhau ở thủ tục Backtrack(i) - chọn thử các giá trị cho x[i], ở chương trình liệt kê dãy nhị phân ta thử chọn các giá trị 0 hoặc 1 còn ở chương trình liệt kê các tập con k phần tử ta thử chọn x[i] là một trong các giá trị nguyên từ x[i - 1] + 1 đến n - k + i. Qua đó ta có thể thấy tính phổ dụng của thuật toán quay lui: Mô hình cài đặt có thể thích hợp cho nhiều bài toán, khác với phương pháp sinh tuần tự, với mỗi bài toán lại phải có một thuật toán sinh kế tiếp riêng làm cho việc cài đặt mỗi bài mỗi khác, bên cạnh đó, không phải thuật toán sinh kế tiếp nào cũng dễ cài đặt.
+
+<a name="chinhhopkhonglap"> </a>
+
+###1.3 Liệt kê các chỉnh hợp không lặp chập k:
+
+- Để liệt kê các chỉnh hợp không lặp chập k của tập S = {1, 2, ..., n} ta có thể đưa về liệt kê các cấu hình x[1..k] ở đây các x[i] thộc S và khác nhau đôi một.
+- Như vậy thủ tục Backtrack(i) - xét tất các khả năng chọn x[i] - sẽ thử hết các giá trị từ 1 đến n, mà các giá trị này chưa bị các phần tử đứng trước chọn. Muốn xem các giá trị nào chưa được chọn ta sử dụng kỹ thuật dùng mảng đánh dấu:
+
+	- Khởi tại một mảng c[1..n] mang kiểu logic boolean. Ở đây c[i] cho biết giá trị i có con tự do hay đã bị chọn rồi.  Ban đầu khởi tạo tất cả các phần tử mảng c là true có nghĩa là các phần tử từ 1 đến n đều tự do.
+	- Tại bước chọn các giá trị có thể của x[i] ta chỉ xét những giá trị j có c[j] = TRUE có nghĩa là chỉ chọn những giá trị tự do.
+	- Trước khi gọi đệ quy tìm x[i + 1]: Ta đặt giá trị j vừa gán cho x[i] đã bị chọn có nghĩa là đặt c[j] = FALSE để các thủ tục Backtrack(i + 1), Backtrack(i + 2)... gọi sau này không chọn phải gái trị j đó nữa
+	- Sau khi gọi đệ quy tìm x[i + 1]: Có nghĩa là sắp tới ta sẽ thử gán một giá trị khác cho x[i] thì ta sẽ đặt giá trị j vừa thử đó thành tự do (c[j] = TRUE), bởi vì khi x[i] đã nhận một giá trị khác rồi thì các phần tử dứng sau: x[i + 1], x[i + 2]... hoàn toàn có thể nhận lại giá trị j nào đó. Điều này hoàn toàn hợp lý trong phép xây dựng chỉnh hợp không lặp: x[1] có n cách chọn, x[2] có n - 1 cách chọn, ... Lưu ý rằng khi thử tục Attempt(i) có i = k thì ta không cần phải đánh dấu gì cả vì tiếp theo chỉ có in kết quá chứ không cần phải chọn thêm phần tử nào nữa
+
+- Input: File văn bản ARRANGE.INP chứa hai số nguyên n, k (1 <= k <= n <= 100) cách nhau ít nhất một dấu cách
+- Output: File văn bản ARRANGE.OUT ghi cách chỉnh hợp không lặp chập k của tập {1,.., n}
+
+|ARRANGE.INP|ARRANGE.OUT|
+|-----------|-----------|
+| 3 2 | 1 2 |
+|| 1 3 |
+|| 2 1 |
+|| 2 3 |
+|| 3 1 |
+|| 3 2 |
+
+- 
