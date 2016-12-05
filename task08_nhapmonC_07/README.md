@@ -239,13 +239,13 @@ int main()
 
 ###1.4 Bài toán phân tích số:
 
-- **Bài toán**:
+-**Bài toán**:
 
-- Cho một số nguyên dương n <= 30, hãy tìm tất cả các cách phân tích số n thành tổng của các số nguyên dương, các cách phân tích là hoán vị của nhau chỉ tính là 1 cách.
+-Cho một số nguyên dương n <= 30, hãy tìm tất cả các cách phân tích số n thành tổng của các số nguyên dương, các cách phân tích là hoán vị của nhau chỉ tính là 1 cách.
 
-- **Cách làm**:
+-**Cách làm**:
 
-- Ta sẽ lưu nghiệm trong mảng x, ngoài ra có một mảng t. Mảng t xây dựng nhu sau: t[i] sẽ là tổng các phần tử trong mảng x từ x[1] đến x[i]: t[i] = x[1] + x[2] + ... + x[i].
+-Ta sẽ lưu nghiệm trong mảng x, ngoài ra có một mảng t. Mảng t xây dựng nhu sau: t[i] sẽ là tổng các phần tử trong mảng x từ x[1] đến x[i]: t[i] = x[1] + x[2] + ... + x[i].
 - Khi liệt kê các dãy x có tổng các phần tử đúng bằng n, để tránh sự trùng lặp ta sẽ đưa thêm ràng buộc x[i - 1] <= x[i]
 - Vì số phần tử thực sự của mảng x là không cố định nên thủ tục PrintResult dùng để in ra 1 cách phân tích phải cso thêm tham số cho biết sẽ in ra bao nhiêu phần tử.
 - Thủ tục đệ quy Backtrack(i) sẽ thử các giá trị có thể nhận của x[i] (x[i] >= x[i - 1])
@@ -255,7 +255,7 @@ int main()
 	- Khi t[i] = n tức là (x[i] = n - t[i - 1]) thì in kết quả
 	- Khi tìm tiếp, x[i + 1] sẽ phải lớn hơn hoặc bằng x[i]. Mặt khác t[i + 1] là tổng của các số từ x[1] tới x[i + 1] không được vượt quá n. Vậy ta có t[i + 1] <= n <=> t[i - 1] + x[i] + x[i + 1] <= n <=> x[i] + x[i + 1] <= n - t[i - 1] tức là x[i] <= (n - t[i - 1])/2: Ví dụ đơn giản khi n = 10 thì ta chọn x[1] = 6, 7, 8, 9 là việc làm vô nghĩa vì như vậy cũng khi ra nghiệm mà cũng không chọn tiếp x[2] được nữa.
 
-- *Một cách dễ hiểu: Ta gọi đẻ quy tìm tiếp khi gái trị x[i] được chọn còn cho phép chọn thêm một phần tử khác lớn hơn hoặc bằng nó mà không làm tổng vượt quá n. Còn ta in kết quả chỉ khi x[i] mang giá trị đúng bằng số thiếu hụt của tổng i - 1 ohần tử đầu so với n.*
+-*Một cách dễ hiểu: Ta gọi đẻ quy tìm tiếp khi gái trị x[i] được chọn còn cho phép chọn thêm một phần tử khác lớn hơn hoặc bằng nó mà không làm tổng vượt quá n. Còn ta in kết quả chỉ khi x[i] mang giá trị đúng bằng số thiếu hụt của tổng i - 1 ohần tử đầu so với n.*
 - Vậy thủ tục Backtrack(i) thử các giá trị cho x[i] có thể viết như sau: (để tổng quá cho i = 1, ta đặt x[0] = 1 và t[0] = 0).
 
 	- Xét các giá trị của x[i] từ x[i - 1] đến (n - t[i - 1]) / 2, cập nhật t[i] = t[i - 1] + x[i] và gọi đệ quy tiếp
@@ -339,7 +339,7 @@ int main()
 	- Một đường chéo theo hướng Đông Bắc - Tây Nam (ĐB - TN) bất kỳ sẽ đi qua một số ô, các ô đó có tính chất: Hàng + Cột = C (const). Với mỗi đường chéo ĐB - TN ta có 1 hằng số C và với một hàng số C: 2 <= C <= 2n xác định duy nhất 1 đường chéo ĐB - TN vì vậy ta có thể đánh chỉ số cho các đường chéo ĐB - TN từ 2 đến 2n
 	- Một đường chéo theo hướng Đông Nam - Tây Bắc (ĐN - TB) bất kỳ sẽ đi qua một số ô, các ô đó có tính chất Hàng - Cột = C (const). Với mỗi đường chéo ĐN - TB ta có 1 hằng số C và với một ahừng số C: 1 - n <= C <= n - 1 xác định duy nhất 1 đường chéo ĐN - TB vì vậy ta có thể đánh chỉ số cho các đường chéo ĐN - TB từ 1 - n đến n - 1
 
--**Cài đặt**
+- **Cài đặt**
 
 	- Ta có 3 mảng logic để đánh dấu:
 	- Mảng a[1..n]. a[i] = TRUE nếu như cột i còn tự do, a[i] = FALSE nếu như cột i đã bị một quân hậu khống chế
@@ -347,14 +347,14 @@ int main()
 	- Mảng c[1 - n..n - 1].c[i] = TRUE nếu như đường chéo ĐN - TB thứ i còn tự do, c[i] = FALSE nêu như đường chéo đó đã bị một quân hậu khống chết.
 	- Ban đầu cả 3 mảng đánh dấu đều mang giá trị TRUE. (Các cột và đường chéo đều tự do)
 
--**Thuật toán quay lui**
+- **Thuật toán quay lui**
 
 	- Xét tất cả các cột, thử đặt quân hậu 1 vào một cột, với mỗi các đặt như vậy, xét tất cả các cách đặt quân hậu 2 không bị quân hậu 1 ăn, lại thử 1 cách đặt và xét tiếp các cách đặt quân hậu 3... Mỗi cách đặt được đến quân hậu n cho ta 1 nghiệm
 	- Khi chọn vị trí cột j cho quân hậu thứ i, thì ta phải chọn ô(i, j) không bị các quân hậu đặt trước đó ăn, tức là phải chọn cột j còn tự do, đường chéo ĐB - TN (i + j) còn tự do, đường chéo ĐN - TB (i - j) còn tự do. Điều này có thể kiểm tra (a[j] = b[i + j] = c[i - j] = TRUE)
 	- Khi thử đặt được quân hậu thứ i vào cột j, nếu đó là quân hậu cuối cùng (i = n) thì ta có một nghiệm. Nếu không:
 
--**Trước khi gọi** đệ quy tìm các đặt quân hậu thứ i + 1, ta đánh dấu cột và 2 đường chéo bị quân hậy vừa đặt khống chế (a[j] = b[i + j] = c[i - j] = FALSE) để các lần gọi đệ quy tiếp sau chọn cách đặt các quân hậu kết tiếp sẽ không chọn vào những ô nằm trên cột j và những đường chéo này nữa.
--**Sau khi gọi** đệ quy tìm cách đặt quân hậu thứ i + 1, có nghĩa là sắp tới ta lại thử một cách đặt khác cho quân hậu thứ i, ta bỏ đánh dấu cột và 2 đường chéo bị quân hayụa vưa thử đặt khống chét (a[j] = b[i + j] = c[i - j] = TRUE) tức là cột và 2 đường chéo đó là thành tự do, bởi khi đã đặt quân hậu i sang vị trí khác rồi thì cột và 2 đường chéo đó hoàn toàn có thể gán cho một quân hậu khác
+- **Trước khi gọi** đệ quy tìm các đặt quân hậu thứ i + 1, ta đánh dấu cột và 2 đường chéo bị quân hậy vừa đặt khống chế (a[j] = b[i + j] = c[i - j] = FALSE) để các lần gọi đệ quy tiếp sau chọn cách đặt các quân hậu kết tiếp sẽ không chọn vào những ô nằm trên cột j và những đường chéo này nữa.
+- **Sau khi gọi** đệ quy tìm cách đặt quân hậu thứ i + 1, có nghĩa là sắp tới ta lại thử một cách đặt khác cho quân hậu thứ i, ta bỏ đánh dấu cột và 2 đường chéo bị quân hayụa vưa thử đặt khống chét (a[j] = b[i + j] = c[i - j] = TRUE) tức là cột và 2 đường chéo đó là thành tự do, bởi khi đã đặt quân hậu i sang vị trí khác rồi thì cột và 2 đường chéo đó hoàn toàn có thể gán cho một quân hậu khác
 - Hãy xem lại trong các chương trình liệt kê chỉnh hợp không lặp và hoán vị về kỹ thuật đánh dấu. Ở đây chỉ khác với liệt kê hoán vị là: liệt kê hoán vị chỉ cần một mảng đánh dấu xem giá trị có tự do không, còn bài toán xếp hậu thì cần phải đánh dấu cả 3 thành phần: Cột, đường chéo ĐB - TN, đường chéo ĐN - TB. Trường hợp đơn giản hơn: Yêu cầu liệt kê các cách đặt n quân xe lên bàn cờ n*n sao cho không quân nào ăn quân nào chính là bài toán liệt kê hoán vị.
 
 	- Input: file văn Queens.inp chứa số nguyên dương n <= 100
@@ -438,4 +438,4 @@ int main()
 }
 ```
 
-- Tên gọi thuật toán quay lui, đứng trên phương diện cài đặt có thể nen gọi là kỹ thuật vét cạn bằng quay lui thì chính xác hơn, tuy nhiên đứng trên phương diện bài toán, nếu như ta coi công việc giải bài toán bằng cách xét tất cả các khả năng cũng là 1 cách giải thì tên gọi thuật toán quay lui cũng không có gì trái logic. Xét hoạt động của chương trình tên cây tìm kiếm quay lui ta thấy tại bước thử chọn x[i] nó sẽ gọi đệ quy đẻ tìm tiếp x[i + 1] có nghĩa là quá trình sẽ duyệt tiến sâu xuống phía dưới đến tận nút lá, sau khi đã duyệt hết các nhánh, tiến trình lùi lại thử áp đặt một giá trị khác x[i], đó chính là nguồn gốc của tên gọi "thuật toán quay lui."
+-Tên gọi thuật toán quay lui, đứng trên phương diện cài đặt có thể nen gọi là kỹ thuật vét cạn bằng quay lui thì chính xác hơn, tuy nhiên đứng trên phương diện bài toán, nếu như ta coi công việc giải bài toán bằng cách xét tất cả các khả năng cũng là 1 cách giải thì tên gọi thuật toán quay lui cũng không có gì trái logic. Xét hoạt động của chương trình tên cây tìm kiếm quay lui ta thấy tại bước thử chọn x[i] nó sẽ gọi đệ quy đẻ tìm tiếp x[i + 1] có nghĩa là quá trình sẽ duyệt tiến sâu xuống phía dưới đến tận nút lá, sau khi đã duyệt hết các nhánh, tiến trình lùi lại thử áp đặt một giá trị khác x[i], đó chính là nguồn gốc của tên gọi "thuật toán quay lui."
