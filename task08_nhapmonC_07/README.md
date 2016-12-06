@@ -4,7 +4,7 @@
 >
 > Thực hiện bởi: Phạm Phú Quí
 >
-> Cập nhật lần cuối : 05.12.2016
+> Cập nhật lần cuối : 06.12.2016
 
 -----
 
@@ -17,6 +17,10 @@
 	- [1.3 Liệt kê các chỉnh hợp không lặp chập k](#chinhhopkhonglap)
 	- [1.4 Bài toán phân tích số](#phantichso)
 	- [1.5 Bài toán quân hậu](#queen)
+
+- [2. Thuật toán tham lam](#greedy)
+
+	- [2.1 Bài toán máy rút tiền tự động ATM](#money)
 
 ----
 
@@ -239,13 +243,13 @@ int main()
 
 ###1.4 Bài toán phân tích số:
 
--**Bài toán**:
+- **Bài toán**:
 
--Cho một số nguyên dương n <= 30, hãy tìm tất cả các cách phân tích số n thành tổng của các số nguyên dương, các cách phân tích là hoán vị của nhau chỉ tính là 1 cách.
+- Cho một số nguyên dương n <= 30, hãy tìm tất cả các cách phân tích số n thành tổng của các số nguyên dương, các cách phân tích là hoán vị của nhau chỉ tính là 1 cách.
 
--**Cách làm**:
+- **Cách làm**:
 
--Ta sẽ lưu nghiệm trong mảng x, ngoài ra có một mảng t. Mảng t xây dựng nhu sau: t[i] sẽ là tổng các phần tử trong mảng x từ x[1] đến x[i]: t[i] = x[1] + x[2] + ... + x[i].
+- Ta sẽ lưu nghiệm trong mảng x, ngoài ra có một mảng t. Mảng t xây dựng nhu sau: t[i] sẽ là tổng các phần tử trong mảng x từ x[1] đến x[i]: t[i] = x[1] + x[2] + ... + x[i].
 - Khi liệt kê các dãy x có tổng các phần tử đúng bằng n, để tránh sự trùng lặp ta sẽ đưa thêm ràng buộc x[i - 1] <= x[i]
 - Vì số phần tử thực sự của mảng x là không cố định nên thủ tục PrintResult dùng để in ra 1 cách phân tích phải cso thêm tham số cho biết sẽ in ra bao nhiêu phần tử.
 - Thủ tục đệ quy Backtrack(i) sẽ thử các giá trị có thể nhận của x[i] (x[i] >= x[i - 1])
@@ -255,7 +259,7 @@ int main()
 	- Khi t[i] = n tức là (x[i] = n - t[i - 1]) thì in kết quả
 	- Khi tìm tiếp, x[i + 1] sẽ phải lớn hơn hoặc bằng x[i]. Mặt khác t[i + 1] là tổng của các số từ x[1] tới x[i + 1] không được vượt quá n. Vậy ta có t[i + 1] <= n <=> t[i - 1] + x[i] + x[i + 1] <= n <=> x[i] + x[i + 1] <= n - t[i - 1] tức là x[i] <= (n - t[i - 1])/2: Ví dụ đơn giản khi n = 10 thì ta chọn x[1] = 6, 7, 8, 9 là việc làm vô nghĩa vì như vậy cũng khi ra nghiệm mà cũng không chọn tiếp x[2] được nữa.
 
--*Một cách dễ hiểu: Ta gọi đẻ quy tìm tiếp khi gái trị x[i] được chọn còn cho phép chọn thêm một phần tử khác lớn hơn hoặc bằng nó mà không làm tổng vượt quá n. Còn ta in kết quả chỉ khi x[i] mang giá trị đúng bằng số thiếu hụt của tổng i - 1 ohần tử đầu so với n.*
+- *Một cách dễ hiểu: Ta gọi đẻ quy tìm tiếp khi gái trị x[i] được chọn còn cho phép chọn thêm một phần tử khác lớn hơn hoặc bằng nó mà không làm tổng vượt quá n. Còn ta in kết quả chỉ khi x[i] mang giá trị đúng bằng số thiếu hụt của tổng i - 1 ohần tử đầu so với n.*
 - Vậy thủ tục Backtrack(i) thử các giá trị cho x[i] có thể viết như sau: (để tổng quá cho i = 1, ta đặt x[0] = 1 và t[0] = 0).
 
 	- Xét các giá trị của x[i] từ x[i - 1] đến (n - t[i - 1]) / 2, cập nhật t[i] = t[i - 1] + x[i] và gọi đệ quy tiếp
@@ -326,13 +330,13 @@ int main()
 
 ####1.5 Bài toán xếp hậu:
 
--**3.5.1 Bài toán**
+- **1.5.1 Bài toán**
 - Xét bàn cờ tổng quát kích thước nxn. Một quân hậu trên bàn cờ có thể ăn được các quân khác nằm tại các ô cùng hàng, cùng cột hoặc cùng đường chèo. Hãy tìm các xếp n quân hậu trên bàn cờ sao chpo không quân nào ăn được quân nào.
 - Ví dụ một cách xếp với n = 8;
 
 <img src="http://i.imgur.com/V02njLl.png">
 
-- **3.5.2 Phân tích**
+- **1.5.2 Phân tích**
 - Rõ ràng n quân hậu sẽ được đặt mỗi con một hàng vì hậu ăn được hàng ngang, ta gọi quân hậu sẽ đặt đặt ở hàng 1 là quân hâyụ 1, quân hậu ở hàng 2 là quân hậu 2... quân hậu ở hàng n là quân hậu n. Vậy một nghiệm của bài toán sẽ được biết khi ta tìm ra được vị trí cột của những quân hậu
 - Nếu ta định hướng Đông (Phải), Tây (Trái), Nam (Dưới), Bắc (Trên) thì ta nhận thấy rằng:
 
@@ -354,7 +358,7 @@ int main()
 	- Khi thử đặt được quân hậu thứ i vào cột j, nếu đó là quân hậu cuối cùng (i = n) thì ta có một nghiệm. Nếu không:
 
 - **Trước khi gọi** đệ quy tìm các đặt quân hậu thứ i + 1, ta đánh dấu cột và 2 đường chéo bị quân hậy vừa đặt khống chế (a[j] = b[i + j] = c[i - j] = FALSE) để các lần gọi đệ quy tiếp sau chọn cách đặt các quân hậu kết tiếp sẽ không chọn vào những ô nằm trên cột j và những đường chéo này nữa.
-- **Sau khi gọi** đệ quy tìm cách đặt quân hậu thứ i + 1, có nghĩa là sắp tới ta lại thử một cách đặt khác cho quân hậu thứ i, ta bỏ đánh dấu cột và 2 đường chéo bị quân hayụa vưa thử đặt khống chét (a[j] = b[i + j] = c[i - j] = TRUE) tức là cột và 2 đường chéo đó là thành tự do, bởi khi đã đặt quân hậu i sang vị trí khác rồi thì cột và 2 đường chéo đó hoàn toàn có thể gán cho một quân hậu khác
+-**Sau khi gọi** đệ quy tìm cách đặt quân hậu thứ i + 1, có nghĩa là sắp tới ta lại thử một cách đặt khác cho quân hậu thứ i, ta bỏ đánh dấu cột và 2 đường chéo bị quân hayụa vưa thử đặt khống chét (a[j] = b[i + j] = c[i - j] = TRUE) tức là cột và 2 đường chéo đó là thành tự do, bởi khi đã đặt quân hậu i sang vị trí khác rồi thì cột và 2 đường chéo đó hoàn toàn có thể gán cho một quân hậu khác
 - Hãy xem lại trong các chương trình liệt kê chỉnh hợp không lặp và hoán vị về kỹ thuật đánh dấu. Ở đây chỉ khác với liệt kê hoán vị là: liệt kê hoán vị chỉ cần một mảng đánh dấu xem giá trị có tự do không, còn bài toán xếp hậu thì cần phải đánh dấu cả 3 thành phần: Cột, đường chéo ĐB - TN, đường chéo ĐN - TB. Trường hợp đơn giản hơn: Yêu cầu liệt kê các cách đặt n quân xe lên bàn cờ n*n sao cho không quân nào ăn quân nào chính là bài toán liệt kê hoán vị.
 
 	- Input: file văn Queens.inp chứa số nguyên dương n <= 100
@@ -376,13 +380,10 @@ int main()
 #include <stdio.h>
 #include <stdlib.h>
 #include <memory.h>
-#include <iostream>
 #define c(i) c[i + 100]
 #define TRUE 1
 #define FALSE 0
 #define Bool int
-
-using namespace std;
 
 Bool c[200], a[100], b[200];
 int x[100], n;
@@ -438,4 +439,117 @@ int main()
 }
 ```
 
--Tên gọi thuật toán quay lui, đứng trên phương diện cài đặt có thể nen gọi là kỹ thuật vét cạn bằng quay lui thì chính xác hơn, tuy nhiên đứng trên phương diện bài toán, nếu như ta coi công việc giải bài toán bằng cách xét tất cả các khả năng cũng là 1 cách giải thì tên gọi thuật toán quay lui cũng không có gì trái logic. Xét hoạt động của chương trình tên cây tìm kiếm quay lui ta thấy tại bước thử chọn x[i] nó sẽ gọi đệ quy đẻ tìm tiếp x[i + 1] có nghĩa là quá trình sẽ duyệt tiến sâu xuống phía dưới đến tận nút lá, sau khi đã duyệt hết các nhánh, tiến trình lùi lại thử áp đặt một giá trị khác x[i], đó chính là nguồn gốc của tên gọi "thuật toán quay lui."
+- Tên gọi thuật toán quay lui, đứng trên phương diện cài đặt có thể nen gọi là kỹ thuật vét cạn bằng quay lui thì chính xác hơn, tuy nhiên đứng trên phương diện bài toán, nếu như ta coi công việc giải bài toán bằng cách xét tất cả các khả năng cũng là 1 cách giải thì tên gọi thuật toán quay lui cũng không có gì trái logic. Xét hoạt động của chương trình tên cây tìm kiếm quay lui ta thấy tại bước thử chọn x[i] nó sẽ gọi đệ quy đẻ tìm tiếp x[i + 1] có nghĩa là quá trình sẽ duyệt tiến sâu xuống phía dưới đến tận nút lá, sau khi đã duyệt hết các nhánh, tiến trình lùi lại thử áp đặt một giá trị khác x[i], đó chính là nguồn gốc của tên gọi "thuật toán quay lui."
+
+<a name="greedy"> </a>
+
+###2. Thuật toán tham lam:
+
+- Giải thuật tham lam là gì ?
+
+	- Tham lam (hay tham ăn) là một trong những phương pháp phổ biến nhất để thiết kế giải thuật. Nếu bạn đã đọc truyện dân gian thì sẽ có câu chuyện như thế này: trên một mâm cỗ có nhiều món ăn, món nào ngon nhất ta sẽ ăn trước, ăn hết món đó ta sẽ chuyển sang món ngon thứ hai, và chuyển tiếp sang món thứ ba, …
+	- Rất nhiều giải thuật nổi tiếng được thiết kế dựa trên ý tưởng tham lam, ví dụ như giải thuật cây khung nhỏ nhất của Dijkstra, giải thuật cây khung nhỏ nhất của Kruskal, …
+	- Giải thuật tham lam (Greedy Algorithm) là giải thuật tối ưu hóa tổ hợp. Giải thuật tìm kiếm, lựa chọn giải pháp tối ưu địa phương ở mỗi bước với hi vọng tìm được giải pháp tối ưu toàn cục.
+	- Giải thuật tham lam lựa chọn giải pháp nào được cho là tốt nhất ở thời điểm hiện tại và sau đó giải bài toán con nảy sinh từ việc thực hiện lựa chọn đó. Lựa chọn của giải thuật tham lam có thể phụ thuộc vào lựa chọn trước đó. Việc quyết định sớm và thay đổi hướng đi của giải thuật cùng với việc không bao giờ xét lại các quyết định cũ sẽ dẫn đến kết quả là giải thuật này không tối ưu để tìm giải pháp toàn cục.
+
+- Bạn theo dõi một bài toán đơn giản dưới đây để thấy cách thực hiện giải thuật tham lam và vì sao lại có thể nói rằng giải thuật này là không tối ưu.
+
+- Bài toán đếm số đồng tiền
+	
+	- Yêu cầu là hãy lựa chọn số lượng đồng tiền nhỏ nhất có thể sao cho tổng mệnh giá của các đồng tiền này bằng với một lượng tiền cho trước.
+	- Nếu tiền đồng có các mệnh giá lần lượt là 1, 2, 5, và 10 xu và lượng tiền cho trước là 18 xu thì giải thuật tham lam thực hiện như sau:
+
+		- Bước 1: Chọn đồng 10 xu, do đó sẽ còn 18 – 10 = 8 xu.
+		- Bước 2: Chọn đồng 5 xu, do đó sẽ còn là 3 xu.
+		- Bước 3: Chọn đồng 2 xu, còn lại là 1 xu.
+		- Bước 4: Cuối cùng chọn đồng 1 xu và giải xong bài toán.
+
+- Bạn thấy rằng cách làm trên là khá ổn, và số lượng đồng tiền cần phải lựa chọn là 4 đồng tiền. Nhưng nếu chúng ta thay đổi bài toán trên một chút thì cũng hướng tiếp cận như trên có thể sẽ không đem lại cùng kết quả tối ưu.
+- Chẳng hạn, một hệ thống tiền tệ khác có các đồng tiền có mệnh giá lần lượt là 1, 7 và 10 xu và lượng tiền cho trước ở đây thay đổi thành 15 xu thì theo giải thuật tham lam thì số đồng tiền cần chọn sẽ nhiều hơn 4. Với giải thuật tham lam thì: 10 + 1 + 1 +1 + 1 + 1, vậy tổng cộng là 6 đồng tiền. Trong khi cùng bài toán như trên có thể được xử lý bằng việc chỉ chọn 3 đồng tiền (7 + 7 +1).
+Do đó chúng ta có thể kết luận rằng, giải thuật tham lam tìm kiếm giải pháp tôi ưu ở mỗi bước nhưng lại có thể thất bại trong việc tìm ra giải pháp tối ưu toàn cục.
+
+<a name="money"> </a>
+
+####2.1 Bài toán máy rút tiền tự động ATM:
+
+- Thuật toán với ý tưởng tham lam đơn giản, hàm chọn như sau: Tại mỗi bước ta sẽ chọn tờ tiền lớn nhất còn lại không vượt quá lượng tiền còn phải trả, cụ thể:
+
+	- Sắp xếp các tờ tiền giảm gần theo giá trị.
+	- Lần lượt xét các tờ tiền từ giá trị lớn đến giá trị nhỏ, nếu vẫn còn chưa lấy đủ S và tờ tiền đang xét có giá trị nhỏ hơn hoặc bằng S thì lấy luôn tờ tiền đó.
+
+| ATM.inp | ATM.out |
+|---------|---------|
+| 10 390 | 5 |
+| 200 10 20 20 50 50 50 50 100 100 | 200 100 50 20 20 |
+
+```C
+#include <stdio.h>
+#include <stdlib.h>
+
+int n, s, a[100], x[100], c = 0;
+
+void Enter()
+{
+	FILE *fi = NULL;
+	fi = fopen("ATM.inp","r");
+	fscanf(fi,"%d %d",&n, &s);
+	for (int i = 1; i <= n; i++)
+		fscanf(fi,"%d", &a[i]);
+	fclose(fi);
+}
+void QSort(int L, int H)
+{
+	int i = L;
+	int j = H;
+	int x = a[(L + H) / 2];
+	do
+	{
+		while (a[i] > x) i++;
+		while (a[j] < x) j--;
+		if (i <= j)
+			{
+				int tmp = a[i];
+				a[i] = a[j];
+				a[j] = tmp;
+				i++;
+				j--;
+			}
+	} while (i <= j);
+	if (L < j) QSort(L, j);
+	if (i < H) QSort(i, H);
+}
+void solve()
+{
+	for (int i = 1; i <= n; i++)
+		if (s >= a[i])
+		{
+			c++;
+			x[i] = 1;
+			s -= a[i];
+		}
+}
+void Output()
+{
+	FILE *fo = NULL;
+	fo = fopen("ATM.out","w");
+	if (s == 0)
+	{
+		fprintf(fo,"%d \n", c);
+		for (int i = 1; i <= n; i++)
+		{
+			if (x[i] == 1)
+				fprintf(fo,"%d ",a[i]);
+		}
+	}
+	else
+		fprintf(fo,"-1");
+	fclose(fo);
+}
+int main()
+{
+	Enter();
+	QSort(1, n);
+	solve();
+	Output();
+}
+```
