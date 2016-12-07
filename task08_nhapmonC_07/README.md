@@ -4,7 +4,7 @@
 >
 > Thực hiện bởi: Phạm Phú Quí
 >
-> Cập nhật lần cuối : 06.12.2016
+> Cập nhật lần cuối : 07.12.2016
 
 -----
 
@@ -21,6 +21,11 @@
 - [2. Thuật toán tham lam](#greedy)
 
 	- [2.1 Bài toán máy rút tiền tự động ATM](#money)
+
+- [3. Quy hoạch động](#qhd)
+
+	- [3.1 Công thức truy hồi](#trace)
+	- [3.2 Cải tiến thứ nhất](#thunhat)
 
 ----
 
@@ -553,3 +558,108 @@ int main()
 	Output();
 }
 ```
+
+<a name="qhd"> </a>
+
+###3. Quy hoạch động
+
+-Các thuật toán đệ quy có ưu điểm dễ vài đặt, tuy nhiên do bản chất của quá trình đệ quy, các chương trình này thường kéo theo những đòi hỏi lớn về không gian bộ nhớ và một lượng tính toán khổng lồ.
+- Quy hoạch động (Dynamic programming) là một kỹ thuật nhằm đơn giản hoá việc tính toán các công thức truy hồi bằng cách lưu trữ toàn bộ hay một phần kết quả tính toán tại mỗi bước với mục đích sử dụng lại. Bản chất của quy hoạch động là thay thế mô hình tính toán "từ trên xuống" (Top - down) bằng mô hình tính toán (Bottom - up)
+- Từ "programming" ở đây không liên quan gì tới việc lập trình cho máy tính, đó là một thuật ngữ mà các nhà toán học hay dùng để chỉ ra các bước khung trong việc giải quyết một dạng bài toán hay một lớp các vấn đề. Không có một thuật toán tổng quát để giải tất cả các bài toán quy hoạch động.
+
+<a name="trace"> </a>
+
+####3.1 Công thức truy hồi:
+
+- **Ví dụ:** Cho số tự nhiên n <= 100. Hãy cho biết có bao nhiêu cách phân tích số n thành tổng của dãy các số nguyên dương, các cách phân tích là hoán vị của nhau chỉ tính là một cách.
+
+	- *Ví dụ:* n = 5 có 7 cách phân tích:
+	- 1. 5 = 1 + 1 + 1 + 1 + 1
+	- 2. 5 = 1 + 1 + 1 + 2
+	- 3. 5 = 1 + 1 + 3
+	- 4. 5 = 1 + 2 + 2
+	- 5. 5 = 1 + 4
+	- 6. 5 = 2 + 3
+	- 7. 5 = 5
+
+- **(Lưu ý: n = 0 vẫn coi là có 1 cách phân thành tổng các số nguyên dương (0 là tổng của dãy rỗng))**
+- Để giải bài toán này, trong chuyên mục trước ta đã dùng phương pháp liệt kê tất cả các cách phân tích và đếm số cấu hình. Bây giờ ta thử nghĩ xem, *có cách nào tính ngay ra số lượng các cách phân tích mà không càn phải liệt kê hay không?*. Bởi vì khi số cách phân tích tương đối lớn, phương pháp liệt kê tỏ ra khá chậm (n = 100 có 190569292 cách phân tích).
+- **Nhận xét:**
+- Nếu gọi **F[m, v] là số cách phân tích số v thành tổng các số nguyên dương <= m**. Khi đó:
+- Các cách phân tích số v thành tổng các số nguyên dương <= m có thể chưa làm 2 loại:
+
+	- Loại 1: Không chứa số m trong phép phân tích, khi đó số cách phân tích loại này chính là số cách phân số v thành tổng các số nguyên dương < m, tức là số cách phân tích số v thành tổng các số nguyên <= m - 1 và bằng F[m - 1, v].
+	- Loại 2: Có chứa ít nhất một số m trong phép phân tích. Khi đó nếu trong các cách phân tích loại này ta bỏ đi số m đó thì ta sẽ được các cách phân tích số v - m thành tổng các số nguyên < m (Lưu ý: điều này chri đúng khi không tính lặp lại các hoán vị của một cách). Có nghĩa là về mặt số lượng, số các cách phân tích loại này bằng F[m, v - m]
+
+- Trong trường hợp m > v thì rõ ràng chỉ có các cách phân tích loại 1, còn trong trường hợp m <= v thì ta sẽ có cả các cách phân tích loại 1 và loại 2. Vì thế:
+
+	- F[m, v] = F[m - 1, v]; if m > v
+	- F[m - 1, v] + F[m, v - m]; if m <= v
+
+- Ta có công thức xây dựng F[m, v từ F[m - 1, v] và F[m, v - m]. Công thức này có tên gọi là công thức truy hồi đưa việc tính F[m, v] về việc tính các F[m', v'] với dữ liệu hơn. Tất nhiên cuối cùng ta sẽ quan tâm đến F[n, n]; Số các cách phân tích n thành tổng các số nguyên dương <= n.
+- Ví dụ với n = 5, bảng F sẽ là
+
+| F | 0 | 1 | 2 | 3 | 4 | 5 |
+|---|---|---|---|---|---|---|
+| 0 | 1 | 0 | 0 | 0 | 0 | 0 |
+| 1 | 1 | 1 | 1 | 1 | 1 | 1 |
+| 2 | 1 | 1 | 2 | 2 | 3 | 3 |
+| 3 | 1 | 1 | 2 | 3 | 4 | 5 |
+| 4 | 1 | 1 | 2 | 3 | 5 | 6 |
+| 5 | 1 | 1 | 2 | 3 | 5 | 7 |
+
+- Nhìn vào bảng F, ta thấy rằng F[m, v] được tính bằng tổng của:
+- Một phần tử ở hàng trên: F[m = 1, v] và một phần tử ở cùng hàng, bên trái: F[m, v - m].
+- Ví dụ F[5, 5] sẽ đyợc tính bằng F[4, 5] + F[5, 0], hay F[3, 5] sẽ được tính bằng F[2, 2] + F[3, 2]. Chính vì vậy để tính F[m, v] thì F[m - 1, v] và F[m, v - m] phải được tính trước. Suy ra thứ tự hợp lý để tính các phần tử trong bảng F sẽ phải là theo thứ tụ từ trên xuống và trên mỗi hàng thì tính theo thứ tự từ trên xuống và trên mỗi hàng thì tính theo thứ tự từ trái qua phải.
+- Điều đó có nghĩa là ban đầu ta phải tính hàng 0 của bảng: F[0, v] = số dãy có các phần tử <= 0 mà tổng bằng v, theo quy ước ở để bài thì F[0, 0] = 1 còn F[0, v] với mọi v > 0 đều là 0. Vậy giải thuật dựng rất đơn giản: Khởi tạo dòng 0 của bảng F: F[0, 0] = 1 còn F[0, v] với mọi v > 0 đều bằng 0, sau đó dùng công thức hồi tính ra tất cả các phần tử của bảng F. Cuối cùng F[n, n] là số cách phân tích cần tìm.
+
+```C
+#include <stdio.h>
+#include <memory.h>
+
+int main()
+{
+	int a[100][100], n;
+	scanf("%d", &n);
+	memset(a, 0, sizeof(a));
+	a[0][0]6 = 1;
+	for (int m = 1; m <= n; m++)
+		for (int v = 0; v <= n; v++)
+		{
+			if (v < m)
+				a[m][v] = a[m - 1][v];
+			else
+				a[m][v] = a[m - 1][v] + a[m][v - m];	
+		}
+	printf("%d Analyses", a[n][n]);
+}
+```
+<a name="thunhat"> </a>
+
+####3.2 Cải tiến thứ nhất:
+- Cách làm trên có thể tóm tắt lại như sau: Khởi tạo dòng 0 của bảng, sau đó dùng dòng 0 tính dòng 1, dùng dòng 1 tính dòng 2 v.v... tới khi tính được hết dòng n. Có thể nhận thấy rằng khi đã tính xong dòng thứ k thì việc lưu trữ các dòng từ dòng 0 tới dòng k - 1 là không caàn thiết bởi vì việc tính dòng k + 1 chỉ phụ thuộc các giá trị lưu trữ trên dòng k. Vậy ta có thể dùng hai mảng một chiều: Mảng Current lưu dòng hiện thời đang xét của hàng và mảng Next lưu dòng kết tiếp, đầu tiên mảng Current được gán các giá trị tương ứng trên dòng 0. Sau đó dùng mảng Current tính mảng Next, mảng Next sau khi tính sẽ mang các giá trị tương ứng trên dòng 1. Rồi lại gán mảng Current = Next và tiếp tục dùng mảng Current tính mảng Next, mảng Next sẽ gồm các giá trị tương ứng trên 2 v.v... Vậy ta có cài đặt cải tiến sau:
+
+```C
+#include <stdio.h>
+#include <memory.h>
+
+int main()
+{
+	int current[100], next[100], n;
+	scanf("%d", &n);
+	memset(current, 0, sizeof(current));
+	current[0] = 1;
+	for (int m = 1 ; m <= n; m++)
+	{
+		for (int v = 0; v <= n; v++)
+			if (v < m) 
+				next[v] = current[v];
+			else
+				next[v] = next[v - m] + current[v];
+		memcpy(current, next, sizeof(next)); 
+	}
+	printf("%d Analyses", current[n]);
+}
+```
+
+- Cách làm trên đã tiết kiệm được khá nhiều không gian lưu trữ, nhưng nó hơi chậm hơn phương pháp đầu tiên vì phép gán mảng (current = next). Có thể cảu tiến thêm cách làm này như sau:
