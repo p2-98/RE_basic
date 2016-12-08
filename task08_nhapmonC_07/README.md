@@ -4,7 +4,7 @@
 >
 > Thực hiện bởi: Phạm Phú Quí
 >
-> Cập nhật lần cuối : 07.12.2016
+> Cập nhật lần cuối : 06.12.2016
 
 -----
 
@@ -25,8 +25,16 @@
 - [3. Quy hoạch động](#qhd)
 
 	- [3.1 Công thức truy hồi](#trace)
-	- [3.2 Cải tiến thứ nhất](#thunhat)
 
+		- [3.1.1 Cải tiến thứ nhất](#thunhat)
+		- [3.1.2 Cải tiến thứ hai](#thuhai)
+		- [3.1.3 Cải tiến đệ quy](#dequy)
+
+	- [3.2 Phương pháp quy hoạch động](#quyhoach)
+
+		- [3.2.1 Bài toán quy hoạch](#baitoan)
+		- [3.2.2 Phương pháp quy hoạch](#phuongphap)
+		
 ----
 
 <a name="quaylui"> </a>
@@ -599,14 +607,14 @@ int main()
 - Ta có công thức xây dựng F[m, v từ F[m - 1, v] và F[m, v - m]. Công thức này có tên gọi là công thức truy hồi đưa việc tính F[m, v] về việc tính các F[m', v'] với dữ liệu hơn. Tất nhiên cuối cùng ta sẽ quan tâm đến F[n, n]; Số các cách phân tích n thành tổng các số nguyên dương <= n.
 - Ví dụ với n = 5, bảng F sẽ là
 
-| F | 0 | 1 | 2 | 3 | 4 | 5 |
-|---|---|---|---|---|---|---|
-| 0 | 1 | 0 | 0 | 0 | 0 | 0 |
-| 1 | 1 | 1 | 1 | 1 | 1 | 1 |
-| 2 | 1 | 1 | 2 | 2 | 3 | 3 |
-| 3 | 1 | 1 | 2 | 3 | 4 | 5 |
-| 4 | 1 | 1 | 2 | 3 | 5 | 6 |
-| 5 | 1 | 1 | 2 | 3 | 5 | 7 |
+| F | 0 1 2 3 4 5 |
+|---|-------------|
+| 0 | 1 0 0 0 0 0 |
+| 1 | 1 1 1 1 1 1 |
+| 2 | 1 1 2 2 3 3 |
+| 3 | 1 1 2 3 4 5 |
+| 4 | 1 1 2 3 5 6 |
+| 5 | 1 1 2 3 5 7 |
 
 - Nhìn vào bảng F, ta thấy rằng F[m, v] được tính bằng tổng của:
 - Một phần tử ở hàng trên: F[m = 1, v] và một phần tử ở cùng hàng, bên trái: F[m, v - m].
@@ -636,7 +644,7 @@ int main()
 ```
 <a name="thunhat"> </a>
 
-####3.2 Cải tiến thứ nhất:
+####3.1.1 Cải tiến thứ nhất:
 - Cách làm trên có thể tóm tắt lại như sau: Khởi tạo dòng 0 của bảng, sau đó dùng dòng 0 tính dòng 1, dùng dòng 1 tính dòng 2 v.v... tới khi tính được hết dòng n. Có thể nhận thấy rằng khi đã tính xong dòng thứ k thì việc lưu trữ các dòng từ dòng 0 tới dòng k - 1 là không caàn thiết bởi vì việc tính dòng k + 1 chỉ phụ thuộc các giá trị lưu trữ trên dòng k. Vậy ta có thể dùng hai mảng một chiều: Mảng Current lưu dòng hiện thời đang xét của hàng và mảng Next lưu dòng kết tiếp, đầu tiên mảng Current được gán các giá trị tương ứng trên dòng 0. Sau đó dùng mảng Current tính mảng Next, mảng Next sau khi tính sẽ mang các giá trị tương ứng trên dòng 1. Rồi lại gán mảng Current = Next và tiếp tục dùng mảng Current tính mảng Next, mảng Next sẽ gồm các giá trị tương ứng trên 2 v.v... Vậy ta có cài đặt cải tiến sau:
 
 ```C
@@ -663,3 +671,204 @@ int main()
 ```
 
 - Cách làm trên đã tiết kiệm được khá nhiều không gian lưu trữ, nhưng nó hơi chậm hơn phương pháp đầu tiên vì phép gán mảng (current = next). Có thể cảu tiến thêm cách làm này như sau:
+
+```C
+#include <stdio.h>
+#include <memory.h>
+
+int main()
+{
+	int n, b[100][100]; 
+	scanf("%d", &n);
+	memset(b[1], 0, sizeof(b[1]));
+	b[1][0] = 1;
+	int x = 1;
+	int y = 2;
+	for (int m = 1; m <= n; m++)
+	{
+		for (int v = 0; v <= n; v++)
+		if ( v < m) 
+			b[y][v] = b[x][v];
+		else
+			b[y][v] = b[x][v] + b[y][v - m];
+		x = 3 - x; y = 3 - y;
+	}
+	printf("%d Analyses", b[x][n]);
+}
+```
+
+<a name="thuhai"> </a>
+
+####3.1.2 Cải tiến thứ hai:
+
+- Ta vẫn còn cách tốt hơn nữa, tại mỗi bước, ta chỉ cần lưu lại một dòng của bảng 1 chiều, sau đó dùng mảng đó tính lại chính nó để sau khi tính, mảng một các giá trị của bảng F trên dòng kế tiếp.
+
+```C
+#include <stdio.h>
+#include <memory.h>
+
+int main()
+{
+	int l[100], n;
+	scanf("%d", &n);
+	memset(l, 0, sizeof(l));
+	l[0] = 1;
+	for (int m = 1; m <= n; m++)
+		for (int v = m; v <= n; v++)
+			l[v] = l[v] + l[v - m];
+	printf("%d Analyses", l[n]);
+}
+```
+
+<a name="dequy"> </a>
+
+####3.1.3 Cài đặt đệ quy:
+
+- Xem lại công thức truy hồi tính F[m, v] = F[m - 1, v] + F[m, v - m], ta nhận thấy rằng để tính F[m, v] ta phải biết được chính xác F[m - 1, v] và F[m, v - m]. Như vậy việc xác định thứ tự tính các phần tử trong bảng F (phần tử nào tính trước, phần tử tính sau) là quan trọng. Tuy nhiên ta có thể tính dựa trên một hàm đệ quy mà không cần phải quan tâm tới thứ tự tính toán. Việc viết một hàm đệ quy mà không cần phải quan tâm tới thứ tự tính toán. Việc viết một hàm đệ quy tính công thức truy hồi khá đơn giản, như ví dụ này ta có thể viết:
+
+```C
+#include <stdio.h>
+
+int GetF(int m, int v)
+{
+	if (m == 0)
+		if (v == 0) 
+			return 1;
+		else
+			return 0;
+	else
+		if (m > v)
+			return GetF(m - 1, v);
+		else
+			return GetF(m - 1, v) + GetF(m, v - m);
+}
+int main()
+{
+	int n;
+	scanf("%d", &n);
+	printf("%d Analyses", GetF(n, n));
+}
+```
+
+- Phương pháp cài đặt này tỏ ra khá chậm vì phải gọi nhiều lần mỗi hàm GetF(m, v) (bài sau giải thích rõ hơn điều này). Ta có thể cải tiến bằng cách kết hợp với một mảng hai chiều F. Ban đầu các phần tử của F được coi là "chưa biết" (bằng cách gán một giá trị đặt biệt). Hàm GetF(m, v) khi được gọi trước hết sẽ tra cứu tới F[m, v], nếu F[m, v] chưa biết thì hàm GetF(m, v) khi được gọi trước hết sẽ tra cứu tới F[m, v], nếu F[m, v] chưa biết thì hàm GetF(m, v) sẽ gọi đệ quy để tính gái trị của F[m, v] rồi dùng giá trị này gán cho kết quả hàm, còn nếu F[m, v] đã biết thì hàm này chỉ việc gán kết quả hàm là F[m, v] mà không cần gọi đệ quy để tính toán nữa.
+
+```C
+#include <stdio.h>
+#include <memory.h>
+
+int GetF(int F[100][100], int m, int v)
+{
+	if (F[m][v] = -1)
+	{
+		if (m == 0)
+			if (v == 0)
+				F[m][v] = 1;
+			else
+				F[m][v] = 0;
+		else
+			if (m > v)
+				F[m][v] = GetF(F, m - 1, v);
+			else
+				F[m][v] = GetF(F, m - 1, v) + GetF(F, m, v - m);
+	}
+	return F[m][v];
+}
+int main()
+{
+	int F[100][100], n;
+	scanf("%d", &n);
+	memset(F, -1, sizeof(F));
+	printf("%d Analyses", GetF(F, n, n));
+}
+```
+
+- Việc sử dụng phương pháp đệ quy để giải công thức truy hồi là một kỹ thuật đáng lưu ý, vì khi gặp một công thức truy hồi phức tạp, khó xác định thứ tự tính toán thì phương pháp này tỏ ra rất hiệu quả, hơn thế nữa nó làm rõ hơn bản chất đệ quy của công thức truy hồi.
+
+<a name="quyhoach"> </a>
+
+###3.2 Phương pháp quy hoạch động
+
+<a name="baitoan"> </a>
+
+####3.2.1 Bài toán quy hoạch:
+
+- Bài toán quy hoạch là bài toán tối ưu: gồm có một hàm f gọi là hàm mục tiêu hay hàm đánh giá, các hàm g1, g2,... gn cho giá trị logic gọi là hàm ràng buộc. Yêu cầu của bài toán là tìm một cấu hình x thoả mãn tất cả các ràng buộc g1, g2, ..., gn. gi(x) = TRUE (với mọi 1 <= i <= n) và x là tốt nhất, theo nghĩa không tồn tại một cấu hình y nào khác thoả mãn các hàm ràng buộc mà f(y) tốt hơn f(x).
+
+- **Ví dụ:**
+
+	- Tìm (x, y) để
+	- Hàm mục tiêu: x + y -> max
+	- Hàm ràng buộc: x^2 + y^2 <= 1
+	- Xét trong mặt phẳng toạ độ, những cặp (x, y) thoả mãn x^2 + y^2 <= 1 là toạ độ của những điểm nằm trong hình tròn có tâm 0 là gốc toạ độ, bán kính 1. Vậy nghiệm của bài toán bắt buộc nằm trong hình tròn đó.
+	- Những đường thẳng có phương trình: x + y = C (C là một hằng số) là đường thẳng vuông góc với đường phân giác góc phần thư thứ nhất. Ta phải tìm số C lớn nhất mà đường thẳng x+ y = C vẫn có điểm chung với đường trong (O, 1). Đường thẳng đó là một tiếp tuyến của đường tròn: x + y = sqrt(2). Tìm (1/sqrt(2), 1/sqrt(2)) tương ứng với nghiệm tối ưu của bài đã cho.
+
+<img src="http://i.imgur.com/4t3uVKk.jpg">
+
+- Các dạng bài toán quy hoạch rất phong phú và đa dạng, ứng dụng nhiều trong thực tế, nhưng cũng cần biết rằng, đa số các bài toán quy hoạch là không giải được, hoặc chưa giải được. Cho đến nay, người ta mới chỉ có thuật toán đơn hình giải bài toán quy hoạch tuyến tính lồi, và một vài thuật toán khác áp dụng cho các lớp bài toán cụ thể.
+
+<a name="phuongphap"> </a>
+
+####3.2.2 Phương pháp quy hoạch động:
+
+- Phương pháp quy hoạch động dùng để giải bài toán tối ưu có bản chất đệ quy, tức là viẹc tìm phương án tối ưu cho bài toán đó có thể đưa về tìm phương án tối ưu của một số hữu hạn các bài toán con. Đối với nhiều thuật toán đệ quy chúng ta đã tìm hiểu, nguyên lý chia để trị (divide and conquer) thường đóng vai tròn chủ đạo trong việc thiết kế thuật toán. Để giải quyết một bài toán ớn, ta chia nó làm nhiều bài toán con cùng dạng với nó để có thể giải quết độc lâp. Trong phương pháp quy hoạch động, nguyên lý này càng được thể hiện rõ: Khi không biết cần phải giải quyết những bài toán con nào, ta sẽ đi giải quyết tất cả các bài toán con và lưu trữ những lời giải hay đáp số của chúng với mục đích sử dụng lại theo một sự phối hợp nào đó để giải quyết những bài toán tổng quát hơn. Đó chính là điểm khác nhau giữa Quy hoạch động và phép phân giải đệ quy và cũng là nội dung phương pháp quy hoạch động:
+
+	- Phép phân giải đệ quy bắt đầu từ bài toán lớn phân rã thành nhiều bài toán con và đi giải từng bài toán con đó. Việc giải từng bài toán con lại đưa về phép phân rã tiếp thành nhiều bài toán nhỏ hơn và lại đi giải tiếp bài toán nhỏ hơn đó bất kể nó đã được giải hay chưa.
+	- Quy hoạch động bắt đầu từ việc giải tất cả các bài toán nhỏ nhất (bài toán cơ sở) để từ đso từng bước giải quyết những bài toán lớn hơn, cho tới khi giải được bài toán lớn  nhất (bài toán ban đầu).
+
+- Ta xét một ví dụ đơn giản:
+
+	- Dãy Fibonacci là dãy vô hạn các số nguyên dương F[1], F[2],... được định nghĩa như sau:
+
+	- F[i] = i, if i <= 2;
+	- F[i] = F[i - 1] + F[i - 2], if i >= 3;
+
+- Hãy tính F[6]
+- Xét hai cách cài đặt chương trình:
+- Cách 1:
+
+```C
+int F(int i)
+{
+	if (i < 3)
+		return 1;
+	else
+		return F(i - 1) + F(i - 2);
+}
+int main()
+{
+	printf("%d", F[6]);
+}
+```
+
+- Cách 2:
+
+```C
+int main()
+{
+	int F[6];
+	F[1] = 1;
+	F[2] = 1;
+	for (int i = 3; i < 7; i++)
+		F[i] = F[i - 1] + F[i - 2];
+	printf("%d", F[6]);
+}
+```
+
+- Các 1 có hàm đệ quy F(i) để tính số Fibonacci thứ i. Chương trình chính gọi F(6), nó sẽ gọi tiếp F(5) và F(4) để tính ... Quá trình tính toán có thể vẽ như cây dứoi đây. Ta nhận thấy để tính F(6) nó phải tính 1 lần F(5), hai lần F(4), ba lần F(3), năm lần F(2), ba lần F(1).
+
+<img src="http://i.imgur.com/AfpvLig.png">
+
+- Cách 2 thì không như vậy. Trước hết nó tính sẵn F[1] và F[2], từ đó tính tiếp F[3], lại tihs tiếp được F[4], F[5], F[6]. Đảm bảo rằng mỗi giá trị Fibonacci chỉ phải tính 1 lần.
+- (Cách 2 còn có thể cải tiến thêm nữa, chỉ cần dừng 3 giá trị tính lại lẫn nhau).
+- Trước khi áp dụng phương pháp quy hoạch động ta phải xét xem phương pháp đó có thể thoả mãn những yêu cầu dưới đây hay không:
+
+	- Bài toán lớn phải phân rã được thành nhiều bài toán con, mà sự phối hợp lời giải các bài toán con đó cho ta lời giải của bài toán lớn.
+	- Vì quy hoạch động là đi giải tất cả các bài toán con, nên nếu không đủ không gian vật lý lưu trữ lời giải (bộ nhớ, đĩa,...) để phối hợp chúng thì phương pháp quy hoặch động cũng không thể thực hiện được.
+	- Quá trình từ bài toán cơ sở tìm ra lời giải bài toán ban đầu phải qua hữu hạn bước.
+
+- **Các khái niệm:**
+
+	- Bài toán giải theo phương pháp quy hoạch động gọi là **bài toán quy hoạch động**
+	- Công thức phối hợp nghiệm của các bài toán con để có nghiệm của bài toán lớn gọi là **công thức truy hồi (hay phương trình truy toán) của quy hoạch động.
+	- Tập các bài toán nhỏ nhất có ngay lời giải để từ đó giải quyết các bài toán lớn hơn gọi là *cơ sở quy hoạch động**
+	- Không gian lưu trữ lời giải các bài toán con để tìm các phối hợp chúng gọi là *bảng phương án quy hoạch động**.
