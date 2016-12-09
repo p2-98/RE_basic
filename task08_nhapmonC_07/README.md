@@ -1160,9 +1160,6 @@ int main()
 #include <stdio.h>
 #include <stdlib.h>
 #include <memory.h>
-#include <iostream>
-
-using namespace std;
 
 int n, M, W[100], V[100], F[100][100];
 
