@@ -4,7 +4,7 @@
 >
 > Thực hiện bởi: Phạm Phú Quí
 >
-> Cập nhật lần cuối : 08.12.2016
+> Cập nhật lần cuối : 09.12.2016
 
 -----
 
@@ -34,7 +34,12 @@
 
 		- [3.2.1 Bài toán quy hoạch](#baitoan)
 		- [3.2.2 Phương pháp quy hoạch](#phuongphap)
-		
+
+	- [3.3 Một số bài toán quy hoạch động](#baitoan)
+
+		- [3.3.1 Dãy con đơn điệu tăng dài nhất](#daycon)
+		- [3.3.2 Bài toán cái túi](#caitui)
+
 ----
 
 <a name="quaylui"> </a>
@@ -65,7 +70,7 @@ int Backtrack (i)
 				{Ghi nhận việc cho x[1] nhận giá trị V (nếu cầu)};
 				Backtrack(i + 1); {Gọi đệ quy đề chọn tiếp x[i + 1]}
 				{Nếu cần, bỏ ghi nhận việc thử x[i] := V để thử giá trị khác};
-			};
+		};
 	}
 }
 ```
@@ -872,3 +877,333 @@ int main()
 	- Công thức phối hợp nghiệm của các bài toán con để có nghiệm của bài toán lớn gọi là **công thức truy hồi (hay phương trình truy toán) của quy hoạch động.
 	- Tập các bài toán nhỏ nhất có ngay lời giải để từ đó giải quyết các bài toán lớn hơn gọi là *cơ sở quy hoạch động**
 	- Không gian lưu trữ lời giải các bài toán con để tìm các phối hợp chúng gọi là *bảng phương án quy hoạch động**.
+
+- **Các bước cài đặt một chương trình sử dụng quy hoạch động:**
+
+	- Giải tất cả các bài toán cơ sở (thông thường rất dễ), lưu các lời giải vào bảng phương án.
+	- Dùng công thức truy hồi phối hợp những lời giải của những bài toán nhỏ đã lưu trong brng phương án để tìm lời giải của những bài toán lớn hơn và lưu chúng vào bảng phương án. Cho tới khi bài toán ban đầu tìm được lời giải.
+	- Dựa vào bảng phương án, truy vết tìm ra nghiệm tối ưu.
+
+- Cho đến nay, vẫn chưa có một định lý nào cho biết một cách chính xác những bài toán có thể giải quyết hiệu quả bằng quy hoạch động. Tuy nhiên để biết được bài toán có thể giải được bằng quy hay không, ta có thể tự đặt câu hỏi: **"Một nghiệm tối ưu của bài toán lớn có phải là sự phối hợp các nghiệm tối ưu của các bài toán con hay không?"** và **"Liệu có thể nào lưu trữ được nghiệm các bài toán con dưới một hình thức nào đó để phối hợp tìm được nghiệm bài toán lớn".**
+
+<a name="baitoanqhd"> </a>
+
+###3.3 Một số bài toán quy hoạch động:
+
+<a name="daycon"> </a>
+
+####3.3.1 Dãy con đơn điệu tăng dài nhất:
+
+- Cho dãy số nguyên A = a[1..n]. (n <= 10^6, -10^6 <= a[i] <= 10^6). Một dãy con của A là một cách chọn ra trong A một số phần tử giữ nghuyên thứ tự. Như vậy A có 2^n dãy con.
+- Yêu cầu: Tìm dãy con đơn điệu tăng của A có độ dài lớn nhất,
+- Ví dụ: A = (1, 2, 3, 4, 9, 10, 5, 6, 7). Dãy con đơn điệu tăng dài nhất là (1, 2, 3, 4, 5, 6, 7).
+- **Input:** file văn bản INCSEQ.inp
+
+	- Dòng 1: Chứa số n
+	- Dòng 2: Chứ n số a[1], a[2],..., a[n] cách nhau ít nhất một dấu cách
+
+- **Output:** file văn bản INCSEQ.out
+
+	- Dòng 1: Ghi dộ dài dãy con tìm được
+	- Các dòng tiếp: Ghi dãy con tìm được và chỉ số những phần tử được chọn vào dãy con đó.
+
+| INCSEQ.inp | INCSEQ.out |
+|------------|------------|
+| 11 | 8 |
+| 1 2 3 8 9 4 5 6 20 9 10 | a[1] = 1 |
+| | a[2] = 2 |
+| | a[3] = 3 |
+| | a[6] = 4 |
+| | a[7] = 5 |
+| | a[8] = 6 |
+| | a[10] = 9 |
+| | a[11] = 10 |
+
+- **Cách giải**
+- Bổ sung vào A hai phần tử: a[0] = âm vô cực và a[n + 1] = dương vô cực. *Khi đó dãy con đơn điệu tăng dài nhất chắc chắn sẽ bắt đầu từ a[0] và kết thúc ở a[n + 1].*
+- Với mọi i: 0 <= i <= n + 1. Ta sẽ tính L[i] = độ dài dãy con đơn điệu tăng dài nhất bắt đầu từ a[i].
+
+- **Cơ sở quy hoạch động (bài toán nhỏ nhất):**
+- L[n + 1] = Độ dài dãy con đơn điệu tăng dài nhất bắt đầu tại a[n + 1] = dương vô cực. Dãy con này chỉ gồm một phần tử (dương vô cực) nên L[n + 1] = 1.
+- **Công thức truy hồi:**
+- Giả sử với i chạy từ n về 0, ta cần tính L[i]: độ dài dãy con tăng dài nhất bằng đầu tại a[i].L[i] được tính trong điều kiện L[i + 1 .. n + 1] đã biết:
+- Dãy con đơn điệu tăng dài nhất bắt đầu từ a[i] sẽ được thành lập bằng cách lấy a[i] ghép vào đầu một trong số nhữung dãy con đơn điệu tăng dài nhất bằng đầu tại vị trí a[j] đứng sau a[i]. Ta sẽ chọn dãy nào để ghép a[i] vào đầu? Tất nhiên là chỉ dược ghép a[i] vào đầu những dãy con bắt đầu tại a[j] nào đó lớn hơn a[i] (để đảm bảo tính tăng) và dĩ nhiên ta sẽ chọn dãy dai nhất để ghép a[i] vào đầu (để đảm bảo tính dài nhất). Vậy L[i] được tính như sau: **Xét tất cả các chỉ số j trong khỏng từ i + 1 đến n + 1 mà a[j] > a[i], chọn ra chỉ số jmax có L[jmax] lớn nhất. Đặt L[i] = L[jmax] + 1:**
+- L[i] = max(L[j] + 1) với (i < j <= a - 1 và a[i] < a[j])
+- **Truy vết:**
+- Tại bước xây dựng dãy L, mỗi khi gán L[i] = L[jmax] + 1, ta đặt T[i] = jmax. Để lưu lại rằng: Dãy con dài nhất bắt đầu tại a[i] sẽ có phần tử thứ hai kế tiếp là a[jmax].
+- Sau khi tính xong hai dãy L và T, ta bắt đầu từ T[0].
+
+	- T[0] chính là phần tử đầu tiên được chọn,
+	- T[T[0]] là phần tử thứ hai được chọn,
+	- T[T[T[0]]] là phần thử thứ ba được chọn,...
+
+- Quá trình truy viết có thể diễn tả như sau:
+
+```C
+int i = T[0];
+while (i != n + 1)
+{
+	<Thông báo chọn a[i]>
+	i = T[i];
+}
+```
+
+- Ví dụ: Với A = (5, 2, 3, 4, 9, 10, 5, 6, 7, 8). Hai dãy L và T say khi tính sẽ là:
+
+<img src="http://i.imgur.com/A4gz2hD.jpg">
+
+```C
+#include <limits.h>
+#include <stdio.h>
+#include <stdlib.h>
+#include <memory.h>
+
+int max = 1000000;
+int n, *a = new int [max], *L = new int [max], *T = new int [max];
+void Enter()
+{
+	FILE *fi = NULL;
+	fi = fopen("INCSEQ.inp","r");
+	fscanf(fi,"%d", &n);
+	for (int i = 1; i <= n; i++)
+		fscanf(fi,"%d", &a[i]);
+	fclose(fi);
+}
+void Optimize()
+{
+	a[0] = INT_MIN;
+	a[n + 1] = INT_MAX;
+	L[n + 1] = 1;
+	for (int i = n; i > -1; i--)
+	{
+		int jmax = n + 1;
+		for (int j = i + 1; j < n + 2; j++)
+			if ((a[j] > a[i]) && (L[j] > L[jmax]))
+				jmax = j;
+		L[i] = L[jmax] + 1;
+		T[i] = jmax;
+	}
+}
+void PrintRes()
+{
+	FILE *fo = NULL;
+	fo = fopen("INCSEQ.out","w");
+	fprintf(fo, "%d\n",L[0] - 2);
+	int i = T[0];
+	while (i != n + 1)
+	{
+		fprintf(fo,"a[%d] = %d\n",i, a[i]);
+		i = T[i];
+	}
+	fclose(fo);
+}
+int main()
+{
+	Enter();
+	Optimize();
+	PrintRes();
+	delete[] a;
+	delete[] T;
+	delete[] L;
+}
+```
+
+- **Cải tiến:**
+- Khi bắt đầu vào một lần lặp với một giá trị i, ta đã biết được:
+
+	- m: Độ dài dãy con đơn điệu tăng dài nhất cảu dãy a[i + 1 .. n + 1]
+	- StartOf[k] (1 <= k <= m): Phần tử a[StartOf[k]] là phần tử lớn nhất trong số các phần tử trong đoạn a[i + 1 .. n + 1] thoả mãn: Dãy con đơn điệu tăng dài nhất bắt đầu từ a[StartOf[k]] có dài k. Do thứ tự tính toán được áp đặt như trong sơ đồ trên, ta dễ dàng nhận thất rằng:
+
+		- a[StartOf[k]] < a[StartOf[k - 1]] < ... < a[StartOf[1]].
+
+- Điều kiện để có dãy con đơn điệu tăng độ dài p + 1 bắt đầu tại a[i] chính là a[StartOf[p]] > a[i] (vì theo thứ tự tính toán thì khi bắt đầu một lần lặp với giá trị i, a[StartOf[p]] luôn đứng sau a[i]). Mặt khác nếu đem a[i] ghép vào đầu dãy con đơn điệu tăng dài nhất bắt đầu tại a[StartOf[p]] mà thu được dãy tăng thì đem a[i] ghép vào đầu dãy con đơn điệu tăng dài nhất bắt đầu tại a[StartOf[p - 1]] ta cũng thu được dãy tăng. Vạy để tính L[i], ta có thể tìm số p lớn nhất thoả mãn a[StartOf[p]] > a[i] bằng **thuật toán tìm kiếm nhị phân** rồi đặt L[i] = p + 1 (và sau đó T[i] = StartOf[p], tất nhiên)
+
+```C
+#include <limits.h>
+#include <stdio.h>
+#include <stdlib.h>
+#define max 1000000
+int n, m;
+int *a = new int [max], *L = new int [max], *StartOf = new int [max], *T = new int [max];
+void Enter()
+{
+	FILE *fi = NULL;
+	fi = fopen("INCSEQ.inp","r");
+	fscanf(fi,"%d", &n);
+	for (int i = 1; i <= n; i++)
+		fscanf(fi, "%d", &a[i]);
+	fclose(fi);
+}
+void init()
+{
+	a[0] = INT_MIN;
+	a[n + 1] = INT_MAX;
+	m = 1;
+	L[n + 1] = 1;
+	StartOf[1] = n + 1;
+}
+int find(int i)
+{
+	int inf = 1, sup = m + 1;
+	do
+	{
+		int median = (inf + sup) / 2;
+		int j = StartOf[median];
+		if (a[j] > a[i])
+			inf = median;
+		else
+			sup = median;
+	} while (inf + 1 != sup);
+	return StartOf[inf];
+}
+void Optimize()
+{
+	for (int i = n; i > -1; i--)
+	{
+		int j = find(i);
+		int k = L[j] + 1;
+		if (k > m)
+			{
+				m = k;
+				StartOf[k] = i;
+			}
+		else
+			{
+				if (a[StartOf[k]] < a[i])
+					StartOf[k] = i;
+			};
+		L[i] = k;
+		T[i] = j;
+	}
+}
+void PrintRes()
+{
+	FILE *fo = NULL;
+	fo = fopen("INCSEQ.out","w");
+	fprintf(fo,"%d\n", m - 2);
+	int i = T[0];
+	while (i != n + 1)
+		{
+			fprintf(fo,"a[%d] = %d\n",i, a[i]);
+			i = T[i];
+		}
+	fclose(fo);
+}
+int main()
+{
+	Enter();
+	init();
+	Optimize();
+	PrintRes();
+	delete[] a;
+	delete[] L;
+	delete[] T;
+	delete[] StartOf;
+}
+```
+
+- Dễ thấy chi phí thời gian thực hiện thuật giải nay cấp O(nlogn), đây là một ví dụ điển hình cho thấy rằng một cong thức truy hồi có thể có nhiều phương pháp tính.
+
+<a name="caitui"> </a>
+
+###3.3.2 Bài toán cái túi:
+
+- Trong siêu thị có n gói hàng (n <= 100), gói hàng thứ i có trọng lượng là W[i] <= 100 và giá trị V[i] <= 100. Một tên trọm đột nhập và siêu thị, tên trộm mang theo một cái túi có thể mang được tối đa trọng lượng M (M <= 100). Hỏi tên trọm sẽ lấy đi những gói hàng nào để được tổng giá trị lớn nhất
+- **Input** file văn bảng BAG.inp
+
+	- Dòng 1: Chứa hai số n, M cách nhau ít nhất một dấu cách
+	- n dòng tiếp theo, dòng thứ i chứa hai số nguyên dương W[i], V[i] cách nhau ít nhất một dấu cách.
+
+- **Output** file văn bản BAG.out
+
+	- Dòng 1: Ghi giá trị lớn nhất tên trọm có thể lấy
+	- Dòng 2: Ghi chỉ số những gói bị lấy
+
+| BAG.inp | BAG.out |
+|---------|---------|
+|5 11 | 11 |
+| 3 3 | 5 2 1 |
+| 4 4 | |
+| 9 10 | |
+| 4 4 | |
+
+- **Cách giải**
+
+	- Nếu gọi F[i, j] là giá trị lớn nhất có thể có bằng cách chọn trong các gói {1, 2, ..., i} với giới hạn trọng lượng j. Thì giá trị lớn nhất khi được chọn trong số n gói với giới hạn trọng lượng M chính là F[n, M].
+
+- **Công thức truy hồi tính F[i, j]: **
+
+	- Với giới hạn trọng lượng j, việc chọn tối ưu trong số các gói {1, 2, ..., i - 1, i} để có giá trị lớn nhất sẽ có hai khả năng:
+
+		- Nếu không chọn gói thứ i thì F[i, j] là giá trị lớn nhất có thể bằng cách chọn trong các số gói {1, 2, ..., i - 1} với giới hạn trọng lượng là j. Tức là: F[i, j] = F[i - 1, j]
+		- Nếu có chọn gói thứ i (tất nhiên chỉ xét tới trường hợp này khi mà W[i] <= j) thì F[i, j] bằng giá trị gói thứ i là V[i] cộng với giá trị lớn nhất có thể có được bằng cách chọn trong số các gói {1, 2, ..., i - 1} với giới hạn trọng lượng j - W[i]. Tức là về mặt giá trị thu được: F[i, j] = V[i] + F[i - 1, j - W[i]]
+
+	- Vì theo cách xây dựng F[i, j] là giá trị lớn nhất có thể, nên F[i, j] sẽ là max trong 2 giá trị thu được ở trên.
+
+- **Cơ sở quy hoạch động:**
+
+	- Dễ thấy F[0, j] = giá trị lớn nhất có thể bằng cách chọn trong số 0 gói = 0.
+
+- **Tính bảng phương án:**
+
+	- Bảng phương án F gồm n + 1 dòng. M + 1 cột, trước tiên được điền cơ sở quy hoạch động. Dòng 0 gồm toán số 0 sử dụng công thức truy hồi, dùng dòng 0 tính dòng 1, dùng dòng 1 tính dòng 2, v.v... đến khi tính hết dòng n.
+
+<img src="http://i.imgur.com/h2XdAmc.jpg">
+
+- **Truy vết**
+
+	- Tính xong bảng phương án thì ta quan tâm đến F[n, M] đó chính là giá trị lớn nhất thu được khi chọn trong cả n gói với giới hạn trọng lượng M. Nếu F[n, M] = F[n - 1, M] thì tức là không chọn gói thứ n, nên ta truy tiếp F[n - 1, M]. Còn nếu F[n, M] != F[n - 1, M] thì ta thông báo rằng phép chọn tối ưu có chọn gói thứ n và truy tiếp F[n - 1, M - W[n]]. Cứ tiếp tục cho tới khi truy lên tới hàng 0 của bảng phương án.
+
+```C
+#include <stdio.h>
+#include <stdlib.h>
+#include <memory.h>
+#include <iostream>
+
+using namespace std;
+
+int n, M, W[100], V[100], F[100][100];
+
+void Enter()
+{
+	FILE *fi = NULL;
+	fi = fopen("BAG.inp","r");
+	fscanf(fi,"%d %d", &n, &M);
+	for (int i = 1; i <= n; i++)
+		fscanf(fi,"%d %d", &W[i], &V[i]);
+	fclose(fi);
+}
+void Optimize()
+{
+	memset(F[0], 0, sizeof(F[0]));
+	for (int i = 1; i <= n; i++)
+		for (int j = 0; j <= M; j++)
+			{
+				F[i][j] = F[i - 1][j];
+				if ((j >= W[i]) && (F[i][j] < F[i - 1][j - W[i]] + V[i]))
+					F[i][j] = F[i - 1][j - W[i]] + V[i];
+			}
+}
+void Trace()
+{
+	FILE *fo = NULL;
+	fo = fopen("BAG.out","w");
+	fprintf(fo,"%d \n", F[n][M]);
+	while (n != 0)
+		{
+			if (F[n][M] != F[n - 1][M])
+				{
+					fprintf(fo,"%d ", n);
+					M = M - W[n];
+				};
+			n--;
+		}
+	fclose(fo);
+}
+int main()
+{
+	Enter();
+	Optimize();
+	Trace();
+}
+```
