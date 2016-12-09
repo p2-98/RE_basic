@@ -40,6 +40,8 @@
 		- [3.3.1 Dãy con đơn điệu tăng dài nhất](#daycon)
 		- [3.3.2 Bài toán cái túi](#caitui)
 
+- [4. Tư duy và rèn luyện code của Xcross87](#xcross87)
+
 ----
 
 <a name="quaylui"> </a>
@@ -1207,3 +1209,219 @@ int main()
 	Trace();
 }
 ```
+
+<a name="xcross87"> </a>
+
+###4. Tư duy và rèn luyện code của Xcross87:
+
+- Cũng như tất cả các thứ khác, coding cũng là một quá trình làm việc có trình tự kiểu như một bài văn, cần có dàn bài xây dựng ý, tạo khung, và viết thử lấp đầy ý cho văn vẻ; cuối cũng chắp ghép lại cho hợp ý mình.
+- Ở bài này mình hướng dẫn các bạn cách tư duy và rèn luyện khi coding.
+- Đề bài mẫu : Tính tổng 2 số nguyên và in ra màn hình kết quả
+- **1. Tạo khung sườn ban đầu chương trình:**
+- Đơn giản như bao bài tập , như hồi đầu mới yêu C 
+
+```C
+/* 1. Cần có thư viện chuẩn */
+#include <stdio.h>
+
+/* 2. Entry Point - Điểm bắt đầu chương trình */
+int main(void)
+{
+      /* 3. Thân chương trình */
+      return 0;
+}
+```
+
+- Vậy là được cái sườn hơi chua 
+
+- **2. Xác định yếu tố cần thiết**
+
+- Cái này trong thân chương trình.
+- Tính tổng : cần có 3 số và một toán tử '+'
+- Cần ít nhất khai báo 2 biến, giả sử là a và b
+- In ra màn hình : xài printf();
+- Áp dụng
+
+```C
+#include <stdio.h>
+
+int main(void)
+{
+         int a,b;
+          
+         a = 1;
+         b = 2;
+         printf(" Ket qua: %d + %d = %d ", a, b, a+b);
+         return 0;
+}
+```
+
+- **3. Mở rộng ra với yêu cầu người dùng nhập vào 2 số từ bàn phím:**
+- Để lấy input sử dụng hàm scanf() 
+
+```C
+#include <stdio.h>
+
+int main(void)
+{
+         int a,b;
+          
+         printf("Nhap a = ");scanf("%d",&a);
+         printf("Nhap b = ");scanf("%d",&b);
+         printf(" Ket qua: %d + %d = %d ", a, b, a+b);
+         return 0;
+}
+```
+
+- **4. Thêm một biến lưu trữ tổng đi:**
+
+- Giả sử biến lưu tổng là s
+
+```C
+#include <stdio.h>
+
+int main(void)
+{
+         int a,b;
+         int s; 
+         printf("Nhap a = ");scanf("%d",&a);
+         printf("Nhap b = ");scanf("%d",&b);
+         s = a + b;
+         printf(" Ket qua: %d + %d = %d ", a, b, s);
+         return 0;
+}
+```
+
+- **5. Giờ cho nguyên cái đoạn xử lý vào một hàm:**
+
+- Giả sử gọi hàm là: Sum()
+
+```C
+#include <stdio.h>
+
+void Sum()
+{
+         int a,b;
+         int s; 
+         printf("Nhap a = ");scanf("%d",&a);
+         printf("Nhap b = ");scanf("%d",&b);
+         s = a + b;
+         printf(" Ket qua: %d + %d = %d ", a, b, s);
+}
+
+int main(void)
+{
+         Sum(); 
+         return 0;
+}
+```
+
+- **6. Tạo hàm xử lý input cho đỡ đơn điệu:**
+
+- Hàm Sum() nhận 2 tham số;
+
+```C
+#include <stdio.h>
+
+void Sum(int x, int y)
+{
+        int s;
+        s = x + y;
+        printf("Ket qua: %d + %d = %d", x, y, s);
+}
+int main(void)
+{
+       int a,b;
+       printf("Nhap a = ");scanf("%d",&a);
+       printf("Nhap b = ");scanf("%d",&b);
+       Sum();
+       return 0;
+}
+```
+
+- **7. Chia nhỏ cái nhập số:**
+
+```C
+#include <stdio.h>
+
+int Input()
+{
+      int num;
+      printf(" Nhap so : ");scanf("%d",&num);
+      return num;
+}
+
+void Sum(int x, int y)
+{
+      int s = x + y;
+      printf("Ket qua: %d + %d = %d ", x, y, s);
+}
+
+int main(void)
+{
+      int a,b;
+      a = Input();
+      b = Input();
+      Sum();
+      return 0;
+}
+```
+
+- **8. Để hàm main chỉ có gọi sub-function thôi vậy:**
+
+```C
+#include <stdio.h>
+
+int Input()
+{
+      int num;
+      printf(" Nhap so : ");scanf("%d",&num);
+      return num;
+}
+
+void Sum()
+{
+      int x, y, s;
+      x = Input();
+      y = Input();
+      s = x + y;
+      printf("Ket qua: %d + %d = %d ", x, y, s);
+}
+
+int main(void)
+{      
+      Sum();
+      return 0;
+}
+```
+
+- Nghe chừng gọn quá 
+
+- **9. Giờ lấy input thông qua arg xem thế nào:**
+
+```C
+#include <stdio.h>
+
+void Sum(int x, int y)
+{
+       int s = x + y;
+       printf("Ket qua: %d + %d = %d ",x , y, s);
+}
+
+int main(int argc, char *argv[])
+{
+       if ( argc != 2 ) {
+               printf(" Usage: sum.exe num1 num2 \n");
+               printf(" Example: sum 3 4 \n");
+               printf(" Result: Ket qua: 3 + 4 = 7");
+               return -1;
+       }
+       
+       Sum(argv[0],argv[1]);
+       return 0;
+}
+```
+
+- Vậy là có được một loạt sản phẩm rồi đó, chỉ cần chọn một cái ưng ý thôi.
+
+- Tham khảo: [Hỏi đáp về C](http://diendan.congdongcviet.com/threads/t4169::danh-sach-cau-hoi-lap-trinh-c-hoi-tra-loi.cpp);
