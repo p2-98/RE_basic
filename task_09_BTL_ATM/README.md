@@ -86,9 +86,28 @@
 <img src="http://i.imgur.com/Ufo9hPp.png">
 
 	- Khi đúng chương trình sẽ tự động chuyển sang màn hình chính trong vòng 2s
+
 - **ĐĂNG KÝ**
 
-<img src="http://i.imgur.com/5ZeSdDj.png">
+- Đầu tiên sẽ là ID và Pass của chính Admin:
+
+<img src="http://i.imgur.com/YXuFbqL.png">
+
+- Tiếp đó là xây dựng các thông tin khách hàng thông qua bàn phím:
+
+<img src="http://i.imgur.com/LdO9GPH.png">
+
+<img src="http://i.imgur.com/pdajeaB.png">
+
+- Id Code sẽ được sinh ra một cách ngẫu nhiên và thông qua sự kiểm tra xem nó có tồn tại hay chưa:
+
+<img src="http://i.imgur.com/7kozPhA.png">
+
+<img src="http://i.imgur.com/a2J7Hbu.png">
+
+<img src="http://i.imgur.com/wDdrR1a.png">
+
+<img src="http://i.imgur.com/VRDFuLV.png">
 
 <a name="scrmain"></a>
 
@@ -117,10 +136,48 @@
 - Khi bạn ấn vào nút Có (chữ b), chương trình sẽ đưa bạn về màn hình chính, ngược lại chữ e tức Không, chương trình sẽ tự động đăng xuất và đưa về màn hình đăng nhập
 
 <a name="tttk"> </a>
+
 #####3.2.2 Thông tin tài khoản:
+
+- Khi vào bạn mục này, bạn sẽ xem được số tiền còn trong tài khoản của mình và xem sao kê 5 lần giao dịch gần đây nhất, lưu ý: Khi giao dịch lớn hơn 5 lần thì chức năng lần giao dịch gần nhất mới hoạt động (đây cũng là 1 điểm yếu của mô phỏng, sẽ khắc phục sau):
+
+<img src="http://i.imgur.com/i2rQSLv.png">
+
+<img src="http://i.imgur.com/UztChQL.png">
+
 <a name="ck"> </a>
+
 #####3.2.3 Chuyển khoản:
+
+- Phần chuyển khoản được thiết kế chỉ dùng để chuyển khoản trong nội bộ (nhằm kiểm tra toàn diện hơn về chương trình), khi vào phần chuyển khoản bạn sẽ thấy được những giao diện sau:
+
+<img src="http://i.imgur.com/oE9fWeI.png">
+
+<img src="http://i.imgur.com/S7X2fe6.png">
+
+<img src="http://i.imgur.com/X1guHdh.png">
+
+<img src="http://i.imgur.com/EBVSXHn.png">
+
 <a name="dmk"> </a>
 #####3.2.4 Đổi mật khẩu:
+
+- Khi vào đổi mật khẩu, bạn sẽ phải thực hiện việc nhập mật khẩu cũ, mật khẩu mới, nhập lại mật khẩu mới (lưu ý: Mật khẩu mới và nhập lại mật khẩu mới phải hoàn toàn trùng khớp nhau, nếu không bạn sẽ phải thực hiện lại từ đầu rất tốn thời gian của bạn)
+
+<img src="http://i.imgur.com/i7bOgCX.png">
+
+<img src="http://i.imgur.com/65VmoM2.png">
+
+<img src="http://i.imgur.com/f6PgXy0.png">
+
+<img src="http://i.imgur.com/d7jFBhO.png">
+
+<img src="http://i.imgur.com/6Lh9yB2.png">
+
 <a name="tcdv"> </a>
+
 #####3.2.5 Tra cứu dịch vụ:
+
+- Đây là phần hiện thông tin cá nhân của người viết mô phỏng
+
+<img src="http://i.imgur.com/sBq2LoG.png">.
