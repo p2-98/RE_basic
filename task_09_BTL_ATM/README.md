@@ -29,7 +29,18 @@
 
 ###1. Giới thiệu chương trình:
 
-- 
+- Chương trình mô phỏng ATM được viết ra nhằm nâng cao kỹ năng viết code cũng như cũng cố lại phần kiến thức đã học và phát triển thêm nhiều kiến thức mới
+
+- Ưu điểm:
+
+	- Xây dựng giao diện dễ nhìn
+	- Xử lý thông tin nhanh chóng
+	
+- Nhược điểm:
+
+	- Chưa thể cập nhật tức thời phần sao kê tài khoản (còn nhiều lỗ hỏng)
+	- Giao diện không bắt mắt
+	- Độ bảo mật không được đánh giá cao
 
 <a name="introModuel"> </a>
 
@@ -57,7 +68,7 @@
 
 <a name="sign"> </a>
 
-####3.1 Đăng nhập - Đăng ky:
+####3.1 Đăng nhập - Đăng ký:
 
 - Khi bạn khởi động chương trình mô phỏng ATM, ban đầu bạn sẽ thấy được màn hình gồm 2 thành phần đăng nhập và đăng ký như sau:
 
