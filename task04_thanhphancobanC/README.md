@@ -10,15 +10,15 @@
 
 ##Nội dung:
 
-[1. Bộ chữ viết trong C](#textinC)
-[2. Các từ khoá trong C](#keyinC)
-[3. Cặp dấu ghi chú thích](#noteinC)
-[4. Các kiểu dữ liệu chuẩn trong C](#datainC)
+- [1. Bộ chữ viết trong C](#textinC)
+- [2. Các từ khoá trong C](#keyinC)
+- [3. Cặp dấu ghi chú thích](#noteinC)
+- [4. Các kiểu dữ liệu chuẩn trong C](#datainC)
 
 - [4.1 Kiểu số nguyên](#dataInt)
 - [4.2 Kiểu số thực](#datafloat)
 
-[5. Tên và hằng trong C](#name&const)
+- [5. Tên và hằng trong C](#name&const)
 
 - [5.1 Tên](#name)
 - [5.2 Hằng](#const)
@@ -28,7 +28,7 @@
 	- [5.2.3 Hằng ký tự](#constchar)
 	- [5.2.4 Hằng chuỗi ký tự](#conststring)
 
-[6. Biến và biểu thức](#var&express)
+- [6. Biến và biểu thức](#var&express)
 
 - [6.1 Biến](#var)
 
