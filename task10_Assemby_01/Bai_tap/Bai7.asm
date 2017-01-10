@@ -44,3 +44,8 @@ MAIN PROC
     INT 21h
     MAIN ENDP
 END MAIN
+;In ra dau cham hoi
+;Doc 2 so thap phan nho hon 10
+;In ra tong 3 so
+;Input: ?27
+;Output: Tong 2 so la: 9
