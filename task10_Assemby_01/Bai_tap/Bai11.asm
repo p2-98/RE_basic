@@ -20,3 +20,4 @@ MAIN PROC
     int 21h
 MAIN ENDP
 END MAIN
+;Viết chương trình hiển thị 1 bảng 10x10 đầy dấu *
