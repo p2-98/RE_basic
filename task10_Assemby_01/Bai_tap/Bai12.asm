@@ -49,3 +49,8 @@ MAIN PROC
     int 21h
 main endp
 end main
+;Viết chương trình hiển thị
+;Dấu ?
+;Nhập 3 ký tự
+;một bảng 11x11 điền đầy dấu *
+;phát tiếng bíp
