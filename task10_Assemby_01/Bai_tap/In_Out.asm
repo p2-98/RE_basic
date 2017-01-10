@@ -21,3 +21,5 @@ MAIN PROC
     INT 21h
     MAIN ENDP
     END MAIN
+    /* Đọc một ký tự và hiễn thị nó ở vị trí tiếp theo trên cùng 1 dòng
+    Input a Output aa */
