@@ -53,42 +53,39 @@ MAIN PROC
     LEA dx, msg10
     mov ah,9
     int 21h
-    ;dos
-    mov ah,4ch
-    int 21h
+    jmp thoat
+    ;
     In11:
     LEA dx, msg11
     mov ah,9
     int 21h
-    ;dos
-    mov ah,4ch
-    int 21h
+    jmp thoat
+    ;
     In12:
     LEA dx, msg12
     mov ah,9
     int 21h
-    ;dos
-    mov ah,4ch
-    int 21h
+    jmp thoat
+    ;
     In13:
     LEA dx, msg13
     mov ah,9
     int 21h
-    ;dos
-    mov ah,4ch
-    int 21h
+    jmp thoat
+    ;
     In14:
     LEA dx, msg14
     mov ah,9
     int 21h
-    ;dos
-    mov ah,4ch
-    int 21h
+    jmp thoat
+    ;
     In15:
     LEA dx, msg15
     mov ah,9
     int 21h
+    jmp thoat
     ;dos
+    thoat:
     mov ah,4ch
     int 21h
 main endp
