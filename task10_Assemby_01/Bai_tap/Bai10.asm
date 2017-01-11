@@ -93,3 +93,6 @@ MAIN PROC
     int 21h
 main endp
 end main
+;nhap vao tu A -> F mã hex in ra mã thập phân
+;Input: A
+;Output: 10
