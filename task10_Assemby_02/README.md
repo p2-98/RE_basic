@@ -83,14 +83,16 @@
 
 <img src="http://i.imgur.com/uB7pyhI.jpg">
 
-	- Nếu chúng ta làm việc với các số không dấu, kết quả đúng phải là 100000h = 65536, nhưng kết quả này nằm ngoài vi biểu diễn của một word nên kết quả còn lại trong thanh ghi AX là 0h, đây là một kết quả sai, như vậy hiện tượng tràn khong dấu đã xảy ra. Nhưng kết quả nhận được lại đúng các số có dấu, FFFFh = -1 khi hiểu là số có dấu, trong khi đó 0001h = 1 vậy tổng của chúng bằng 0, rõ ràng hiện tượng tràn có dấu đã không xảy ra.
-	- Bây giờ chúng ta hãy xem một ví dụ về hiện tượng tràn có dấu nhưng lại không tràn không dấu. Giải sử AX và BX cùng chứa 7FFFh, hãy thực hiện phép cộng ADD AX.BX
+- Nếu chúng ta làm việc với các số không dấu, kết quả đúng phải là 100000h = 65536, nhưng kết quả này nằm ngoài vi biểu diễn của một word nên kết quả còn lại trong thanh ghi AX là 0h, đây là một kết quả sai, như vậy hiện tượng tràn khong dấu đã xảy ra. Nhưng kết quả nhận được lại đúng các số có dấu, FFFFh = -1 khi hiểu là số có dấu, trong khi đó 0001h = 1 vậy tổng của chúng bằng 0, rõ ràng hiện tượng tràn có dấu đã không xảy ra.
+- Bây giờ chúng ta hãy xem một ví dụ về hiện tượng tràn có dấu nhưng lại không tràn không dấu. Giải sử AX và BX cùng chứa 7FFFh, hãy thực hiện phép cộng ADD AX.BX
+	
 	- Kết quả dạng nhị phân như sau:
 
 <img src="http://i.imgur.com/xUOUais.jpg">
 
-	- Trong cả 2 dạng có dấu và không dấu 7FFFh đều bằng 32767, bởi vậy trong cả 2 phép cộng không dấu và có dấu đều cho kết quả là 32767 + 32767 = 65534. Giá trị này nằm ngoài phạm vi của số có dấu, kết quả nhận được dạng có dấu là FFFEh = -2, như vậy xảy ra hiện tượng tràn có dấu. Tuy nhiên FFFEh lại bằng 65534 ở dạng không dấu do vậy không có hiện tượng tràn không dấu.
-	- Có 2 vấn đề được đặt ra đó là làm sao CPU chỉ ra có hiện tượng tràn và làm sao nó biết được có hiện tượng tràn xảy ra?
+- Trong cả 2 dạng có dấu và không dấu 7FFFh đều bằng 32767, bởi vậy trong cả 2 phép cộng không dấu và có dấu đều cho kết quả là 32767 + 32767 = 65534. Giá trị này nằm ngoài phạm vi của số có dấu, kết quả nhận được dạng có dấu là FFFEh = -2, như vậy xảy ra hiện tượng tràn có dấu. Tuy nhiên FFFEh lại bằng 65534 ở dạng không dấu do vậy không có hiện tượng tràn không dấu.
+
+- Có 2 vấn đề được đặt ra đó là làm sao CPU chỉ ra có hiện tượng tràn và làm sao nó biết được có hiện tượng tràn xảy ra?
 
 - **CPU đã chỉ ra hiện tượng tràn như thế nào**
 
