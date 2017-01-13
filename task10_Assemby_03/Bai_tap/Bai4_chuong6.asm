@@ -68,3 +68,7 @@ main proc
     int 21h
 main endp
 end main
+;Dùng LOOP
+;a) Nhập tổng vào DX: 1 + 5 + 13 +....
+;b) Đọc 1 ký tự hiển thị nó 80 lần
+;c) Đọc 1 đoạn mật khẩu 5 ký tự sau đó viết đè X lên nó
