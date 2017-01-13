@@ -56,3 +56,10 @@ main proc
     int 21h
     main endp
 end main
+;Mã hoá thuật toán sau
+;khởi tạo thương số bằng 0
+;while số bị chia >= số chia
+;tăng thương số
+;trừ bớt số chia từ số bị chưa
+;end_while
+;AX: số bị chia, BX: số chia, CX: thương số
