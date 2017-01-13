@@ -63,7 +63,7 @@ end main
 
 <img src="http://i.imgur.com/hfN31cM.png">
 
--Tập hợp ký tự IBM bao gồm 256 ký tự. Các ký tự có mã từ 32 đến 127 là các ký tự ASCII chuẩn in được đã giới thiệu trong phần trước. IBM cũng cung cấp một hệ thống các ký tự đồ hoạ có mã từ 0 đến 32 và từ 128 đến 255.
+- Tập hợp ký tự IBM bao gồm 256 ký tự. Các ký tự có mã từ 32 đến 127 là các ký tự ASCII chuẩn in được đã giới thiệu trong phần trước. IBM cũng cung cấp một hệ thống các ký tự đồ hoạ có mã từ 0 đến 32 và từ 128 đến 255.
 - Để hiện thị các ký tự chúng ta dùng một vòng lặp (từ dòng 9 đến dòng 13). Trước khi vào vòng lặp AH được khởi tạo giá trị 2 (hàm hiển thị một ký tự) và DL được đặt bằng 0 là mã ASCII ký tự đầu tiên. CX là bộ đếm vòng lặp, nó được đặt bằng 256 trước khi vào vòng lặp và giảm 1 sau khi mỗi ký tự được hiển thị.
 - Lệnh JNZ (**Jump of NOT ZERO**) điều khiển vòng lặp. Nếu kết quả của lệnh kế trước (Dec cx) khác 0, lệnh JNZ sẽ chuyển điều khiển đến lệnh có nhã PRINT_LOOP. Cuối cùng khi DX bằng 0 chương trình tiếp tục thực hiện các lệnh trở về DOS. Tất nhiên với các mã ASCII của các ký tự điều khiển như lùi một ký tự, về đầu dòng v.v.. các chức năng điều khiển sẽ được thực hiện thay vì hiển thị chúng.
 - Lưu ý: `Print_loop` là nhãn dòng lệnh lần đầu tiên chúng ta sử dụng trong một chương trình. Các nhãn cần thiết khi một lệnh trỏ đến các lệnh khác giống như trong trường hợp trên. Nhã kết thúc bằng dấu hai chấm và để dễ nhận ra, chúng được đặt riêng một dòng. Các nhã tham trỏ tới lệnh ngay sau chúng.
@@ -208,7 +208,7 @@ next:
 
 ###3. Các cấu trúc rẽ nhánh:
 
-- Trong các ngôn ngữ bậc cao, các cấu trúc rẽ nhánh của một chương trình để chọn các đường dẫn khác nhau và phụ tuộc vào các điều kiệ. Phần này ta sẽ xem xét 3 cấu trúc:
+- Trong các ngôn ngữ bậc cao, các cấu trúc rẽ nhánh của một chương trình để chọn các đường dẫn khác nhau và phụ tuộc vào các điều kiện. Phần này ta sẽ xem xét 3 cấu trúc:
 
 ```
 If điều_kiện
@@ -217,7 +217,7 @@ If điều_kiện
 End_if
 ```
 
-<img src="">
+<img src="http://i.imgur.com/nkcL9vr.png">
 
 - Điều_kiện là một biểu thức có thể đúng hoặc sai. Nếu nó đúng, nhánh_đúng sẽ được thực hiện. Ngược lại, cấu trúc không thực hiện lệnh nào, chương trình tiếp tục thực hiện với các lệnh sau.
 
@@ -230,8 +230,6 @@ then
 	thay ax bằng -ax
 end_if
 ```
-
-<img src="">
 
 - Nó có thể được mã hoá như sau:
 
@@ -257,7 +255,7 @@ else
 End_if
 ```
 
-<img src="">
+<img src="http://i.imgur.com/nr3sf9S.png">
 
 - Trong cấu trúc này nếu điều_kiện là đúng nhóm lệnh nhánh_đúng sẽ được thi hành. Còn nếu điều_kiện sai, nhóm lệnh nhánh)sai sẽ được thi hành.
 
@@ -274,7 +272,7 @@ else
 End_if
 ```
 
-Ta có thể mã hoá nó như sau:
+- Ta có thể mã hoá nó như sau:
 
 ```
 	MOV AH,2	;chuẩn bị hiển thị
@@ -310,7 +308,7 @@ display:
 	end_case
 ```
 
-<img src="">
+<img src="http://i.imgur.com/K7XZTGK.png">
 
 - Trong cấu trúc này phát_biểu được kiểm tra, nếu giá trị của nó bằng với giá_trị_i thì dòng_lệnh_i sẽ được thi hành. Ta giả thiết tập hợp giá_trị_1... giá_trị_n tách biệt nhau
 
@@ -443,7 +441,7 @@ FOR số_lần_lặp do
 End_for
 ```
 
-<img src="">
+<img src="http://i.imgur.com/hVy7Nte.png">
 
 - Ta có thể sử dụng lệnh LOOP để thực hiện vòng lặp FOR. Lệnh này có dạng:
 
@@ -504,7 +502,7 @@ WHILE điều_kiện DO
 END_WHILE
 ```
 
-<img src="">
+<img src="http://i.imgur.com/vpl4eHt.png">
 
 - Điều_kiện được kiểm tra ở đầu vòng lặp. Nếu nó đúng thì các dòng lệnh sẽ được thi hành. Ngược lại nếu điều_kiện sai, chương trình sẽ tiếp tục thực hiện lệnh ở sau vòng lặp. Rất có thể ngay sau khi khửoi đầu `điều_kiện` đã không thả mãn. Trong trường hợp này thân vòng lặp sẽ không được thực hiện lần nào. Vòng lặp tiếp tục được thực hiện khi điều kiện còn đúng.
 
@@ -546,7 +544,7 @@ REPEAT
 UNTIL điều_kiện
 ```
 
-<img src="">
+<img src="http://i.imgur.com/tVjCgvO.png">
 
 - Trong một vòng lặp REPEAT...UNTIL, các dòng lệnh được thi hành sau đó mới kiểm tra điều kiện. Nếu điều_kiện đúng, vòng lặp kết thúc, nếu nó sai điều khiển rẽ nhánh đến đầu vòng lặp.
 
