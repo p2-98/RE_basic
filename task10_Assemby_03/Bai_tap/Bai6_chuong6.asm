@@ -54,3 +54,4 @@ main proc
     int 21h
     main endp
 end main
+;tương tự như bài 5 hãy tính tích số dùng REPEAT UNTIL bỏ qua hiện tượng tràn số
