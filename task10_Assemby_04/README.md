@@ -1,6 +1,6 @@
 ###Lập trình hợp ngữ (Assembly) 
 
-> Tài liệu tham khảo : [assembly](http://bit.ly/2iZ45FN)
+> Tài liệu tham khảo : [Assembly](http://bit.ly/2iZ45FN)
 
 >Thực hiện: Phạm Phú Quí
 
@@ -14,19 +14,19 @@
 
 [2. Các lệnh logic](#muc2)
 
- -[ 2.1 các lệnh AND, OR, XOR](#muc2.1)
+ - [ 2.1 Các lệnh AND, OR, XOR](#muc2.1)
 
- - [2.2 các lệnh NOT](#muc2.2)
+ - [2.2 Các lệnh NOT](#muc2.2)
 
- - [2.3 lệnh TEST](#muc2.3)
+ - [2.3 Lệnh TEST](#muc2.3)
 
-[3. các lệnh dich](#muc3)
+[3. Các lệnh dich](#muc3)
 
- - [3.1 các lệnh dịch trái](#muc3.1)
+ - [3.1 Các lệnh dịch trái](#muc3.1)
 
- - [3.2 các lệnh dịch phải](#muc3.2)
+ - [3.2 Các lệnh dịch phải](#muc3.2)
 
-[4. các lệnh quay](#muc4)
+[4. Các lệnh quay](#muc4)
 
 > ----------------------
 
