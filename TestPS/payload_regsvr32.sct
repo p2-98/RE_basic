@@ -6,7 +6,7 @@ classid="{F0001111-0000-0000-0000-0000FEEDACDC}" >
 <script language="JScript">
  
 <![CDATA[   
-var c= 'notepad.exe'; 
+var c= 'calc.exe'; 
 new ActiveXObject("WScript.Shell").Run(c,0);
 ]]>
  
