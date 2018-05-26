@@ -9,6 +9,7 @@ void Enter_str(char *str, int x, int y, char *e_str)
 		e_str[tmp] = str[i];
 		tmp++;
 	};
+	e_str[tmp] = '\0';
 }
 
 float Enter_num(char *str, int x, int y)
@@ -54,6 +55,8 @@ int main()
 
 	int n = strlen(str);
 
+	str[n] = ' ';
+
 	while (i < n){		
 		if (str[i] != ' ') {
 			j = i;
@@ -73,11 +76,19 @@ int main()
 				case 4:
 					quantity = (int)Enter_num(str, j, i);
 					break;
+				case 5:
+					Enter_str(str, j, i, date_product);
+					break;
+				case 6:
+					Enter_str(str, j, i, place_product);
+					break;
 			}
 			count_data++;
-		};
-		i++;
+		}
+		else {
+			i++;
+		}
 	}
 
-	printf("Code: %s\nName: %s\nPrice: %.2f\nQuantity: %d\n", code, name, price, quantity);
+	printf("Code: %s\nName: %s\nPrice: %.2f\nQuantity: %d\nDate Product: %s\nPlace Procduct: %s\n", code, name, price, quantity, date_product, place_product);
 }
